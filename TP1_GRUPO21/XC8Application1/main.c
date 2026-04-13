@@ -9,7 +9,7 @@ uint8_t  pos_leds	    = 0;
 int8_t   dir_leds	    = -1;
 uint8_t  secuencia_leds = 0;
 static uint8_t seq_neo = 0;
-static uint8_t contador = 0;
+static uint8_t cont_15 = 0;
 static uint8_t cont_10 = 0;
 static uint8_t neo_idx = 0;
 static uint8_t fase_c = 0;
@@ -24,35 +24,34 @@ void secuencia_b(void);
 
 int main(void)
 {
-	  DDRD  = 0xFF;   // Puerto D: todos salidas (LEDs)
-	  PORTD = 0x00;   // LEDs apagados al inicio
-    DDRB  |=  (1 << PORTB0);
-    DDRC  &= ~((1 << PORTC0) | (1 << PORTC1));
-    PORTC |=  ((1 << PORTC) | (1 << PORTC1));
-    while (1)
-    {
-        leer_botones();
+	DDRD  = 0xFF;   // Puerto D: todos salidas (LEDs)
+	PORTD = 0x00;   // LEDs apagados al inicio
+	DDRB  |=  (1 << PORTB0);
+	DDRC  &= ~((1 << PORTC0) | (1 << PORTC1));
+	PORTC |=  ((1 << PORTC) | (1 << PORTC1));
+	while (1)
+	{
+		leer_botones();
 		if (secuencia_leds == 0)
 		secuencia_a();
 		else
 		secuencia_b();
 
-        if (contador >= 150)      
-        {
-            tarea_neopixel();
-			contador = 0;
-        }else{
-			contador += 10;
+		if (cont_15 >= 15)
+		{
+			tarea_neopixel();
+			cont_15 = 0;						
 		}
+		cont_15 ++;
 		cont_10 ++;
-        _delay_ms(10);            
-    }
+		_delay_ms(10);
+	}
 }
 
 void leer_botones(void)
 {
 	static uint8_t btn0_presionado = 0;
-    static uint8_t btn1_presionado = 0;
+	static uint8_t btn1_presionado = 0;
 
 	if (!(PINC & (1 << PORTC0))) {
 		if (!btn0_presionado) {
@@ -63,16 +62,16 @@ void leer_botones(void)
 		btn0_presionado = 0;
 	}
 
-    if (!(PINC & (1 << PORTC1)))
-    {
-        if (!btn1_presionado)
-        {
-            seq_neo ^= 1;
-            btn1_presionado = 1;
-        }
-    }
-    else
-        btn1_presionado = 0;
+	if (!(PINC & (1 << PORTC1)))
+	{
+		if (!btn1_presionado)
+		{
+			seq_neo ^= 1;
+			btn1_presionado = 1;
+		}
+	}
+	else
+	btn1_presionado = 0;
 }
 
 void secuencia_a(void)
@@ -93,10 +92,11 @@ void secuencia_b(void)
 	cont_10 = 0;
 
 	PORTD = (1 << pos_leds);
-	pos_leds += dir_leds;
 
 	if (pos_leds >= CANT_LEDS - 1) dir_leds = -1;
 	if (pos_leds == 0)             dir_leds =  1;
+	
+	pos_leds += dir_leds;
 }
 
 
@@ -131,7 +131,7 @@ void tarea_neopixel(void)
 	}
 	else                // SECUENCIA D
 	{
-		// Verde, un LED a la vez, derecha a izquierda (7→0)
+		// Verde, un LED a la vez, derecha a izquierda (7?0)
 		neo_colores[7 - neo_idx][1] = 255;
 		neo_idx = (neo_idx + 1) % 8;
 	}
