@@ -51,8 +51,7 @@ typedef struct {
 
     uint8_t  tick_1seg;         // Flag: Timer1 disparo 1 segundo --> vamos mostrando en el display cuando va pasando el tiempo       
     uint16_t blink_contador;    // Contador de segundos en estado FIN (para el parpadeo del display y de la luz alarma)
-    uint8_t  blink_display;     // Flag: toggle display en FIN          
-    uint16_t blink_ms;          // Contador de ms para toggle display   
+    uint8_t  blink_display;     // Flag: toggle display en FIN            
 
     uint8_t  lcd_actualizar;    // Flag: redibujar LCD                  
 } contexto_t;

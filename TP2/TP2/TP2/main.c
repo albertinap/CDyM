@@ -38,8 +38,7 @@ void sistema_init(void)
     ctx.blink_contador = 0;			// Cuenta cuántos segundos llevamos parpadeando en estado FIN
 									// Cuando llega a DURACION_BLINK (5seg), volvemos a REPOSO
     ctx.blink_display  = 0;			// Indica si el display está visible u oculto durante el parpadeo
-								    // 0 = visible, 1 = oculto --> se alterna cada 1 segundo en FIN
-    ctx.blink_ms       = 0;			// Contador de milisegundos auxiliar para el parpadeo, actualmente no se usa activamente, reservado para uso futuro
+								    // 0 = visible, 1 = oculto --> se alterna cada 1 segundo en FIN    
     ctx.lcd_actualizar = 1;			// Arranca en 1 para forzar el primer dibujado del LCD apenas entre al loop principal
 
     timer1_init();					// Configura el Timer1 para generar interrupciones cada 1 segundo
@@ -128,9 +127,8 @@ void accion_reposo(void) {
 
 void accion_ingreso(void) {
 	leds_apagar_todos();				// Apagamos todos los leds
-	uint8_t mm = ctx.tiempo_seg / 60;	// Transformamos el tiempo en segundos, a minutos y segundos
-	uint8_t ss = ctx.tiempo_seg % 60;	
-	lcd_display_ingreso(d0, d1,d2,d3);		// Actualizamos el display con el tiempo actual
+	lcd_display_ingreso(ctx.digitos[0],	// Actualizamos el display con el tiempo actual
+		ctx.digitos[1],ctx.digitos[2],ctx.digitos[3]);		
 }
 
 void accion_cocinando(void) {
@@ -184,7 +182,8 @@ static void cambiar_estado(estado_t nuevo)
 }
 
 /*
- * Ejecuta una iteracion de la MEF.
+ * Maneja cuándo hay que transicionar de un estado de la mef a otro
+ * y cuándo actualizar variables del estado actual
  * Recibe la tecla actual (KEY_NONE si no hay tecla).
  */
 void mef_ejecutar(uint8_t tecla)
@@ -194,19 +193,32 @@ void mef_ejecutar(uint8_t tecla)
         // REPOSO 
         case REPOSO:
             if (tecla >= '0' && tecla <= '9') {
-                // Primer dígito: cargar buffer y pasar a INGRESO
-                tiempo_reset();
-                ctx.digitos[0] = ctx.digitos[1] = ctx.digitos[2] = 0;
-                ctx.digitos[3] = tecla - '0';
-                ctx.n_digitos  = 1;
-                digitos_a_tiempo();
-                cambiar_estado(INGRESO);
+                if (ctx.puerta_abierta) {
+	                // No permitir ingreso con puerta abierta
+	                ctx.lcd_actualizar = 1;  // refresca mostrando aviso
+	            } else {
+					// Primer dígito: cargar buffer y pasar a INGRESO
+					tiempo_reset();
+					ctx.digitos[0] = ctx.digitos[1] = ctx.digitos[2] = 0;
+					ctx.digitos[3] = tecla - '0';
+					ctx.n_digitos  = 1;
+					digitos_a_tiempo();
+					cambiar_estado(INGRESO);
+				}
             } else if (tecla == 'C') {
-                // MAS30: inicio rapido con 30 seg
-                tiempo_reset();
-                ctx.tiempo_seg = TIEMPO_MAS30;
-                cambiar_estado(COCINANDO);
-            }
+				if (ctx.puerta_abierta) {
+					 ctx.lcd_actualizar = 1;
+				} else {
+					// MAS30: inicio rapido con 30 seg
+					tiempo_reset();
+					ctx.tiempo_seg = TIEMPO_MAS30;
+					cambiar_estado(COCINANDO);
+				}
+			} else if (tecla == 'D') {
+				// Toggle puerta
+				ctx.puerta_abierta = !ctx.puerta_abierta;
+				ctx.lcd_actualizar = 1;
+			}
             break;
 
         // INGRESO
@@ -233,6 +245,10 @@ void mef_ejecutar(uint8_t tecla)
 					 lcd_display_maximo();			// Tiempo fuera de rango, los segundos son mayores a 59
 					 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error
 				 } 
+				 else if (tecla == 'D') {
+					 ctx.puerta_abierta = !ctx.puerta_abierta;	// Toggle puerta					 
+					 ctx.lcd_actualizar = 1;					// Se informa en el display
+				 }
 				 else {					 
 					 cambiar_estado(COCINANDO);		// El tiempo está bien, arrancar a cocinar
 				 }
@@ -256,6 +272,7 @@ void mef_ejecutar(uint8_t tecla)
                 tiempo_agregar(TIEMPO_MAS30);
                 ctx.lcd_actualizar = 1;
             } else if (tecla == 'D') {
+				ctx.puerta_abierta = 1;
                 cambiar_estado(PUERTA_ABIERTA);
             }
 
@@ -282,6 +299,7 @@ void mef_ejecutar(uint8_t tecla)
                 tiempo_agregar(TIEMPO_MAS30);
                 cambiar_estado(COCINANDO);
             } else if (tecla == 'D') {
+				ctx.puerta_abierta = 1;
                 cambiar_estado(PUERTA_ABIERTA);
             }
             break;
@@ -289,10 +307,11 @@ void mef_ejecutar(uint8_t tecla)
         // PUERTA_ABIERTA
         case PUERTA_ABIERTA:
             if (tecla == 'D') {
-                // Cerrar puerta: reanudar coccion 
-                cambiar_estado(COCINANDO);
+				ctx.puerta_abierta = 0;		// cerrar puerta                
+                cambiar_estado(COCINANDO);	// reanudar coccion 
             } else if (tecla == 'B') {
-                // Cancelar con puerta abierta 
+				// Cancelar con puerta abierta 
+				ctx.puerta_abierta = 1;  // sigue abierta al cancelar                
                 cambiar_estado(REPOSO);
             }
             break;
@@ -355,26 +374,38 @@ int main(void)
         mef_ejecutar(tecla);
         
         if (ctx.lcd_actualizar) {
-    ctx.lcd_actualizar = 0;
-    uint8_t mm = ctx.tiempo_seg / 60;
-    uint8_t ss = ctx.tiempo_seg % 60;
-    switch (ctx.estado) {
-        case INGRESO:            
-            lcd_display_ingreso(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
-			// mostramos el buffer los dígitos simples, no en tiempo_seg
-            break;
-        case COCINANDO:
-            lcd_display_cocinando(mm, ss);
-            break;
-        case PAUSA:
-            lcd_display_pausa(mm, ss);
-            break;
-        case PUERTA_ABIERTA:
-            lcd_display_puerta(mm, ss);
-            break;
-        default: break;
-    }
-}
+			ctx.lcd_actualizar = 0;
+			uint8_t mm = ctx.tiempo_seg / 60;
+			uint8_t ss = ctx.tiempo_seg % 60;
+			switch (ctx.estado) {
+				case REPOSO:
+					if (ctx.puerta_abierta) {
+						lcd_display_puerta(0, 0);  // avisa que la puerta está abierta
+						} else {
+						lcd_display_reposo();
+					}
+					break;
+				case INGRESO:            
+					if (ctx.puerta_abierta) {
+						uint8_t mm = ctx.digitos[0] * 10 + ctx.digitos[1];
+						uint8_t ss = ctx.digitos[2] * 10 + ctx.digitos[3];
+						lcd_display_puerta(mm,ss);
+					} else {
+						lcd_display_ingreso(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
+					}
+					break;
+				case COCINANDO:
+					lcd_display_cocinando(mm, ss);
+					break;
+				case PAUSA:
+					lcd_display_pausa(mm, ss);
+					break;
+				case PUERTA_ABIERTA:
+					lcd_display_puerta(mm, ss);
+					break;
+				default: break;
+			}
+		}
 
         _delay_ms(20); // Anti-rebote y cadencia del loop
     }
