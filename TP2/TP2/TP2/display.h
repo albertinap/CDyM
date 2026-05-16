@@ -10,7 +10,7 @@
 #define DISPLAY_H
 
 
-#include "<stdint.h>"
+#include <stdint.h>
 #include "lcd.h"
 
 void lcd_display_init(void);

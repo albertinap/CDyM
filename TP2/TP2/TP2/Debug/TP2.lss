@@ -718,18 +718,18 @@ void LCDinit(void)
  4d0:	08 95       	ret
 
 000004d2 <main>:
+    LED_ALR_DDR  |=  (1 << LED_ALR_PIN);
+    leds_apagar_todos();	// apaga los 3 leds
 
-
-//LO PRIMERO QUE HAY QUE HACER DESP DE INICIALIZAR ES PONER EL CURSOR AL PRINICPIO DE LA MEMORIA
-int main(void)
-{
+    // Inicializamos LCD y limpiamos display
     LCDinit();
+    LCDclr();
  4d2:	0e 94 f0 01 	call	0x3e0	; 0x3e0 <LCDinit>
-	LCDGotoXY(0,0);	//posicionamos el cursor al principio del display
+
  4d6:	60 e0       	ldi	r22, 0x00	; 0
  4d8:	80 e0       	ldi	r24, 0x00	; 0
  4da:	0e 94 b7 01 	call	0x36e	; 0x36e <LCDGotoXY>
-	LCDstring("HOLIIS!!",8);
+    // Inicializamos Keypad
  4de:	68 e0       	ldi	r22, 0x08	; 8
  4e0:	80 e0       	ldi	r24, 0x00	; 0
  4e2:	91 e0       	ldi	r25, 0x01	; 1

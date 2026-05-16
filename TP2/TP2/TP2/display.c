@@ -25,17 +25,17 @@ void lcd_display_init(){
 void lcd_display_reposo(){
 	LCDclr(); // Limpio pantalla
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
-	LCDsendChar((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo ( puedo hacer un vector para el mensaje pero no quiero usar mas RAM)
+	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo ( puedo hacer un vector para el mensaje pero no quiero usar mas RAM)
 	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "Ingrese tiempo  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
+	LCDstring((uint8_t*) "Ingrese tiempo  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
 }
 
 void lcd_display_fin(){
 	LCDclr(); // Limpio pantalla
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
-	LCDsendChar((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo
+	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo
 	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "LISTO!", 8); // escribo segunda linea
+	LCDstring((uint8_t*) "LISTO!", 8); // escribo segunda linea
 	
 }
 
@@ -45,7 +45,7 @@ void lcd_display_ingreso(uint8_t min, uint8_t seg){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
 	escribir_tiempo(min,seg);// escribo el valor del tiempo;
 	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "A=OK  B=BORRAR  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
+	LCDstring((uint8_t*) "A=OK  B=BORRAR  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
 }
 
 
@@ -53,21 +53,21 @@ void lcd_display_puerta(uint8_t min, uint8_t seg){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
 	escribir_tiempo(min,seg);// escribo el valor del tiempo;
 	LCDGotoXY(0,1);// Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "PUERTA  ABIERTA ", 16); // escribo segunda linea, ocupo toda la linea 
+	LCDstring((uint8_t*) "PUERTA  ABIERTA ", 16); // escribo segunda linea, ocupo toda la linea 
 }
 
 void lcd_display_cocinando(uint8_t min, uint8_t seg ){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
 	escribir_tiempo(min,seg);// escribo el valor del tiempo;
 	LCDGotoXY(0,1);// Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "Cocinando...    ", 16); // escribo segunda linea, ocupo toda la linea
+	LCDstring((uint8_t*) "Cocinando...    ", 16); // escribo segunda linea, ocupo toda la linea
 }
 
 void lcd_display_pausa(uint8_t min, uint8_t seg){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
 	escribir_tiempo(min,seg);// escribo el valor del tiempo;
 	LCDGotoXY(0,1);// Voy a la segunda linea asi escribo el segundo mensaje
-	LCDsendChar((uint8_t*) "PAUSA B=CANCELAR", 16); // escribo segunda linea, ocupo toda la linea
+	LCDstring((uint8_t*) "PAUSA B=CANCELAR", 16); // escribo segunda linea, ocupo toda la linea
 }
 
 void lcd_display_error(void) {

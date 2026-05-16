@@ -5,7 +5,7 @@ c:/facultad/ingenieria/iyc/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/
 c:/facultad/ingenieria/iyc/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
                               C:/Facultad/Ingenieria/IyC/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o (exit)
 c:/facultad/ingenieria/iyc/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
-                              keypad.o (__do_copy_data)
+                              display.o (__do_copy_data)
 c:/facultad/ingenieria/iyc/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
                               keypad.o (__do_clear_bss)
 c:/facultad/ingenieria/iyc/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
@@ -17,6 +17,41 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Facultad/Ingenieria/IyC/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .bss           0x00000000        0x0 C:/Facultad/Ingenieria/IyC/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .text          0x00000000        0x0 display.o
+ .data          0x00000000        0x0 display.o
+ .bss           0x00000000        0x0 display.o
+ .text.escribir_tiempo
+                0x00000000       0x76 display.o
+ .text.lcd_display_init
+                0x00000000        0x6 display.o
+ .rodata.str1.1
+                0x00000000       0xa6 display.o
+ .text.lcd_display_reposo
+                0x00000000       0x2a display.o
+ .text.lcd_display_fin
+                0x00000000       0x2a display.o
+ .text.lcd_display_ingreso
+                0x00000000       0x30 display.o
+ .text.lcd_display_puerta
+                0x00000000       0x30 display.o
+ .text.lcd_display_cocinando
+                0x00000000       0x30 display.o
+ .text.lcd_display_pausa
+                0x00000000       0x30 display.o
+ .text.lcd_display_error
+                0x00000000       0x2e display.o
+ .text.lcd_display_maximo
+                0x00000000       0x2e display.o
+ .debug_info    0x00000000      0x61c display.o
+ .debug_abbrev  0x00000000       0xd5 display.o
+ .debug_loc     0x00000000      0x2bd display.o
+ .debug_aranges
+                0x00000000       0x68 display.o
+ .debug_ranges  0x00000000       0x58 display.o
+ .debug_line    0x00000000      0x24f display.o
+ .debug_str     0x00000000      0x243 display.o
+ .comment       0x00000000       0x31 display.o
+ .debug_frame   0x00000000       0xf8 display.o
  .text          0x00000000        0x0 keypad.o
  .data          0x00000000        0x0 keypad.o
  .bss           0x00000000        0x0 keypad.o
@@ -192,6 +227,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD C:/Facultad/Ingenieria/IyC/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
+LOAD display.o
 LOAD keypad.o
 LOAD lcd.o
 LOAD main.o
