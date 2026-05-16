@@ -70,3 +70,19 @@ void lcd_display_pausa(uint8_t min, uint8_t seg){
 	LCDsendChar((uint8_t*) "PAUSA B=CANCELAR", 16); // escribo segunda linea, ocupo toda la linea
 }
 
+void lcd_display_error(void) {
+	LCDclr();
+	LCDGotoXY(0, 0);
+	LCDstring((uint8_t)"Ingrese un valor", 16);
+	LCDGotoXY(0, 1);
+	LCDstring((uint8_t)"mayor a 00:00   ", 16);
+}
+
+void lcd_display_maximo(void) {
+	LCDclr();
+	LCDGotoXY(0, 0);
+	LCDstring((uint8_t)"Valor muy alto! ", 16);
+	LCDGotoXY(0, 1);
+	LCDstring((uint8_t)"MAX: 99:59      ", 16);
+}
+

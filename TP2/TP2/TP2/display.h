@@ -21,5 +21,7 @@ void lcd_display_ingreso(uint8_t min, uint8_t seg); // linea 2 del diplay tiene 
 void lcd_display_cocinando(uint8_t min, uint8_t seg ); // Linea 2 del display tiene Cocinando ..
 void lcd_display_puerta(uint8_t min, uint8_t seg); // Linea 2 del display tiene PUERTA ABIERTA
 void lcd_display_pausa(uint8_t min, uint8_t seg); // Linea 2 del display tiene PAUSA B=CANCELAR
+void lcd_display_maximo(void);
+void lcd_display_error(void);
 
 #endif /* DISPLAY_H_ */

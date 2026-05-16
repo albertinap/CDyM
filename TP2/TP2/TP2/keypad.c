@@ -43,7 +43,7 @@ static uint8_t read_col(uint8_t col) {
 }
 
 // Scan crudo: retorna el char de la tecla presionada o KEY_NONE
-static uint8_t KepadUpdate(void) {
+static uint8_t KeypadUpdate(void) {
 	for (uint8_t r = 0; r < 4; r++) {
 		set_row(r);
 		_delay_us(10);
@@ -59,7 +59,7 @@ uint8_t KEYPAD_Scan(uint8_t *pkey) {
 	static uint8_t Old_key, Last_valid_key = KEY_NONE;
 	uint8_t Key;
 
-	Key = KepadUpdate();
+	Key = KeypadUpdate();
 
 	if (Key == KEY_NONE) {
 		Old_key = KEY_NONE;
