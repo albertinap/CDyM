@@ -355,18 +355,26 @@ int main(void)
         mef_ejecutar(tecla);
         
         if (ctx.lcd_actualizar) {
-	        ctx.lcd_actualizar = 0;
-	        uint8_t mm = ctx.tiempo_seg / 60;
-	        uint8_t ss = ctx.tiempo_seg % 60;
-	        // Llamar la función correcta según el estado actual
-	        switch (ctx.estado) {
-		        case INGRESO:        lcd_display_ingreso(mm, ss);   break;
-		        case COCINANDO:      lcd_display_cocinando(mm, ss); break;
-		        case PAUSA:          lcd_display_pausa(mm, ss);     break;
-		        case PUERTA_ABIERTA: lcd_display_puerta(mm, ss);    break;
-		        default: break;
-	        }
-        }
+    ctx.lcd_actualizar = 0;
+    uint8_t mm = ctx.tiempo_seg / 60;
+    uint8_t ss = ctx.tiempo_seg % 60;
+    switch (ctx.estado) {
+        case INGRESO:            
+            lcd_display_ingreso_simple(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
+			// mostramos el buffer los dígitos simples, no en tiempo_seg
+            break;
+        case COCINANDO:
+            lcd_display_cocinando(mm, ss);
+            break;
+        case PAUSA:
+            lcd_display_pausa(mm, ss);
+            break;
+        case PUERTA_ABIERTA:
+            lcd_display_puerta(mm, ss);
+            break;
+        default: break;
+    }
+}
 
         _delay_ms(20); // Anti-rebote y cadencia del loop
     }

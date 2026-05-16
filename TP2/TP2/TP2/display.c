@@ -6,6 +6,17 @@
  */ 
 #include "display.h"
 
+void lcd_display_ingreso_simple(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
+    LCDGotoXY(0,0);
+    LCDsendChar('0' + d0); // decena de minutos
+    LCDsendChar('0' + d1); // unidad de minutos
+    LCDsendChar(':');
+    LCDsendChar('0' + d2); // decena de segundos
+    LCDsendChar('0' + d3); // unidad de segundos
+    LCDGotoXY(0,1);
+    LCDstring((uint8_t*) "A=OK  B=BORRAR  ", 16);
+}
+
 static void escribir_tiempo(uint8_t min, uint8_t seg){
 	// Funcion general para cambiar el dispay del tiempo de la fila 1, estatica ya que solo funciona dentro de display
 	LCDGotoXY(0,0); // reseteo la fila
@@ -73,7 +84,7 @@ void lcd_display_pausa(uint8_t min, uint8_t seg){
 void lcd_display_error(void) {
 	LCDclr();
 	LCDGotoXY(0, 0);
-	LCDstring((uint8_t)"Ingrese un valor", 16);
+	LCDstring((uint8_t*)"Ingrese un valor", 16);
 	LCDGotoXY(0, 1);
 	LCDstring((uint8_t)"mayor a 00:00   ", 16);
 }
@@ -81,7 +92,7 @@ void lcd_display_error(void) {
 void lcd_display_maximo(void) {
 	LCDclr();
 	LCDGotoXY(0, 0);
-	LCDstring((uint8_t)"Valor muy alto! ", 16);
+	LCDstring((uint8_t*)"Valor muy alto! ", 16);
 	LCDGotoXY(0, 1);
 	LCDstring((uint8_t)"MAX: 99:59      ", 16);
 }
