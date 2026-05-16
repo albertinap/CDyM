@@ -130,7 +130,7 @@ void accion_ingreso(void) {
 	leds_apagar_todos();				// Apagamos todos los leds
 	uint8_t mm = ctx.tiempo_seg / 60;	// Transformamos el tiempo en segundos, a minutos y segundos
 	uint8_t ss = ctx.tiempo_seg % 60;	
-	lcd_display_ingreso(mm, ss);		// Actualizamos el display con el tiempo actual
+	lcd_display_ingreso(d0, d1,d2,d3);		// Actualizamos el display con el tiempo actual
 }
 
 void accion_cocinando(void) {
@@ -360,7 +360,7 @@ int main(void)
     uint8_t ss = ctx.tiempo_seg % 60;
     switch (ctx.estado) {
         case INGRESO:            
-            lcd_display_ingreso_simple(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
+            lcd_display_ingreso(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
 			// mostramos el buffer los dígitos simples, no en tiempo_seg
             break;
         case COCINANDO:

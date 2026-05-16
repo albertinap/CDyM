@@ -6,15 +6,13 @@
  */ 
 #include "display.h"
 
-void lcd_display_ingreso_simple(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
+static void lcd_display_ingreso_simple(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
     LCDGotoXY(0,0);
     LCDsendChar('0' + d0); // decena de minutos
     LCDsendChar('0' + d1); // unidad de minutos
     LCDsendChar(':');
     LCDsendChar('0' + d2); // decena de segundos
     LCDsendChar('0' + d3); // unidad de segundos
-    LCDGotoXY(0,1);
-    LCDstring((uint8_t*) "A=OK  B=BORRAR  ", 16);
 }
 
 static void escribir_tiempo(uint8_t min, uint8_t seg){
@@ -52,9 +50,9 @@ void lcd_display_fin(){
 
 
 
-void lcd_display_ingreso(uint8_t min, uint8_t seg){
+void lcd_display_ingreso(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
-	escribir_tiempo(min,seg);// escribo el valor del tiempo;
+	lcd_display_ingreso_simple(d0,d1,d2,d3);// escribo el valor del tiempo;
 	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
 	LCDstring((uint8_t*) "A=OK  B=BORRAR  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
 }
@@ -86,7 +84,7 @@ void lcd_display_error(void) {
 	LCDGotoXY(0, 0);
 	LCDstring((uint8_t*)"Ingrese un valor", 16);
 	LCDGotoXY(0, 1);
-	LCDstring((uint8_t)"mayor a 00:00   ", 16);
+	LCDstring((uint8_t*)"mayor a 00:00   ", 16);
 }
 
 void lcd_display_maximo(void) {
@@ -94,5 +92,5 @@ void lcd_display_maximo(void) {
 	LCDGotoXY(0, 0);
 	LCDstring((uint8_t*)"Valor muy alto! ", 16);
 	LCDGotoXY(0, 1);
-	LCDstring((uint8_t)"MAX: 99:59      ", 16);
+	LCDstring((uint8_t*)"MAX: 99:59      ", 16);
 }
