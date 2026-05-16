@@ -82,6 +82,7 @@ void accion_fin(void);
 void tiempo_reset(void);			// se resetea el tiempo a 0, y vaciamos el buffer de dígitos
 void tiempo_agregar(uint16_t seg);	// sumo "seg" al tiempo actual, la función tiene control de overflow para que no se pase de 99:59
 uint8_t tiempo_valido(void);        // retorna 1 si tiempo_seg > 0 (es para que no se pase al estado COCINANDO si tiempo=0)
+uint8_t tiempo_formato_valido(void);// Retorna 1 si el formato es válido (ss <= 59 y tiempo <= 99:59)
 void digitos_a_tiempo(void);        // se convierten los digitos del buffer (ctx.digitos[4]) a tiempo en segundos 
 
 // Helpers de LED

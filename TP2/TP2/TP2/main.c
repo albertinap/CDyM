@@ -6,7 +6,7 @@
  */ 
 
 #include "main.h"
-//#include "lcd_handlers"
+#include "display.h"
 
 // VARIABLE GLOBAL DE CONTEXTO 
 // Agrupamos todas las variables que maneja la mef en una sola estructura de contexto
@@ -99,6 +99,14 @@ uint8_t tiempo_valido(void)							// retorna 1 si es un tiempo mayor a cero, par
     return (ctx.tiempo_seg > 0) ? 1 : 0;
 }
 
+uint8_t tiempo_formato_valido(void)					// Retorna 1 si el formato es válido (ss <= 59 y tiempo <= 99:59), sólo se chequea al presionar START
+{
+	uint8_t ss = ctx.digitos[2] * 10 + ctx.digitos[3];
+	if (ss > 59)                          return 0;
+	if (ctx.tiempo_seg > TIEMPO_MAX_SEG) return 0;
+	return 1;
+}
+
 /*
  * Convierte el buffer de 4 digitos a tiempo_seg.
  * Formato: digitos[0..1] = MM, digitos[2..3] = SS
@@ -108,28 +116,21 @@ void digitos_a_tiempo(void)
 {
     uint8_t mm = ctx.digitos[0] * 10 + ctx.digitos[1];
     uint8_t ss = ctx.digitos[2] * 10 + ctx.digitos[3];
-
-    // Acotar segundos a 59
-    if (ss > 59) ss = 59;
-
-    ctx.tiempo_seg = (uint16_t)mm * 60 + ss;	// convertimos a segundos
-
-    if (ctx.tiempo_seg > TIEMPO_MAX_SEG)		// volvemos a asegurar que no se pase del máximo
-        ctx.tiempo_seg = TIEMPO_MAX_SEG;
+    ctx.tiempo_seg = (uint16_t)mm * 60 + ss;		
 }
 
 // ACCIONES DE ESTADO (salidas Moore) - Se ejecutan UNA VEZ al entrar al estado.
 void accion_reposo(void) {
 	leds_apagar_todos();	// Apagamos todos los leds, estamos en reposo
 	tiempo_reset();			// Reiniciamos el temporizador
-	//lcd_display_reposo();
+	lcd_display_reposo();
 }
 
 void accion_ingreso(void) {
 	leds_apagar_todos();				// Apagamos todos los leds
 	uint8_t mm = ctx.tiempo_seg / 60;	// Transformamos el tiempo en segundos, a minutos y segundos
 	uint8_t ss = ctx.tiempo_seg % 60;	
-	//lcd_display_ingreso(mm, ss);		// Actualizamos el display con el tiempo actual
+	lcd_display_ingreso(mm, ss);		// Actualizamos el display con el tiempo actual
 }
 
 void accion_cocinando(void) {
@@ -137,7 +138,7 @@ void accion_cocinando(void) {
 	LED_LUZ_PORT |= (1 << LED_LUZ_PIN);	// Prendemos el led de luz interior
 	uint8_t mm = ctx.tiempo_seg / 60;	// Convertimos tiempo del contexto (en segundos) a tiempo en minutos y segundos 
 	uint8_t ss = ctx.tiempo_seg % 60;
-	//lcd_display_cocinando(mm, ss);	// Actualizamos el display con tiempo actual y mensaje de cocinando
+	lcd_display_cocinando(mm, ss);		// Actualizamos el display con tiempo actual y mensaje de cocinando
 }
 
 void accion_pausa(void) {
@@ -145,7 +146,7 @@ void accion_pausa(void) {
 	LED_LUZ_PORT |=  (1 << LED_LUZ_PIN);// Se mantiene encendida la luz interior
 	uint8_t mm = ctx.tiempo_seg / 60;	
 	uint8_t ss = ctx.tiempo_seg % 60;
-	//lcd_display_pausa(mm, ss);		// Actualizamos display con el mensaje de pausa
+	lcd_display_pausa(mm, ss);			// Actualizamos display con el mensaje de pausa
 }
 
 void accion_puerta_abierta(void) {
@@ -153,13 +154,13 @@ void accion_puerta_abierta(void) {
 	LED_LUZ_PORT |=  (1 << LED_LUZ_PIN);// Luz interior se mantiene encendida
 	uint8_t mm = ctx.tiempo_seg / 60;	
 	uint8_t ss = ctx.tiempo_seg % 60;
-	//lcd_display_puerta(mm, ss);		// Actualizamos display con el mensaje de puerta abierta
+	lcd_display_puerta(mm, ss);			// Actualizamos display con el mensaje de puerta abierta
 }
 
 void accion_fin(void) {
 	leds_apagar_todos();				// Apagamos todos los leds
 	ctx.blink_contador = 0;				// Inicializamos el contador de parpadeo en 0
-	//lcd_display_fin();				// Actualizamos display con mensaje de fin
+	lcd_display_fin();					// Actualizamos display con mensaje de fin
 }
 
 
@@ -213,39 +214,29 @@ void mef_ejecutar(uint8_t tecla)
             if (tecla >= '0' && tecla <= '9') {
                 uint8_t nuevo_dig = tecla - '0';               
 
-                // Método simple y claro: shift circular del buffer
+                // shift circular del buffer, se van ingresando dígitos y los desplazo a la izquierda
                 ctx.digitos[0] = ctx.digitos[1];
                 ctx.digitos[1] = ctx.digitos[2];
                 ctx.digitos[2] = ctx.digitos[3];
                 ctx.digitos[3] = nuevo_dig;
                 if (ctx.n_digitos < 4) ctx.n_digitos++;
+                                
+                ctx.lcd_actualizar = 1;	// actualizamos el display
 
-                // Calcular tiempo tentativo
-                uint8_t mm_t = ctx.digitos[0] * 10 + ctx.digitos[1];
-                uint8_t ss_t = ctx.digitos[2] * 10 + ctx.digitos[3];
-                uint16_t seg_t = (uint16_t)mm_t * 60 + ss_t;
-
-                if (seg_t > TIEMPO_MAX_SEG || ss_t > 59) {
-                    // OVERFLOW: deshacer shift y permanecer en INGRESO
-                    ctx.digitos[3] = ctx.digitos[2];
-                    ctx.digitos[2] = ctx.digitos[1];
-                    ctx.digitos[1] = ctx.digitos[0];
-                    ctx.digitos[0] = 0;
-                    if (ctx.n_digitos > 0) ctx.n_digitos--;                    
-                    lcd_display_maximo(); // mostramos mensaje de error
-                } else {
-                    digitos_a_tiempo();
-                }
-                ctx.lcd_actualizar = 1;
-
-            } else if (tecla == 'A') {
-                // START: iniciar si tiempo > 0
-                if (tiempo_valido()) {
-                    cambiar_estado(COCINANDO);
-                } else {
-                    lcd_display_error(); // mostramos mensaje de error
-                    ctx.lcd_actualizar = 1;
-                }
+            } else if (tecla == 'A') {	
+				 digitos_a_tiempo();				// Recién cuando se quiere cocinar convertimos los dígitos del display a tiempo en segundos			 
+				 if (!tiempo_valido()) {					 
+					 lcd_display_error();		    // tiempo es 00:00
+					 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error
+				 } 
+				 else if (!tiempo_formato_valido()) {					 
+					 lcd_display_maximo();			// Tiempo fuera de rango, los segundos son mayores a 59
+					 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error
+				 } 
+				 else {					 
+					 cambiar_estado(COCINANDO);		// El tiempo está bien, arrancar a cocinar
+				 }
+				                 
             } else if (tecla == 'B') {
                 // CLEAR: volver a REPOSO
                 cambiar_estado(REPOSO);
