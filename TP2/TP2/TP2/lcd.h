@@ -4,7 +4,9 @@
 
 #include <avr/io.h>
 // Oscillator / resonator frequency (in Hz)
-#define F_CPU 8000000UL		// 8 MHz
+#ifndef F_CPU
+#define F_CPU 16000000UL
+#endif
 // Delays perdiendo tiempo del uC
 #include <util/delay.h>
 // Tipos de datos enteros estandar

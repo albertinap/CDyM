@@ -3,7 +3,6 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -14,6 +13,7 @@
 #ifndef F_CPU
 #define F_CPU 16000000UL
 #endif
+#include <util/delay.h>
 
 //PINES DE LEDs
 #define LED_MAG_DDR   DDRB
@@ -33,6 +33,8 @@
 #define TIEMPO_MAX_SEG   5999u   // 99:59 es el máximo tiempo permitido para ingresar, equivale a 5999 segundos
 #define TIEMPO_MAS30     30u     // segundos que suma la tecla "C" 
 #define DURACION_BLINK   5u      // segundos que dura el parpadeo al finalizar la cocción
+#define OCR1A_1SEG       15624u  // (16.000.000 / 1024) - 1		--> para hacer un timer que interrumpe cada 1 segundo
+#define OCR1A_500MS      7811u   // (16.000.000 / 1024) / 2 - 1  --> para hacer un timer que interrumpe cada 500 ms
 
 // ESTADOS DE LA MEF (Máquina de Moore)
 typedef enum {REPOSO = 0, INGRESO, COCINANDO, PAUSA, PUERTA_ABIERTA, FIN} estado_t;
@@ -49,7 +51,7 @@ typedef struct {
 
     uint8_t  puerta_abierta;    // 1 = puerta abierta, 0 = cerrada      
 
-    uint8_t  tick_1seg;         // Flag: Timer1 disparo 1 segundo --> vamos mostrando en el display cuando va pasando el tiempo       
+    uint8_t  tick_timer1;         // Flag: Timer1 disparo 1 segundo --> vamos mostrando en el display cuando va pasando el tiempo       
     uint16_t blink_contador;    // Contador de segundos en estado FIN (para el parpadeo del display y de la luz alarma)
     uint8_t  blink_display;     // Flag: toggle display en FIN            
 
@@ -83,6 +85,7 @@ void tiempo_agregar(uint16_t seg);	// sumo "seg" al tiempo actual, la función ti
 uint8_t tiempo_valido(void);        // retorna 1 si tiempo_seg > 0 (es para que no se pase al estado COCINANDO si tiempo=0)
 uint8_t tiempo_formato_valido(void);// Retorna 1 si el formato es válido (ss <= 59 y tiempo <= 99:59)
 void digitos_a_tiempo(void);        // se convierten los digitos del buffer (ctx.digitos[4]) a tiempo en segundos 
+void timer1_set(uint16_t ocr_val);	// para configurar el timer1 para 1 segundo o 500 ms
 
 // Helpers de LED
 void leds_apagar_todos(void);

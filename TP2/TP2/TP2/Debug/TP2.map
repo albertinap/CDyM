@@ -283,7 +283,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xf94
+.text           0x00000000     0x102e
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -373,129 +373,132 @@ END GROUP
                 0x000000e6                . = ALIGN (0x2)
  *(.text.*)
  .text.lcd_display_ingreso_simple
-                0x000000e6       0x48 display.o
+                0x000000e6       0x52 display.o
  .text.escribir_tiempo
-                0x0000012e       0x76 display.o
- .text.lcd_display_reposo
-                0x000001a4       0x2a display.o
-                0x000001a4                lcd_display_reposo
- .text.lcd_display_fin
-                0x000001ce       0x2a display.o
-                0x000001ce                lcd_display_fin
+                0x00000138       0x80 display.o
  .text.lcd_display_ingreso
-                0x000001f8       0x40 display.o
-                0x000001f8                lcd_display_ingreso
+                0x000001b8       0x40 display.o
+                0x000001b8                lcd_display_ingreso
+ .text.lcd_display_reposo
+                0x000001f8       0x2a display.o
+                0x000001f8                lcd_display_reposo
  .text.lcd_display_puerta
-                0x00000238       0x30 display.o
-                0x00000238                lcd_display_puerta
+                0x00000222       0x30 display.o
+                0x00000222                lcd_display_puerta
  .text.lcd_display_cocinando
-                0x00000268       0x30 display.o
-                0x00000268                lcd_display_cocinando
+                0x00000252       0x30 display.o
+                0x00000252                lcd_display_cocinando
  .text.lcd_display_pausa
-                0x00000298       0x30 display.o
-                0x00000298                lcd_display_pausa
+                0x00000282       0x30 display.o
+                0x00000282                lcd_display_pausa
+ .text.lcd_display_fin
+                0x000002b2       0x2a display.o
+                0x000002b2                lcd_display_fin
  .text.lcd_display_error
-                0x000002c8       0x2a display.o
-                0x000002c8                lcd_display_error
+                0x000002dc       0x2a display.o
+                0x000002dc                lcd_display_error
  .text.lcd_display_maximo
-                0x000002f2       0x2a display.o
-                0x000002f2                lcd_display_maximo
- .text.set_row  0x0000031c       0x48 keypad.o
+                0x00000306       0x2a display.o
+                0x00000306                lcd_display_maximo
+ .text.set_row  0x00000330       0x48 keypad.o
  .text.read_col
-                0x00000364       0x50 keypad.o
+                0x00000378       0x50 keypad.o
  .text.KeypadUpdate
-                0x000003b4       0x50 keypad.o
+                0x000003c8       0x50 keypad.o
  .text.keypad_init
-                0x00000404       0x62 keypad.o
-                0x00000404                keypad_init
+                0x00000418       0x62 keypad.o
+                0x00000418                keypad_init
  .text.KEYPAD_Scan
-                0x00000466       0x40 keypad.o
-                0x00000466                KEYPAD_Scan
+                0x0000047a       0x40 keypad.o
+                0x0000047a                KEYPAD_Scan
  .text.LCDsendChar
-                0x000004a6      0x130 lcd.o
-                0x000004a6                LCDsendChar
+                0x000004ba      0x130 lcd.o
+                0x000004ba                LCDsendChar
  .text.LCDsendCommand
-                0x000005d6      0x128 lcd.o
-                0x000005d6                LCDsendCommand
- .text.LCDclr   0x000006fe        0x8 lcd.o
-                0x000006fe                LCDclr
+                0x000005ea      0x128 lcd.o
+                0x000005ea                LCDsendCommand
+ .text.LCDclr   0x00000712        0x8 lcd.o
+                0x00000712                LCDclr
  .text.LCDstring
-                0x00000706       0x30 lcd.o
-                0x00000706                LCDstring
+                0x0000071a       0x30 lcd.o
+                0x0000071a                LCDstring
  .text.LCDGotoXY
-                0x00000736       0x1e lcd.o
-                0x00000736                LCDGotoXY
+                0x0000074a       0x1e lcd.o
+                0x0000074a                LCDGotoXY
  .text.LCDdefinechar
-                0x00000754       0x54 lcd.o
-                0x00000754                LCDdefinechar
- .text.LCDinit  0x000007a8       0xf2 lcd.o
-                0x000007a8                LCDinit
+                0x00000768       0x54 lcd.o
+                0x00000768                LCDdefinechar
+ .text.LCDinit  0x000007bc       0xf8 lcd.o
+                0x000007bc                LCDinit
  .text.LCDblank
-                0x0000089a        0x8 lcd.o
-                0x0000089a                LCDblank
+                0x000008b4        0x8 lcd.o
+                0x000008b4                LCDblank
  .text.LCDvisible
-                0x000008a2        0x8 lcd.o
-                0x000008a2                LCDvisible
+                0x000008bc        0x8 lcd.o
+                0x000008bc                LCDvisible
  .text.timer1_init
-                0x000008aa       0x1e main.o
-                0x000008aa                timer1_init
+                0x000008c4       0x1e main.o
+                0x000008c4                timer1_init
  .text.__vector_11
-                0x000008c8       0x1e main.o
-                0x000008c8                __vector_11
+                0x000008e2       0x1e main.o
+                0x000008e2                __vector_11
+ .text.timer1_set
+                0x00000900       0x1c main.o
+                0x00000900                timer1_set
  .text.leds_apagar_todos
-                0x000008e6       0x14 main.o
-                0x000008e6                leds_apagar_todos
+                0x0000091c       0x14 main.o
+                0x0000091c                leds_apagar_todos
  .text.sistema_init
-                0x000008fa       0x44 main.o
-                0x000008fa                sistema_init
+                0x00000930       0x4c main.o
+                0x00000930                sistema_init
  .text.tiempo_reset
-                0x0000093e       0x14 main.o
-                0x0000093e                tiempo_reset
+                0x0000097c       0x14 main.o
+                0x0000097c                tiempo_reset
  .text.tiempo_agregar
-                0x00000952       0x32 main.o
-                0x00000952                tiempo_agregar
+                0x00000990       0x32 main.o
+                0x00000990                tiempo_agregar
  .text.tiempo_valido
-                0x00000984       0x12 main.o
-                0x00000984                tiempo_valido
+                0x000009c2       0x12 main.o
+                0x000009c2                tiempo_valido
  .text.tiempo_formato_valido
-                0x00000996       0x32 main.o
-                0x00000996                tiempo_formato_valido
+                0x000009d4       0x32 main.o
+                0x000009d4                tiempo_formato_valido
  .text.digitos_a_tiempo
-                0x000009c8       0x38 main.o
-                0x000009c8                digitos_a_tiempo
+                0x00000a06       0x38 main.o
+                0x00000a06                digitos_a_tiempo
  .text.accion_reposo
-                0x00000a00        0xe main.o
-                0x00000a00                accion_reposo
+                0x00000a3e       0x16 main.o
+                0x00000a3e                accion_reposo
  .text.accion_ingreso
-                0x00000a0e       0x16 main.o
-                0x00000a0e                accion_ingreso
+                0x00000a54       0x16 main.o
+                0x00000a54                accion_ingreso
  .text.accion_cocinando
-                0x00000a24       0x6c main.o
-                0x00000a24                accion_cocinando
+                0x00000a6a       0x6c main.o
+                0x00000a6a                accion_cocinando
  .text.accion_pausa
-                0x00000a90       0x6c main.o
-                0x00000a90                accion_pausa
+                0x00000ad6       0x6c main.o
+                0x00000ad6                accion_pausa
  .text.accion_puerta_abierta
-                0x00000afc       0x6c main.o
-                0x00000afc                accion_puerta_abierta
+                0x00000b42       0x6c main.o
+                0x00000b42                accion_puerta_abierta
  .text.accion_fin
-                0x00000b68       0x12 main.o
-                0x00000b68                accion_fin
+                0x00000bae       0x1c main.o
+                0x00000bae                accion_fin
  .text.cambiar_estado
-                0x00000b7a       0x44 main.o
+                0x00000bca       0x44 main.o
  .text.mef_ejecutar
-                0x00000bbe      0x27c main.o
-                0x00000bbe                mef_ejecutar
- .text.main     0x00000e3a      0x138 main.o
-                0x00000e3a                main
+                0x00000c0e      0x2c0 main.o
+                0x00000c0e                mef_ejecutar
+ .text.main     0x00000ece      0x13e main.o
+                0x00000ece                main
  .text.libgcc.mul
-                0x00000f72       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
-                0x00000f72                __umulhisi3
-                0x00000f90                . = ALIGN (0x2)
+                0x0000100c       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
+                0x0000100c                __umulhisi3
+                0x0000102a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000f90        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000f90                _exit
-                0x00000f90                exit
+ .fini9         0x0000102a        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x0000102a                _exit
+                0x0000102a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -514,11 +517,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000f90        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000102a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000f94                _etext = .
+                0x0000102e                _etext = .
 
-.data           0x00800100       0xb8 load address 0x00000f94
+.data           0x00800100       0xc4 load address 0x0000102e
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -528,33 +531,33 @@ END GROUP
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800101       0xa6 display.o
+                0x00800101       0xb2 display.o
  .rodata.keymap
-                0x008001a7       0x10 keypad.o
+                0x008001b3       0x10 keypad.o
  *(.gnu.linkonce.r*)
-                0x008001b8                . = ALIGN (0x2)
- *fill*         0x008001b7        0x1 
-                0x008001b8                _edata = .
-                0x008001b8                PROVIDE (__data_end, .)
+                0x008001c4                . = ALIGN (0x2)
+ *fill*         0x008001c3        0x1 
+                0x008001c4                _edata = .
+                0x008001c4                PROVIDE (__data_end, .)
 
-.bss            0x008001b8        0xf
-                0x008001b8                PROVIDE (__bss_start, .)
+.bss            0x008001c4        0xf
+                0x008001c4                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.Old_key.1765
-                0x008001b8        0x1 keypad.o
+                0x008001c4        0x1 keypad.o
  *(COMMON)
- COMMON         0x008001b9        0xe main.o
-                0x008001b9                ctx
-                0x008001c7                PROVIDE (__bss_end, .)
-                0x00000f94                __data_load_start = LOADADDR (.data)
-                0x0000104c                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x008001c5        0xe main.o
+                0x008001c5                ctx
+                0x008001d3                PROVIDE (__bss_end, .)
+                0x0000102e                __data_load_start = LOADADDR (.data)
+                0x000010f2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008001c7        0x0
+.noinit         0x008001d3        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008001c7                _end = .
+                0x008001d3                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -622,7 +625,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x218
+.debug_aranges  0x00000000      0x220
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x70 display.o
@@ -631,43 +634,43 @@ END GROUP
  .debug_aranges
                 0x000000b0       0xc0 lcd.o
  .debug_aranges
-                0x00000170       0xa8 main.o
+                0x00000170       0xb0 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x2405
+.debug_info     0x00000000     0x2545
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_info    0x000005f4      0x744 display.o
- .debug_info    0x00000d38      0x276 keypad.o
- .debug_info    0x00000fae      0xb3a lcd.o
- .debug_info    0x00001ae8      0x91d main.o
+ .debug_info    0x000005f4      0x786 display.o
+ .debug_info    0x00000d7a      0x276 keypad.o
+ .debug_info    0x00000ff0      0xb3a lcd.o
+ .debug_info    0x00001b2a      0xa1b main.o
 
-.debug_abbrev   0x00000000      0xd02
+.debug_abbrev   0x00000000      0xd13
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2       0xd5 display.o
  .debug_abbrev  0x00000677      0x1ac keypad.o
  .debug_abbrev  0x00000823      0x242 lcd.o
- .debug_abbrev  0x00000a65      0x29d main.o
+ .debug_abbrev  0x00000a65      0x2ae main.o
 
-.debug_line     0x00000000     0x13d4
+.debug_line     0x00000000     0x146d
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000134      0x293 display.o
- .debug_line    0x000003c7      0x289 keypad.o
- .debug_line    0x00000650      0x67b lcd.o
- .debug_line    0x00000ccb      0x709 main.o
+ .debug_line    0x00000134      0x29f display.o
+ .debug_line    0x000003d3      0x289 keypad.o
+ .debug_line    0x0000065c      0x67b lcd.o
+ .debug_line    0x00000cd7      0x796 main.o
 
-.debug_frame    0x00000000      0x540
+.debug_frame    0x00000000      0x54c
  *(.debug_frame)
  .debug_frame   0x00000000      0x124 display.o
  .debug_frame   0x00000124       0x7c keypad.o
  .debug_frame   0x000001a0      0x21c lcd.o
- .debug_frame   0x000003bc      0x184 main.o
+ .debug_frame   0x000003bc      0x190 main.o
 
-.debug_str      0x00000000      0x815
+.debug_str      0x00000000      0x82a
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x22f display.o
@@ -676,15 +679,15 @@ END GROUP
                                 0x20d (size before relaxing)
  .debug_str     0x000004f2      0x165 lcd.o
                                 0x34f (size before relaxing)
- .debug_str     0x00000657      0x1be main.o
-                                0x45d (size before relaxing)
+ .debug_str     0x00000657      0x1d3 main.o
+                                0x472 (size before relaxing)
 
-.debug_loc      0x00000000     0x1966
+.debug_loc      0x00000000     0x1c04
  *(.debug_loc)
  .debug_loc     0x00000000      0x428 display.o
- .debug_loc     0x00000428      0x24e keypad.o
- .debug_loc     0x00000676      0xd9c lcd.o
- .debug_loc     0x00001412      0x554 main.o
+ .debug_loc     0x00000428      0x24f keypad.o
+ .debug_loc     0x00000677      0xd9c lcd.o
+ .debug_loc     0x00001413      0x7f1 main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -704,12 +707,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x1d8
+.debug_ranges   0x00000000      0x1e0
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x60 display.o
  .debug_ranges  0x00000060       0x30 keypad.o
  .debug_ranges  0x00000090       0xb0 lcd.o
- .debug_ranges  0x00000140       0x98 main.o
+ .debug_ranges  0x00000140       0xa0 main.o
 
 .debug_macro
  *(.debug_macro)

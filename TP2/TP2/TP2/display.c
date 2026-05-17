@@ -6,15 +6,6 @@
  */ 
 #include "display.h"
 
-static void lcd_display_ingreso_simple(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
-    LCDGotoXY(0,0);
-    LCDsendChar('0' + d0); // decena de minutos
-    LCDsendChar('0' + d1); // unidad de minutos
-    LCDsendChar(':');
-    LCDsendChar('0' + d2); // decena de segundos
-    LCDsendChar('0' + d3); // unidad de segundos
-}
-
 static void escribir_tiempo(uint8_t min, uint8_t seg){
 	// Funcion general para cambiar el dispay del tiempo de la fila 1, estatica ya que solo funciona dentro de display
 	LCDGotoXY(0,0); // reseteo la fila
@@ -23,6 +14,7 @@ static void escribir_tiempo(uint8_t min, uint8_t seg){
 	LCDsendChar(':');
 	LCDsendChar('0' + seg / 10); // decena de seg
 	LCDsendChar('0' + seg % 10); // unidad de seg
+	LCDstring((uint8_t*)"           ", 11); // 11 espacios para completar 16 y no dejar basura
 }
 
 
@@ -30,24 +22,15 @@ void lcd_display_init(){
 	LCDinit();
 }
 
-
-void lcd_display_reposo(){
-	LCDclr(); // Limpio pantalla
-	LCDGotoXY(0,0); // reinicio donde arranca a escribir
-	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo ( puedo hacer un vector para el mensaje pero no quiero usar mas RAM)
-	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
-	LCDstring((uint8_t*) "Ingrese tiempo  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
+static void lcd_display_ingreso_simple(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
+    LCDGotoXY(0,0);
+    LCDsendChar('0' + d0); // decena de minutos
+    LCDsendChar('0' + d1); // unidad de minutos
+    LCDsendChar(':');
+    LCDsendChar('0' + d2); // decena de segundos
+    LCDsendChar('0' + d3); // unidad de segundos
+	LCDstring((uint8_t*)"           ", 11); // 11 espacios para completar 16 y no dejar basura
 }
-
-void lcd_display_fin(){
-	LCDclr(); // Limpio pantalla
-	LCDGotoXY(0,0); // reinicio donde arranca a escribir
-	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo
-	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
-	LCDstring((uint8_t*) "LISTO!", 8); // escribo segunda linea
-	
-}
-
 
 
 void lcd_display_ingreso(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
@@ -57,6 +40,13 @@ void lcd_display_ingreso(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3){
 	LCDstring((uint8_t*) "A=OK  B=BORRAR  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
 }
 
+void lcd_display_reposo(){
+	LCDclr(); // Limpio pantalla
+	LCDGotoXY(0,0); // reinicio donde arranca a escribir
+	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo ( puedo hacer un vector para el mensaje pero no quiero usar mas RAM)
+	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
+	LCDstring((uint8_t*) "Ingrese tiempo  ", 16); // escribo segunda linea, ocupo toda la linea con dos espacios mas al final
+}
 
 void lcd_display_puerta(uint8_t min, uint8_t seg){
 	LCDGotoXY(0,0); // reinicio donde arranca a escribir
@@ -79,6 +69,15 @@ void lcd_display_pausa(uint8_t min, uint8_t seg){
 	LCDstring((uint8_t*) "PAUSA B=CANCELAR", 16); // escribo segunda linea, ocupo toda la linea
 }
 
+void lcd_display_fin(){
+	LCDclr(); // Limpio pantalla
+	LCDGotoXY(0,0); // reinicio donde arranca a escribir
+	LCDstring((uint8_t*)"00:00", 5); // escribo el valor del tiempo; casteo asi no me tira warning de diferente tipo
+	LCDGotoXY(0,1); // Voy a la segunda linea asi escribo el segundo mensaje
+	LCDstring((uint8_t*) "LISTO!", 8); // escribo segunda linea
+	
+}
+
 void lcd_display_error(void) {
 	LCDclr();
 	LCDGotoXY(0, 0);
@@ -90,7 +89,7 @@ void lcd_display_error(void) {
 void lcd_display_maximo(void) {
 	LCDclr();
 	LCDGotoXY(0, 0);
-	LCDstring((uint8_t*)"Valor muy alto! ", 16);
+	LCDstring((uint8_t*)"FORMATO ERRONEO ", 16);
 	LCDGotoXY(0, 1);
-	LCDstring((uint8_t*)"MAX: 99:59      ", 16);
+	LCDstring((uint8_t*)"Formato: 99:59  ", 16);	
 }
