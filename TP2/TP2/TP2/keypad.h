@@ -3,12 +3,13 @@
 
 #include <avr/io.h>
 #ifndef F_CPU
-#define F_CPU 16000000UL
+#define F_CPU 16000000UL //Frecuencia de la CPU
 #endif
 #include <util/delay.h>
 #include <stdint.h>
 
-// Filas - salidas
+// Filas - salidas, para cada uno de los pines defino que puerto es, que data tengo que cambiar y cual pin es, asi es mas facil cambiarlo en el futuro
+// Con solo cambiar una variable aca no es necesario cambiar el .c 
 #define ROW0_PORT PORTB
 #define ROW0_DDR  DDRB
 #define ROW0_PIN  PB4
@@ -26,6 +27,7 @@
 #define ROW3_PIN  PD7
 
 // Columnas - entradas con pull-up
+//Vuelvo a hacer lo mismo con las columnas asi es mas facil para poder cambiarlo y que funcione directamente
 #define COL0_PIN_REG PIND
 #define COL0_DDR     DDRD
 #define COL0_PORT    PORTD
@@ -48,6 +50,7 @@
 
 #define KEY_NONE 0xFF
 
+//Defino las funciones del keypad
 void keypad_init(void);
 uint8_t KEYPAD_Scan(uint8_t *pkey);
 

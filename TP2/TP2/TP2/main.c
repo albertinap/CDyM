@@ -39,13 +39,13 @@ void sistema_init(void)
     ctx.puerta_abierta  = 0;		// La puerta arranca cerrada (0 = cerrada, 1 = abierta)
     ctx.tick_timer1     = 0;		// El flag del Timer1 arranca en 0, se pone en 1 cada vez
 									// que el timer dispara una interrupción de 1 segundo
-    ctx.blink_contador  = 0;		// Cuenta cuántos segundos llevamos parpadeando en estado FIN
-									// Cuando llega a DURACION_BLINK (5seg), volvemos a REPOSO
     ctx.blink_display   = 0;		// Indica si el display está visible u oculto durante el parpadeo
-								    // 0 = visible, 1 = oculto --> se alterna cada 1 segundo en FIN    
+								    // 0 = visible, 1 = oculto --> se alterna cada 1 segundo en FIN  
+	ctx.blink_contador	= 0;		// Cuenta ticks en estado FIN para el parpadeo			
+	ctx.cont_1seg		= 0;		// cuenta ticks de 100ms hasta llegar a 10 = 1 segundo						  
     ctx.lcd_actualizar  = 1;		// Arranca en 1 para forzar el primer dibujado del LCD apenas entre al loop principal
 
-    timer1_init();					// Configura el Timer1 para generar interrupciones cada 1 segundo
+    timer1_init();					// Configura el Timer1 para generar interrupciones cada 100ms
 									// A partir de acá el sistema empieza a contar el tiempo
 									
     sei();		// Habilita las interrupciones globales del AVR	
@@ -53,42 +53,24 @@ void sistema_init(void)
 }
 
 /*
- * Timer1 en modo CTC: interrupción cada 1 segundo. (Clear Timer on Compare Match)
- * F_CPU = 16 MHz, prescaler = 1024 ? tick cada 1/16000000*1024 = 64 us
- * OCR1A = (16000000 / 1024) - 1 = 15624 (contamos hasta 15624 y ahí disparamos la interrupción)
- * Tenemos 15624 pulsos por segundo con el prescaler, en vez de tener 16000000
+ * Timer1 en modo CTC: interrupción cada 100ms. (Clear Timer on Compare Match)
+ * F_CPU = 16 MHz, prescaler = 256, 1 tick cada 1/16000000*256 = 16 us
+ * OCR1A = (16000000 / 256 / 10) - 1 = 6249 (contamos hasta 6249=100ms y ahí disparamos la interrupción)
  */
 void timer1_init(void)
 {
     TCCR1A = 0;
-    TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10); // modo CTC, prescaler 1024
-    OCR1A  = OCR1A_1SEG;	// cuando TCNT1 coincide con este valor en OCR1A se dispara la interrupción
-    TIMSK1 = (1 << OCIE1A);	// habilitamos la interrupción
+    TCCR1B = (1 << WGM12) | (1 << CS12);	// modo CTC, prescaler 256
+    OCR1A  = OCR1A_100MS;					// cuando TCNT1 coincide con este valor en OCR1A se dispara la interrupción
+    TIMSK1 = (1 << OCIE1A);					// habilitamos la interrupción
 }
 
-// ISR (Interrupt Service Routine) Timer1: rutina que se dispara cada 1 segundo o 500ms según se configure el timer1
+// ISR (Interrupt Service Routine) Timer1: rutina que se dispara cada 100ms
 ISR(TIMER1_COMPA_vect)
 {
-    ctx.tick_timer1 = 1;	// levantamos el flag de que pasó 1seg/500ms
+    ctx.tick_timer1 = 1;	// levantamos el flag de que pasaron 100ms
 }
 
-// Setea el timer 1 para contar cada 1 segundo o cada 500ms
-void timer1_set(uint16_t ocr_val)
-{
-    TCCR1B = 0;   // detenemos el timer poniendo el registro de control en 0
-                  // así no interrumpe mientras lo reconfiguramos
-
-    TCNT1  = 0;   // reseteamos el contador interno del timer a 0
-                  // si no lo reseteamos, podría disparar una interrupción
-                  // inmediatamente al reactivarse si TCNT1 > nuevo OCR1A
-
-    OCR1A  = ocr_val;  // cargamos el nuevo valor hasta donde tiene que contar
-                       // OCR1A_1SEG = 15624 --> interrumpe cada 1 segundo
-                       // OCR1A_500MS = 7811 --> interrumpe cada 500ms
-
-    TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10); // reactivamos el timer
-                                                       // con modo CTC y prescaler 1024
-}
 
 // HELPERS - LEDs
 void leds_apagar_todos(void)
@@ -144,7 +126,6 @@ void accion_reposo(void) {
 	leds_apagar_todos();	// Apagamos todos los leds, estamos en reposo
 	tiempo_reset();			// Reiniciamos el temporizador
 	lcd_display_reposo();	// Mostramos el dibujo de la etapa de reposo
-	timer1_set(OCR1A_1SEG); // configuramos el timer1 a 1 segundo (por si veníamos del estado de FIN)
 }
 
 void accion_ingreso(void) {
@@ -154,6 +135,7 @@ void accion_ingreso(void) {
 }
 
 void accion_cocinando(void) {
+	ctx.cont_1seg = 0;					// Inicializo esta variable por si es la segunda vez que alguien quiere cocinar
 	LED_MAG_PORT |= (1 << LED_MAG_PIN);	// Prendemos el led magnetron
 	LED_LUZ_PORT |= (1 << LED_LUZ_PIN);	// Prendemos el led de luz interior
 	uint8_t mm = ctx.tiempo_seg / 60;	// Convertimos tiempo del contexto (en segundos) a tiempo en minutos y segundos 
@@ -179,10 +161,9 @@ void accion_puerta_abierta(void) {
 
 void accion_fin(void) {	
 	leds_apagar_todos();		// Apagamos todos los leds
-	ctx.blink_contador = 0;		// Inicializamos las variables del contexto de la mef
 	ctx.blink_display  = 0;		// asociadas a los parpadeos del display y de la luz alarma
 	lcd_display_fin();			// Actualizamos display con mensaje de fin
-	timer1_set(OCR1A_500MS);    // Reconfiguramos el timer a 500ms, para hacer el parpadeo cada 500ms
+	ctx.blink_contador = 0;		// Reseteo este valor para la próxima vez que quiera cocinar
 }
 
 
@@ -231,7 +212,7 @@ void mef_ejecutar(uint8_t tecla)
 				}
 			} else if (tecla == 'A') {					 				 					 
 				lcd_display_error();		    // tiempo es 00:00
-				 _delay_ms(5000);
+				 _delay_ms(2000);
 				 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error						
             } else if (tecla == 'C') {
 				if (ctx.puerta_abierta) {
@@ -267,12 +248,12 @@ void mef_ejecutar(uint8_t tecla)
 				 digitos_a_tiempo();				// Recién cuando se quiere cocinar convertimos los dígitos del display a tiempo en segundos			 
 				 if (!tiempo_valido()) {					 
 					 lcd_display_error();		    // tiempo es 00:00
-					 _delay_ms(5000);
+					 _delay_ms(2000);
 					 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error
 				 } 
 				 else if (!tiempo_formato_valido()) {					 
 					 lcd_display_maximo();			// Tiempo fuera de rango, los segundos son mayores a 59
-					 _delay_ms(5000);
+					 _delay_ms(2000);
 					 ctx.lcd_actualizar = 1;		// Actualizar display para mostrar mensaje de error					 
 				 } 				 
 				 else {					 
@@ -305,18 +286,22 @@ void mef_ejecutar(uint8_t tecla)
 				ctx.puerta_abierta = 1;
                 cambiar_estado(PUERTA_ABIERTA);
             }
-
-            // Tick de 1 segundo: decrementar tiempo
-            if (ctx.tick_timer1) {
-                ctx.tick_timer1 = 0;			// apago la flag, ya fue atendida
-                if (ctx.tiempo_seg > 0) {		// si queda tiempo de coccion
-                    ctx.tiempo_seg--;			// decremento 1 segundo
-                    ctx.lcd_actualizar = 1;		// actualizo el tiempo en el display
-                }
-                if (ctx.tiempo_seg == 0) {		// si terminé de cocinar paso al estado de fin
-                    cambiar_estado(FIN);
-                }
-            }
+			           
+			// Tick de 100ms, me fijo si completo 1 segundo para decrementar tiempo en el temporizador
+			if (ctx.tick_timer1) {
+				ctx.tick_timer1 = 0;			// apago la flag, ya fue atendida
+				ctx.cont_1seg++;				// sumo 1 al contador
+				if (ctx.cont_1seg >= 10) {		// 10 ticks x 100ms = 1 segundo
+					ctx.cont_1seg = 0;			// pongo en cero el contador para la próxima iteración
+					if (ctx.tiempo_seg > 0) {	// si queda tiempo de coccion...
+						ctx.tiempo_seg--;		// decremento 1 segundo
+						ctx.lcd_actualizar = 1;	// actualizo el tiempo en el display
+					}
+					if (ctx.tiempo_seg == 0) {	// si terminé de cocinar paso al estado de fin
+						cambiar_estado(FIN);
+					}
+				}
+			}
             break;
 
         // PAUSA 
@@ -347,14 +332,14 @@ void mef_ejecutar(uint8_t tecla)
 
         // FIN
         case FIN:         
-			// El Timer1 está configurado a 500ms, entonces este bloque se ejecuta 2 veces por segundo   
+			// El Timer1 está configurado a 100ms, entonces este bloque se ejecuta 10 veces por segundo   
             if (ctx.tick_timer1) {
 	            ctx.tick_timer1 = 0;		// apagamos el flag para indicar que ya fue atendido
-	            ctx.blink_contador++;		// contamos cuántos ticks de 500ms pasaron
+	            ctx.blink_contador++;		// contamos cuántos ticks de 100ms pasaron
 
-				// Alternamos el LED de alarma en cada tick (cada 500ms)
+				// Alternamos el LED de alarma en cada tick (cada 100ms)
 	            LED_ALR_PORT ^= (1 << LED_ALR_PIN); 
-				// Alternamos el display en cada tick (cada 500ms)
+				// Alternamos el display en cada tick (cada 100ms)
 	            if (ctx.blink_display) {
 		            LCDblank();				// display apagado
 		            ctx.blink_display = 0;
@@ -363,10 +348,10 @@ void mef_ejecutar(uint8_t tecla)
 		            ctx.blink_display = 1;
 	            }
 
-	            // Verificamos si ya pasaron los 5 segundos completos
-	            // DURACION_BLINK = 5 segundos * 2 porque el tick es cada 500ms 
-				// 5 * 2 = 10 ticks = 5 segundos
-				if (ctx.blink_contador >= DURACION_BLINK * 2) {
+	            // Verificamos si ya pasaron los 5 segundos completos, y para eso ctx.blink_contador = DURACION_BLINK * 10  
+	            // DURACION_BLINK = 5u, y lo multiplico por 10 porque el tick es cada 100ms 
+				// 5 * 10 = 50 ticks = 5 segundos
+				if (ctx.blink_contador >= DURACION_BLINK * 10) {
 					LED_ALR_PORT &= ~(1 << LED_ALR_PIN);		// apagamos el LED de alarma
 					LCDvisible();								// dejamos el display visible
 					cambiar_estado(REPOSO);						// volvemos al estado inicial
@@ -378,82 +363,84 @@ void mef_ejecutar(uint8_t tecla)
 
 // MAIN
 int main(void)
-{
-    sistema_init(); // Inicializamos el sistema: LEDs, LCD, keypad, contexto y timers
+{		
+    sistema_init();				// Inicializamos el sistema: LEDs, LCD, keypad, contexto y timers
 
     // Mostrar pantalla inicial de reposo
     lcd_display_reposo();
 
     uint8_t tecla      = KEY_NONE;	// tecla procesada en este ciclo
     uint8_t tecla_ant  = KEY_NONE;	// tecla del ciclo anterior (para detectar flancos)
+	uint8_t cont_display = 0;		// variable local para contar 500ms (es decir cuando cont_display=5)
+									// chequeo si hay que actualizar el display (más lento que el keypad)
+	
+	while (1)
+	{
+		if (ctx.tick_timer1) {
 
-    while (1)
-    {
-        // Lectura de teclado
-        uint8_t raw = KEY_NONE; // escaneo no bloqueante: retorna la tecla presionada o KEY_NONE
-        KEYPAD_Scan(&raw);
+			// Lectura de teclado cada 100ms
+			uint8_t raw = KEY_NONE;				// escaneo no bloqueante: retorna la tecla presionada o KEY_NONE
+			KEYPAD_Scan(&raw);
+			// Detección de flanco: solo procesamos la tecla en el ciclo
+			// en que se presiona por primera vez, ignorando mientras se mantiene apretada
+			// Si raw es distinto de KEY_NONE (hay tecla) Y distinto de tecla_ant (es nueva)
+			if (raw != KEY_NONE && raw != tecla_ant) {
+				tecla = raw;		// tecla nueva: la procesamos
+			} else {
+				tecla = KEY_NONE;	// misma tecla que antes o ninguna: ignorar
+			}
+			tecla_ant = raw;		// guardamos para comparar en el próximo ciclo
 
-        // Detección de flanco: solo procesamos la tecla en el ciclo
-        // en que se presiona por primera vez, ignorando mientras se mantiene apretada
-        // Si raw es distinto de KEY_NONE (hay tecla) Y distinto de tecla_ant (es nueva)
-        if (raw != KEY_NONE && raw != tecla_ant) {
-            tecla = raw;		// tecla nueva: la procesamos
-        } else {
-            tecla = KEY_NONE;	// misma tecla que antes o ninguna: ignorar	
-        }
-        tecla_ant = raw;		// guardamos para comparar en el próximo ciclo
-        
-        // Ejecutamos la MEF con la tecla actual (puede ser KEY_NONE)
-        // La MEF decide si cambiar de estado o no según la tecla y el estado actual
-        mef_ejecutar(tecla);
-        
-		// Solo redibujamos el LCD cuando algo cambió (flag seteado por la MEF)
-		// Esto evita escribir en el LCD en cada ciclo del loop innecesariamente
-        if (ctx.lcd_actualizar) {
-			ctx.lcd_actualizar = 0;					// apagamos el flag para indicar que ha sido atendido
-			
-			// Precalculamos mm y ss para los estados que usan tiempo_seg
-			uint8_t mm = ctx.tiempo_seg / 60;
-			uint8_t ss = ctx.tiempo_seg % 60;
-			// Llamamos la función de display correspondiente al estado actual
-			switch (ctx.estado) {
-				case REPOSO:
-					if (ctx.puerta_abierta) {
-						lcd_display_puerta(0, 0);  // avisa que la puerta está abierta
-					} else {
-						lcd_display_reposo();	   // pantalla inicial: "00:00 / Ingrese tiempo"
+			// MEF periódica: se ejecuta cada 100ms disparada por el timer1
+			// La MEF decide si cambiar de estado o no según la tecla actual (que puede ser KEY_NONE) y el estado actual
+			mef_ejecutar(tecla);
+
+			// Consumimos el tick después de que la MEF lo procesó
+			ctx.tick_timer1 = 0;
+
+			// Display se actualiza cada 500ms (cada 5 ticks de 100ms) (cuando cont_display=5)
+			cont_display++;
+			if (cont_display >= 5) {
+				cont_display = 0;
+				
+				// Solo redibujamos el LCD cuando algo cambió (flag seteado por la MEF)
+				// Esto evita escribir en el LCD en cada ciclo del loop innecesariamente
+				if (ctx.lcd_actualizar) {
+					ctx.lcd_actualizar = 0;				// apagamos el flag para indicar que ha sido atendido
+					
+					// Precalculamos mm y ss para los estados que usan tiempo_seg
+					uint8_t mm = ctx.tiempo_seg / 60;
+					uint8_t ss = ctx.tiempo_seg % 60;
+					// Llamamos la función de display correspondiente al estado actual
+					switch (ctx.estado) {
+						case REPOSO:
+							if (ctx.puerta_abierta) lcd_display_puerta(0, 0);		// avisa que la puerta está abierta
+							else                    lcd_display_reposo();			// pantalla inicial: "00:00 / Ingrese tiempo"
+							break;
+						case INGRESO:
+							if (ctx.puerta_abierta) {
+								// Puerta abierta durante el ingreso: mostramos aviso
+								// Convertimos el buffer de dígitos a mm/ss para mostrarlo
+								uint8_t mm = ctx.digitos[0] * 10 + ctx.digitos[1];
+								uint8_t ss = ctx.digitos[2] * 10 + ctx.digitos[3];
+								lcd_display_puerta(mm, ss);
+							} else {
+								// Mostramos los dígitos crudos del buffer sin convertir a segundos
+								// Así el usuario ve exactamente lo que ingresó (ej: 9,9 --> "00:99")
+								lcd_display_ingreso(ctx.digitos[0], ctx.digitos[1],
+								ctx.digitos[2], ctx.digitos[3]);
+							}
+							break;
+						case COCINANDO:      lcd_display_cocinando(mm, ss); break;	// Mostramos el tiempo restante y "Cocinando..."
+						case PAUSA:          lcd_display_pausa(mm, ss);     break;	// Mostramos el tiempo restante y "PAUSA B=CANCELAR"
+						case PUERTA_ABIERTA: lcd_display_puerta(mm, ss);    break;	// Mostramos el tiempo restante y "PUERTA ABIERTA"
+						default: break;
 					}
-					break;
-				case INGRESO:            
-					if (ctx.puerta_abierta) {
-						// Puerta abierta durante el ingreso: mostramos aviso
-						// Convertimos el buffer de dígitos a mm/ss para mostrarlo
-						uint8_t mm = ctx.digitos[0] * 10 + ctx.digitos[1];
-						uint8_t ss = ctx.digitos[2] * 10 + ctx.digitos[3];
-						lcd_display_puerta(mm,ss);
-					} else {
-						// Mostramos los dígitos crudos del buffer sin convertir a segundos
-						// Así el usuario ve exactamente lo que ingresó (ej: 9,9 --> "00:99")
-						lcd_display_ingreso(ctx.digitos[0], ctx.digitos[1], ctx.digitos[2], ctx.digitos[3]);
-					}
-					break;
-				case COCINANDO:
-					lcd_display_cocinando(mm, ss);	// Mostramos el tiempo restante y "Cocinando..."
-					break;
-				case PAUSA:
-					lcd_display_pausa(mm, ss);		// Mostramos el tiempo restante y "PAUSA B=CANCELAR"
-					break;
-				case PUERTA_ABIERTA:
-					lcd_display_puerta(mm, ss);		// Mostramos el tiempo restante y "PUERTA ABIERTA"
-					break;
-				default: break;
+				}
 			}
 		}
-
-        // Esperamos 20ms antes del próximo ciclo
-        // Esto también actúa como anti-rebote del teclado
-		_delay_ms(20); 
-    }
+	}
+		
 
     return 0;
 }
