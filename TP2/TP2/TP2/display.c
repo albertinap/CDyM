@@ -79,17 +79,19 @@ void lcd_display_fin(){
 }
 
 void lcd_display_error(void) {
-	LCDclr();
-	LCDGotoXY(0, 0);
-	LCDstring((uint8_t*)"Ingrese un valor", 16);
-	LCDGotoXY(0, 1);
-	LCDstring((uint8_t*)"mayor a 00:00   ", 16);
+	LCDclr(); // Limpio pantalla
+	LCDGotoXY(0, 0);// reinicio donde arranca a escribir
+	LCDstring((uint8_t*)"Ingrese un valor", 16);// escribo primera linea, ocupo toda la linea
+	LCDGotoXY(0, 1);// Voy a la segunda linea asi escribo el segundo mensaje
+	LCDstring((uint8_t*)"mayor a 00:00   ", 16);// escribo segunda linea, ocupo toda la linea
+
 }
 
 void lcd_display_maximo(void) {
-	LCDclr();
-	LCDGotoXY(0, 0);
-	LCDstring((uint8_t*)"FORMATO ERRONEO ", 16);
-	LCDGotoXY(0, 1);
-	LCDstring((uint8_t*)"Formato: 99:59  ", 16);	
+	LCDclr(); // Limpio pantalla
+	LCDGotoXY(0, 0);// reinicio donde arranca a escribir
+	LCDstring((uint8_t*)"FORMATO ERRONEO ", 16);// escribo primera linea, ocupo toda la linea
+	LCDGotoXY(0, 1);// Voy a la segunda linea asi escribo el segundo mensaje
+	LCDstring((uint8_t*)"Formato: 99:59  ", 16);// escribo segunda linea, ocupo toda la linea
+	
 }

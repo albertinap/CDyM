@@ -1,13 +1,13 @@
 #include "keypad.h"
 
-static const uint8_t keymap[4][4] = {
+static const uint8_t keymap[4][4] = { // Configuro el mapa de los estados del keypad para luego hacer referencia a ellos
 	{'1', '2', '3', 'A'},
 	{'4', '5', '6', 'B'},
 	{'7', '8', '9', 'C'},
 	{'*', '0', '#', 'D'}
 };
 
-void keypad_init(void) {
+void keypad_init(void) { // Inicializa los valores de los DDR y PORT de cada pin conectados al keypad de sus respectivas posiciones
 	ROW0_DDR |= (1 << ROW0_PIN); ROW0_PORT |= (1 << ROW0_PIN);
 	ROW1_DDR |= (1 << ROW1_PIN); ROW1_PORT |= (1 << ROW1_PIN);
 	ROW2_DDR |= (1 << ROW2_PIN); ROW2_PORT |= (1 << ROW2_PIN);
@@ -19,7 +19,7 @@ void keypad_init(void) {
 	COL3_DDR &= ~(1 << COL3_PIN); COL3_PORT |= (1 << COL3_PIN);
 }
 
-static void set_row(uint8_t row) {
+static void set_row(uint8_t row) { // Seteo los valores de las filas para poder utilizarlos en el futuro
 	ROW0_PORT |= (1 << ROW0_PIN);
 	ROW1_PORT |= (1 << ROW1_PIN);
 	ROW2_PORT |= (1 << ROW2_PIN);
@@ -32,7 +32,7 @@ static void set_row(uint8_t row) {
 	}
 }
 
-static uint8_t read_col(uint8_t col) {
+static uint8_t read_col(uint8_t col) { // Con esta funcion leo el valor de las columnas para poder ver el cambio de 1 a 0 y devolver el valor en el mapa del keypad
 	switch(col) {
 		case 0: return !(COL0_PIN_REG & (1 << COL0_PIN));
 		case 1: return !(COL1_PIN_REG & (1 << COL1_PIN));
@@ -60,12 +60,13 @@ uint8_t KEYPAD_Scan(uint8_t *pkey) {
 	uint8_t Key;
 
 	Key = KeypadUpdate();
-
+	// Recorre fila por fila, activa cada una en LOW y verifica si alguna columna responde
+	// Si no hay tecla presionada, resetea el estado para permitir una nueva detección
 	if (Key == KEY_NONE) {
 		Old_key = KEY_NONE;
 		Last_valid_key = KEY_NONE;
 		return 0;
-	}
+	}// Confirma que la lectura es estable: la misma tecla debe aparecer en dos scans consecutivos
 	if (Key == Old_key) {           // 2da verificación: la misma tecla dos llamadas seguidas
 		if (Key != Last_valid_key) { // no reportar si ya se reportó esta pulsación
 			*pkey = Key;
