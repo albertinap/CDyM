@@ -2,17 +2,26 @@
  * Tp3.c
  *
  * Created: 22/6/2026 17:10:22
- * Author : rocio
+ * Author : Ignacio Mucci Bigliani
  */ 
-
-#include <avr/io.h>
-
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+
+	UART_init();
+	I2C_init();
+	RTC_init();
+	DHT11_init();
+	TIMER_init();
+
+
+	sei(); // habilitar interrupciones
+
+
+	while(1)
+	{
+		invernadero_tarea();
+	}
+
 }
 
