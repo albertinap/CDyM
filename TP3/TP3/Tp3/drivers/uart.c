@@ -4,7 +4,7 @@
 #include "buffer_circular.h"
 
 #define BAUD 9600
-#define UBRR_VALUE 103	//UBRR = FCPU/(16*Baud)???1
+#define UBRR_VALUE 103	//UBRR = FCPU/(16*Baud)-1
 
 volatile CircularBuffer rx_buffer;		//buffer de 64 caracteres
 volatile CircularBuffer tx_buffer;		//volatil porque estas variables pueden cambiar dentro de una ISR
