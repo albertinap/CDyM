@@ -120,13 +120,34 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="drivers\buffer_circular.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\buffer_circular.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\dht11.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\dht11.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="drivers\I2C.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="drivers\I2C.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="drivers\rtc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\rtc.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="drivers\uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\uart.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
@@ -135,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivers" />
+    <Folder Include="drivers\uart" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
