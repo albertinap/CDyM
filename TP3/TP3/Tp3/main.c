@@ -1,0 +1,31 @@
+/*
+ * main.c
+ *
+ * Created: 22/6/2026 17:10:22
+ * Authors : Ignacio Mucci Bigliani y Albertina Pezzutti
+ */ 
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+#include "uart.h"
+#include "timer.h"
+#include "invernadero.h"
+
+int main(void)
+{
+
+	UART_init();
+	//I2C_init();
+	//RTC_init();
+	//DHT11_init();
+	TIMER1_init();
+	invernadero_init();
+
+	sei(); // habilitar interrupciones
+
+	while(1){
+		invernadero_tarea();
+	}
+}
+
