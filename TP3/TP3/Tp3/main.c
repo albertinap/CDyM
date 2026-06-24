@@ -5,6 +5,7 @@
  * Authors : Ignacio Mucci Bigliani y Albertina Pezzutti
  */ 
 
+#include <avr/sleep.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "drivers/I2C.h"
@@ -26,6 +27,7 @@ int main(void)
 
 	while(1){
 		invernadero_tarea();
+		sleep_mode();
 	}
 }
 
