@@ -10,6 +10,10 @@
 
 void invernadero_init(void);
 
+void invernadero_procesar_comando(char *cmd);
+
+void invernadero_tarea_uart(void);
+
 void invernadero_tarea(void);
 
 #endif /* INVERNADERO_H_ */
