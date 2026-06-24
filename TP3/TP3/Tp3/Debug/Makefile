@@ -33,18 +33,20 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
-../drivers
+../drivers \
+../app
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../app/comandos.c \
+../app/invernadero.c \
 ../drivers/buffer_circular.c \
 ../drivers/dht11.c \
 ../drivers/I2C.c \
 ../drivers/rtc.c \
 ../drivers/timer.c \
 ../drivers/uart.c \
-../invernadero.c \
 ../main.c
 
 
@@ -55,43 +57,47 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+app/comandos.o \
+app/invernadero.o \
 drivers/buffer_circular.o \
 drivers/dht11.o \
 drivers/I2C.o \
 drivers/rtc.o \
 drivers/timer.o \
 drivers/uart.o \
-invernadero.o \
 main.o
 
 OBJS_AS_ARGS +=  \
+app/comandos.o \
+app/invernadero.o \
 drivers/buffer_circular.o \
 drivers/dht11.o \
 drivers/I2C.o \
 drivers/rtc.o \
 drivers/timer.o \
 drivers/uart.o \
-invernadero.o \
 main.o
 
 C_DEPS +=  \
+app/comandos.d \
+app/invernadero.d \
 drivers/buffer_circular.d \
 drivers/dht11.d \
 drivers/I2C.d \
 drivers/rtc.d \
 drivers/timer.d \
 drivers/uart.d \
-invernadero.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
+app/comandos.d \
+app/invernadero.d \
 drivers/buffer_circular.d \
 drivers/dht11.d \
 drivers/I2C.d \
 drivers/rtc.d \
 drivers/timer.d \
 drivers/uart.d \
-invernadero.d \
 main.d
 
 OUTPUT_FILE_PATH +=Tp3.elf
@@ -108,6 +114,20 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+app/comandos.o: ../app/comandos.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+app/invernadero.o: ../app/invernadero.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 drivers/buffer_circular.o: ../drivers/buffer_circular.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -144,13 +164,6 @@ drivers/timer.o: ../drivers/timer.c
 	
 
 drivers/uart.o: ../drivers/uart.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-./invernadero.o: .././invernadero.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

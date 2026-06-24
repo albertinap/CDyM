@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "drivers/uart.h"
+#include "../drivers/uart.h"
 #include "invernadero.h"
 
 #define CMD_SIZE 32
@@ -24,10 +24,9 @@ void comandos_init(void){
 
 void comandos_tarea(void){
 	char c;
-	while(UART_rx_available()){
-		c = UART_read_char();
-
-		if(c == '\n'){
+	
+	while(UART_read_char(&c)){
+		if(c == '\n' || c == '\r'){
 			comando[indice] = '\0';
 
 			procesar_comando(comando);
@@ -43,8 +42,10 @@ void comandos_tarea(void){
 	}
 }
 
-
-static void procesar_comando(char *cmd){
+void procesar_comando(char *cmd){
+	/*UART_send_string("CMD:[");
+    UART_send_string(cmd);
+    UART_send_string("]\r\n");*/
 	if(strncmp(cmd, "SET_TM=", 7) == 0){
 		uint16_t segundos;
 
@@ -52,6 +53,6 @@ static void procesar_comando(char *cmd){
 
 		invernadero_set_periodo(segundos);
 
-		UART_send_string("OK\r\n");
+		UART_send_string("Tasa de muestreo cambiada\r\n");
 	}
 }

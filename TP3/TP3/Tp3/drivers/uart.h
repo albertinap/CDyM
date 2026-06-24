@@ -11,7 +11,7 @@ void UART_send_string(char *str);	//Manda un string, internamente hace muchos se
 
 uint8_t UART_rx_available(void);	//Hay un byte disponible en RX y lo extrae
 
-char UART_read_char(void);
+uint8_t UART_read_char(char *dato);	//Devuelve 1 si hay dato, y 0 si no había nada. Por parámetro se devuelve el dato leído
 
 #endif
 

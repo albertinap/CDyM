@@ -11,7 +11,8 @@
 #include "drivers/I2C.h"
 #include "drivers/uart.h"
 #include "drivers/timer.h"
-#include "invernadero.h"
+#include "app/invernadero.h"
+#include "app/comandos.h"
 
 
 int main(void)
@@ -23,10 +24,11 @@ int main(void)
 	//DHT11_init();
 	TIMER1_init();
 	invernadero_init();
+	comandos_init();
 	sei(); // habilitar interrupciones
 
 	while(1){
-		invernadero_tarea_uart();
+		comandos_tarea();
 		invernadero_tarea();
 		sleep_mode();
 	}

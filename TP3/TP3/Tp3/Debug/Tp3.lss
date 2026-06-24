@@ -3,31 +3,31 @@ Tp3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000001a  00800100  0000037a  0000040e  2**0
+  0 .data         0000002e  00800100  000004ce  00000562  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000037a  00000000  00000000  00000094  2**1
+  1 .text         000004ce  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000008a  0080011a  0080011a  00000428  2**0
+  2 .bss          000000ab  0080012e  0080012e  00000590  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000428  2**0
+  3 .comment      00000030  00000000  00000000  00000590  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000458  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000005c0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000148  00000000  00000000  00000498  2**0
+  5 .debug_aranges 00000188  00000000  00000000  00000600  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000f07  00000000  00000000  000005e0  2**0
+  6 .debug_info   0000128b  00000000  00000000  00000788  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a87  00000000  00000000  000014e7  2**0
+  7 .debug_abbrev 00000c03  00000000  00000000  00001a13  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000866  00000000  00000000  00001f6e  2**0
+  8 .debug_line   00000ae3  00000000  00000000  00002616  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002dc  00000000  00000000  000027d4  2**2
+  9 .debug_frame  0000035c  00000000  00000000  000030fc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000052f  00000000  00000000  00002ab0  2**0
+ 10 .debug_str    000005b2  00000000  00000000  00003458  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000051d  00000000  00000000  00002fdf  2**0
+ 11 .debug_loc    0000069d  00000000  00000000  00003a0a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000e8  00000000  00000000  000034fc  2**0
+ 12 .debug_ranges 00000118  00000000  00000000  000040a7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -44,15 +44,15 @@ Disassembly of section .text:
   20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  2c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__vector_11>
+  2c:	0c 94 65 01 	jmp	0x2ca	; 0x2ca <__vector_11>
   30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  48:	0c 94 25 01 	jmp	0x24a	; 0x24a <__vector_18>
-  4c:	0c 94 4d 01 	jmp	0x29a	; 0x29a <__vector_19>
+  48:	0c 94 b0 01 	jmp	0x360	; 0x360 <__vector_18>
+  4c:	0c 94 de 01 	jmp	0x3bc	; 0x3bc <__vector_19>
   50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,18 +72,18 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	ea e7       	ldi	r30, 0x7A	; 122
-  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7a:	ee ec       	ldi	r30, 0xCE	; 206
+  7c:	f4 e0       	ldi	r31, 0x04	; 4
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	aa 31       	cpi	r26, 0x1A	; 26
+  84:	ae 32       	cpi	r26, 0x2E	; 46
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
   8a:	21 e0       	ldi	r18, 0x01	; 1
-  8c:	aa e1       	ldi	r26, 0x1A	; 26
+  8c:	ae e2       	ldi	r26, 0x2E	; 46
   8e:	b1 e0       	ldi	r27, 0x01	; 1
   90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,574 +91,805 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a4 3a       	cpi	r26, 0xA4	; 164
+  94:	a9 3d       	cpi	r26, 0xD9	; 217
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 af 01 	call	0x35e	; 0x35e <main>
-  9e:	0c 94 bb 01 	jmp	0x376	; 0x376 <_exit>
+  9a:	0e 94 1a 02 	call	0x434	; 0x434 <main>
+  9e:	0c 94 65 02 	jmp	0x4ca	; 0x4ca <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-000000a6 <buffer_init>:
+000000a6 <comandos_init>:
+
+static char comando[CMD_SIZE];
+static uint8_t indice;
+
+void comandos_init(void){
+	indice = 0;
+  a6:	10 92 2e 01 	sts	0x012E, r1	; 0x80012e <__data_end>
+  aa:	08 95       	ret
+
+000000ac <procesar_comando>:
+			}
+		}
+	}
+}
+
+void procesar_comando(char *cmd){
+  ac:	cf 93       	push	r28
+  ae:	df 93       	push	r29
+  b0:	ec 01       	movw	r28, r24
+	/*UART_send_string("CMD:[");
+    UART_send_string(cmd);
+    UART_send_string("]\r\n");*/
+	if(strncmp(cmd, "SET_TM=", 7) == 0){
+  b2:	47 e0       	ldi	r20, 0x07	; 7
+  b4:	50 e0       	ldi	r21, 0x00	; 0
+  b6:	60 e0       	ldi	r22, 0x00	; 0
+  b8:	71 e0       	ldi	r23, 0x01	; 1
+  ba:	0e 94 4f 02 	call	0x49e	; 0x49e <strncmp>
+  be:	89 2b       	or	r24, r25
+  c0:	51 f4       	brne	.+20     	; 0xd6 <procesar_comando+0x2a>
+		uint16_t segundos;
+
+		segundos = atoi(&cmd[7]);
+  c2:	ce 01       	movw	r24, r28
+  c4:	07 96       	adiw	r24, 0x07	; 7
+  c6:	0e 94 31 02 	call	0x462	; 0x462 <atoi>
+
+		invernadero_set_periodo(segundos);
+  ca:	0e 94 a9 00 	call	0x152	; 0x152 <invernadero_set_periodo>
+
+		UART_send_string("OK\r\n");
+  ce:	88 e0       	ldi	r24, 0x08	; 8
+  d0:	91 e0       	ldi	r25, 0x01	; 1
+  d2:	0e 94 a3 01 	call	0x346	; 0x346 <UART_send_string>
+	}
+  d6:	df 91       	pop	r29
+  d8:	cf 91       	pop	r28
+  da:	08 95       	ret
+
+000000dc <comandos_tarea>:
+void comandos_init(void){
+	indice = 0;
+}
+
+
+void comandos_tarea(void){
+  dc:	cf 93       	push	r28
+  de:	df 93       	push	r29
+  e0:	1f 92       	push	r1
+  e2:	cd b7       	in	r28, 0x3d	; 61
+  e4:	de b7       	in	r29, 0x3e	; 62
+	char c;
+	
+	while(UART_read_char(&c)){
+  e6:	1e c0       	rjmp	.+60     	; 0x124 <comandos_tarea+0x48>
+		if(c == '\n' || c == '\r'){
+  e8:	89 81       	ldd	r24, Y+1	; 0x01
+  ea:	8a 30       	cpi	r24, 0x0A	; 10
+  ec:	11 f0       	breq	.+4      	; 0xf2 <comandos_tarea+0x16>
+  ee:	8d 30       	cpi	r24, 0x0D	; 13
+  f0:	69 f4       	brne	.+26     	; 0x10c <comandos_tarea+0x30>
+			comando[indice] = '\0';
+  f2:	e0 91 2e 01 	lds	r30, 0x012E	; 0x80012e <__data_end>
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	e1 5d       	subi	r30, 0xD1	; 209
+  fa:	fe 4f       	sbci	r31, 0xFE	; 254
+  fc:	10 82       	st	Z, r1
+
+			procesar_comando(comando);
+  fe:	8f e2       	ldi	r24, 0x2F	; 47
+ 100:	91 e0       	ldi	r25, 0x01	; 1
+ 102:	0e 94 56 00 	call	0xac	; 0xac <procesar_comando>
+
+			indice = 0;
+ 106:	10 92 2e 01 	sts	0x012E, r1	; 0x80012e <__data_end>
+ 10a:	0c c0       	rjmp	.+24     	; 0x124 <comandos_tarea+0x48>
+		}
+		else		{
+			if(indice < CMD_SIZE-1){
+ 10c:	90 91 2e 01 	lds	r25, 0x012E	; 0x80012e <__data_end>
+ 110:	9f 31       	cpi	r25, 0x1F	; 31
+ 112:	40 f4       	brcc	.+16     	; 0x124 <comandos_tarea+0x48>
+				comando[indice] = c;
+ 114:	e9 2f       	mov	r30, r25
+ 116:	f0 e0       	ldi	r31, 0x00	; 0
+ 118:	e1 5d       	subi	r30, 0xD1	; 209
+ 11a:	fe 4f       	sbci	r31, 0xFE	; 254
+ 11c:	80 83       	st	Z, r24
+				indice++;
+ 11e:	9f 5f       	subi	r25, 0xFF	; 255
+ 120:	90 93 2e 01 	sts	0x012E, r25	; 0x80012e <__data_end>
+
+
+void comandos_tarea(void){
+	char c;
+	
+	while(UART_read_char(&c)){
+ 124:	ce 01       	movw	r24, r28
+ 126:	01 96       	adiw	r24, 0x01	; 1
+ 128:	0e 94 90 01 	call	0x320	; 0x320 <UART_read_char>
+ 12c:	81 11       	cpse	r24, r1
+ 12e:	dc cf       	rjmp	.-72     	; 0xe8 <comandos_tarea+0xc>
+				comando[indice] = c;
+				indice++;
+			}
+		}
+	}
+}
+ 130:	0f 90       	pop	r0
+ 132:	df 91       	pop	r29
+ 134:	cf 91       	pop	r28
+ 136:	08 95       	ret
+
+00000138 <invernadero_init>:
+		}
+		else{
+			UART_send_string("ERROR\r\n");
+		}
+	}
+}
+ 138:	82 e3       	ldi	r24, 0x32	; 50
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	90 93 52 01 	sts	0x0152, r25	; 0x800152 <periodo_reporte+0x1>
+ 140:	80 93 51 01 	sts	0x0151, r24	; 0x800151 <periodo_reporte>
+ 144:	0e 94 5e 01 	call	0x2bc	; 0x2bc <TIMER_get_ticks>
+ 148:	90 93 50 01 	sts	0x0150, r25	; 0x800150 <ultimo_reporte+0x1>
+ 14c:	80 93 4f 01 	sts	0x014F, r24	; 0x80014f <ultimo_reporte>
+ 150:	08 95       	ret
+
+00000152 <invernadero_set_periodo>:
+ 152:	9c 01       	movw	r18, r24
+ 154:	22 50       	subi	r18, 0x02	; 2
+ 156:	31 09       	sbc	r19, r1
+ 158:	2b 33       	cpi	r18, 0x3B	; 59
+ 15a:	31 05       	cpc	r19, r1
+ 15c:	78 f4       	brcc	.+30     	; 0x17c <invernadero_set_periodo+0x2a>
+ 15e:	9c 01       	movw	r18, r24
+ 160:	22 0f       	add	r18, r18
+ 162:	33 1f       	adc	r19, r19
+ 164:	88 0f       	add	r24, r24
+ 166:	99 1f       	adc	r25, r25
+ 168:	88 0f       	add	r24, r24
+ 16a:	99 1f       	adc	r25, r25
+ 16c:	88 0f       	add	r24, r24
+ 16e:	99 1f       	adc	r25, r25
+ 170:	82 0f       	add	r24, r18
+ 172:	93 1f       	adc	r25, r19
+ 174:	90 93 52 01 	sts	0x0152, r25	; 0x800152 <periodo_reporte+0x1>
+ 178:	80 93 51 01 	sts	0x0151, r24	; 0x800151 <periodo_reporte>
+ 17c:	08 95       	ret
+
+0000017e <invernadero_tarea>:
+
+void invernadero_tarea(void){
+	uint16_t ahora;
+
+	ahora = TIMER_get_ticks();
+ 17e:	0e 94 5e 01 	call	0x2bc	; 0x2bc <TIMER_get_ticks>
+
+	if((ahora - ultimo_reporte) >= periodo_reporte){
+ 182:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <ultimo_reporte>
+ 186:	30 91 50 01 	lds	r19, 0x0150	; 0x800150 <ultimo_reporte+0x1>
+ 18a:	ac 01       	movw	r20, r24
+ 18c:	42 1b       	sub	r20, r18
+ 18e:	53 0b       	sbc	r21, r19
+ 190:	20 91 51 01 	lds	r18, 0x0151	; 0x800151 <periodo_reporte>
+ 194:	30 91 52 01 	lds	r19, 0x0152	; 0x800152 <periodo_reporte+0x1>
+ 198:	42 17       	cp	r20, r18
+ 19a:	53 07       	cpc	r21, r19
+ 19c:	40 f0       	brcs	.+16     	; 0x1ae <invernadero_tarea+0x30>
+
+		ultimo_reporte = ahora;
+ 19e:	90 93 50 01 	sts	0x0150, r25	; 0x800150 <ultimo_reporte+0x1>
+ 1a2:	80 93 4f 01 	sts	0x014F, r24	; 0x80014f <ultimo_reporte>
+		UART_send_string("Reporte de invernadero\r\n");
+ 1a6:	85 e1       	ldi	r24, 0x15	; 21
+ 1a8:	91 e0       	ldi	r25, 0x01	; 1
+ 1aa:	0e 94 a3 01 	call	0x346	; 0x346 <UART_send_string>
+ 1ae:	08 95       	ret
+
+000001b0 <buffer_init>:
 //La función de este buffer es resolver la diferencia de velocidades entre la UART (hardware + ISR) y el programa principal.
 #include "buffer_circular.h"
 
 void buffer_init(volatile CircularBuffer *buffer){
 	buffer->head = 0;
-  a6:	fc 01       	movw	r30, r24
-  a8:	e0 5c       	subi	r30, 0xC0	; 192
-  aa:	ff 4f       	sbci	r31, 0xFF	; 255
-  ac:	10 82       	st	Z, r1
+ 1b0:	fc 01       	movw	r30, r24
+ 1b2:	e0 5c       	subi	r30, 0xC0	; 192
+ 1b4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1b6:	10 82       	st	Z, r1
 	buffer->tail = 0;
-  ae:	31 96       	adiw	r30, 0x01	; 1
-  b0:	10 82       	st	Z, r1
-  b2:	08 95       	ret
+ 1b8:	31 96       	adiw	r30, 0x01	; 1
+ 1ba:	10 82       	st	Z, r1
+ 1bc:	08 95       	ret
 
-000000b4 <buffer_is_empty>:
+000001be <buffer_is_empty>:
 
 	return 1;
 }
 
 uint8_t buffer_is_empty(volatile CircularBuffer *buffer){
 	return (buffer->head == buffer->tail);	//si head==tail entonces no hay datos para leer
-  b4:	fc 01       	movw	r30, r24
-  b6:	e0 5c       	subi	r30, 0xC0	; 192
-  b8:	ff 4f       	sbci	r31, 0xFF	; 255
-  ba:	20 81       	ld	r18, Z
-  bc:	31 96       	adiw	r30, 0x01	; 1
-  be:	90 81       	ld	r25, Z
-  c0:	81 e0       	ldi	r24, 0x01	; 1
-  c2:	29 13       	cpse	r18, r25
-  c4:	80 e0       	ldi	r24, 0x00	; 0
+ 1be:	fc 01       	movw	r30, r24
+ 1c0:	e0 5c       	subi	r30, 0xC0	; 192
+ 1c2:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1c4:	20 81       	ld	r18, Z
+ 1c6:	31 96       	adiw	r30, 0x01	; 1
+ 1c8:	90 81       	ld	r25, Z
+ 1ca:	81 e0       	ldi	r24, 0x01	; 1
+ 1cc:	29 13       	cpse	r18, r25
+ 1ce:	80 e0       	ldi	r24, 0x00	; 0
 }
-  c6:	08 95       	ret
+ 1d0:	08 95       	ret
 
-000000c8 <buffer_pop>:
+000001d2 <buffer_pop>:
 		buffer->head = 0;
 
 	return 1;
 }
 
 uint8_t buffer_pop(volatile CircularBuffer *buffer, char *data){
-  c8:	0f 93       	push	r16
-  ca:	1f 93       	push	r17
-  cc:	cf 93       	push	r28
-  ce:	df 93       	push	r29
-  d0:	ec 01       	movw	r28, r24
-  d2:	8b 01       	movw	r16, r22
+ 1d2:	0f 93       	push	r16
+ 1d4:	1f 93       	push	r17
+ 1d6:	cf 93       	push	r28
+ 1d8:	df 93       	push	r29
+ 1da:	ec 01       	movw	r28, r24
+ 1dc:	8b 01       	movw	r16, r22
 	if(buffer_is_empty(buffer))
-  d4:	0e 94 5a 00 	call	0xb4	; 0xb4 <buffer_is_empty>
-  d8:	81 11       	cpse	r24, r1
-  da:	13 c0       	rjmp	.+38     	; 0x102 <buffer_pop+0x3a>
+ 1de:	0e 94 df 00 	call	0x1be	; 0x1be <buffer_is_empty>
+ 1e2:	81 11       	cpse	r24, r1
+ 1e4:	13 c0       	rjmp	.+38     	; 0x20c <buffer_pop+0x3a>
 		return 0;
 
 	*data = buffer->data[buffer->tail];
-  dc:	fe 01       	movw	r30, r28
-  de:	ef 5b       	subi	r30, 0xBF	; 191
-  e0:	ff 4f       	sbci	r31, 0xFF	; 255
-  e2:	80 81       	ld	r24, Z
-  e4:	de 01       	movw	r26, r28
-  e6:	a8 0f       	add	r26, r24
-  e8:	b1 1d       	adc	r27, r1
-  ea:	8c 91       	ld	r24, X
-  ec:	d8 01       	movw	r26, r16
-  ee:	8c 93       	st	X, r24
+ 1e6:	fe 01       	movw	r30, r28
+ 1e8:	ef 5b       	subi	r30, 0xBF	; 191
+ 1ea:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1ec:	80 81       	ld	r24, Z
+ 1ee:	de 01       	movw	r26, r28
+ 1f0:	a8 0f       	add	r26, r24
+ 1f2:	b1 1d       	adc	r27, r1
+ 1f4:	8c 91       	ld	r24, X
+ 1f6:	d8 01       	movw	r26, r16
+ 1f8:	8c 93       	st	X, r24
 
 	buffer->tail++;
-  f0:	80 81       	ld	r24, Z
-  f2:	8f 5f       	subi	r24, 0xFF	; 255
-  f4:	80 83       	st	Z, r24
+ 1fa:	80 81       	ld	r24, Z
+ 1fc:	8f 5f       	subi	r24, 0xFF	; 255
+ 1fe:	80 83       	st	Z, r24
 
 	if(buffer->tail >= BUFFER_SIZE)
-  f6:	80 81       	ld	r24, Z
-  f8:	80 34       	cpi	r24, 0x40	; 64
-  fa:	28 f0       	brcs	.+10     	; 0x106 <buffer_pop+0x3e>
+ 200:	80 81       	ld	r24, Z
+ 202:	80 34       	cpi	r24, 0x40	; 64
+ 204:	28 f0       	brcs	.+10     	; 0x210 <buffer_pop+0x3e>
 		buffer->tail=0;
-  fc:	10 82       	st	Z, r1
+ 206:	10 82       	st	Z, r1
 
 	return 1;
-  fe:	81 e0       	ldi	r24, 0x01	; 1
- 100:	03 c0       	rjmp	.+6      	; 0x108 <buffer_pop+0x40>
+ 208:	81 e0       	ldi	r24, 0x01	; 1
+ 20a:	03 c0       	rjmp	.+6      	; 0x212 <buffer_pop+0x40>
 	return 1;
 }
 
 uint8_t buffer_pop(volatile CircularBuffer *buffer, char *data){
 	if(buffer_is_empty(buffer))
 		return 0;
- 102:	80 e0       	ldi	r24, 0x00	; 0
- 104:	01 c0       	rjmp	.+2      	; 0x108 <buffer_pop+0x40>
+ 20c:	80 e0       	ldi	r24, 0x00	; 0
+ 20e:	01 c0       	rjmp	.+2      	; 0x212 <buffer_pop+0x40>
 	buffer->tail++;
 
 	if(buffer->tail >= BUFFER_SIZE)
 		buffer->tail=0;
 
 	return 1;
- 106:	81 e0       	ldi	r24, 0x01	; 1
+ 210:	81 e0       	ldi	r24, 0x01	; 1
 }
- 108:	df 91       	pop	r29
- 10a:	cf 91       	pop	r28
- 10c:	1f 91       	pop	r17
- 10e:	0f 91       	pop	r16
- 110:	08 95       	ret
+ 212:	df 91       	pop	r29
+ 214:	cf 91       	pop	r28
+ 216:	1f 91       	pop	r17
+ 218:	0f 91       	pop	r16
+ 21a:	08 95       	ret
 
-00000112 <buffer_is_full>:
+0000021c <buffer_is_full>:
 
 uint8_t buffer_is_empty(volatile CircularBuffer *buffer){
 	return (buffer->head == buffer->tail);	//si head==tail entonces no hay datos para leer
 }
 
 uint8_t buffer_is_full(volatile CircularBuffer *buffer){
- 112:	9c 01       	movw	r18, r24
+ 21c:	9c 01       	movw	r18, r24
 	uint8_t next;
 
 	next = buffer->head + 1;
- 114:	fc 01       	movw	r30, r24
- 116:	e0 5c       	subi	r30, 0xC0	; 192
- 118:	ff 4f       	sbci	r31, 0xFF	; 255
- 11a:	90 81       	ld	r25, Z
- 11c:	9f 5f       	subi	r25, 0xFF	; 255
+ 21e:	fc 01       	movw	r30, r24
+ 220:	e0 5c       	subi	r30, 0xC0	; 192
+ 222:	ff 4f       	sbci	r31, 0xFF	; 255
+ 224:	90 81       	ld	r25, Z
+ 226:	9f 5f       	subi	r25, 0xFF	; 255
 
 	if(next >= BUFFER_SIZE)
- 11e:	90 34       	cpi	r25, 0x40	; 64
- 120:	08 f0       	brcs	.+2      	; 0x124 <buffer_is_full+0x12>
+ 228:	90 34       	cpi	r25, 0x40	; 64
+ 22a:	08 f0       	brcs	.+2      	; 0x22e <buffer_is_full+0x12>
 		next=0;
- 122:	90 e0       	ldi	r25, 0x00	; 0
+ 22c:	90 e0       	ldi	r25, 0x00	; 0
 
 	return (next == buffer->tail);
- 124:	f9 01       	movw	r30, r18
- 126:	ef 5b       	subi	r30, 0xBF	; 191
- 128:	ff 4f       	sbci	r31, 0xFF	; 255
- 12a:	20 81       	ld	r18, Z
- 12c:	81 e0       	ldi	r24, 0x01	; 1
- 12e:	92 13       	cpse	r25, r18
- 130:	80 e0       	ldi	r24, 0x00	; 0
- 132:	08 95       	ret
+ 22e:	f9 01       	movw	r30, r18
+ 230:	ef 5b       	subi	r30, 0xBF	; 191
+ 232:	ff 4f       	sbci	r31, 0xFF	; 255
+ 234:	20 81       	ld	r18, Z
+ 236:	81 e0       	ldi	r24, 0x01	; 1
+ 238:	92 13       	cpse	r25, r18
+ 23a:	80 e0       	ldi	r24, 0x00	; 0
+ 23c:	08 95       	ret
 
-00000134 <buffer_push>:
+0000023e <buffer_push>:
 void buffer_init(volatile CircularBuffer *buffer){
 	buffer->head = 0;
 	buffer->tail = 0;
 }
 
 uint8_t buffer_push(volatile CircularBuffer *buffer, char data){
- 134:	1f 93       	push	r17
- 136:	cf 93       	push	r28
- 138:	df 93       	push	r29
- 13a:	ec 01       	movw	r28, r24
- 13c:	16 2f       	mov	r17, r22
+ 23e:	1f 93       	push	r17
+ 240:	cf 93       	push	r28
+ 242:	df 93       	push	r29
+ 244:	ec 01       	movw	r28, r24
+ 246:	16 2f       	mov	r17, r22
 	if(buffer_is_full(buffer))
- 13e:	0e 94 89 00 	call	0x112	; 0x112 <buffer_is_full>
- 142:	81 11       	cpse	r24, r1
- 144:	11 c0       	rjmp	.+34     	; 0x168 <buffer_push+0x34>
+ 248:	0e 94 0e 01 	call	0x21c	; 0x21c <buffer_is_full>
+ 24c:	81 11       	cpse	r24, r1
+ 24e:	11 c0       	rjmp	.+34     	; 0x272 <buffer_push+0x34>
 		return 0;
 
 	buffer->data[buffer->head] = data;
- 146:	fe 01       	movw	r30, r28
- 148:	e0 5c       	subi	r30, 0xC0	; 192
- 14a:	ff 4f       	sbci	r31, 0xFF	; 255
- 14c:	80 81       	ld	r24, Z
- 14e:	de 01       	movw	r26, r28
- 150:	a8 0f       	add	r26, r24
- 152:	b1 1d       	adc	r27, r1
- 154:	1c 93       	st	X, r17
+ 250:	fe 01       	movw	r30, r28
+ 252:	e0 5c       	subi	r30, 0xC0	; 192
+ 254:	ff 4f       	sbci	r31, 0xFF	; 255
+ 256:	80 81       	ld	r24, Z
+ 258:	de 01       	movw	r26, r28
+ 25a:	a8 0f       	add	r26, r24
+ 25c:	b1 1d       	adc	r27, r1
+ 25e:	1c 93       	st	X, r17
 	buffer->head++;
- 156:	80 81       	ld	r24, Z
- 158:	8f 5f       	subi	r24, 0xFF	; 255
- 15a:	80 83       	st	Z, r24
+ 260:	80 81       	ld	r24, Z
+ 262:	8f 5f       	subi	r24, 0xFF	; 255
+ 264:	80 83       	st	Z, r24
 
 	if(buffer->head >= BUFFER_SIZE)	//vuelvo al principio, buffer circular
- 15c:	80 81       	ld	r24, Z
- 15e:	80 34       	cpi	r24, 0x40	; 64
- 160:	28 f0       	brcs	.+10     	; 0x16c <buffer_push+0x38>
+ 266:	80 81       	ld	r24, Z
+ 268:	80 34       	cpi	r24, 0x40	; 64
+ 26a:	28 f0       	brcs	.+10     	; 0x276 <buffer_push+0x38>
 		buffer->head = 0;
- 162:	10 82       	st	Z, r1
+ 26c:	10 82       	st	Z, r1
 
 	return 1;
- 164:	81 e0       	ldi	r24, 0x01	; 1
- 166:	03 c0       	rjmp	.+6      	; 0x16e <buffer_push+0x3a>
+ 26e:	81 e0       	ldi	r24, 0x01	; 1
+ 270:	03 c0       	rjmp	.+6      	; 0x278 <buffer_push+0x3a>
 	buffer->tail = 0;
 }
 
 uint8_t buffer_push(volatile CircularBuffer *buffer, char data){
 	if(buffer_is_full(buffer))
 		return 0;
- 168:	80 e0       	ldi	r24, 0x00	; 0
- 16a:	01 c0       	rjmp	.+2      	; 0x16e <buffer_push+0x3a>
+ 272:	80 e0       	ldi	r24, 0x00	; 0
+ 274:	01 c0       	rjmp	.+2      	; 0x278 <buffer_push+0x3a>
 	buffer->head++;
 
 	if(buffer->head >= BUFFER_SIZE)	//vuelvo al principio, buffer circular
 		buffer->head = 0;
 
 	return 1;
- 16c:	81 e0       	ldi	r24, 0x01	; 1
+ 276:	81 e0       	ldi	r24, 0x01	; 1
 }
- 16e:	df 91       	pop	r29
- 170:	cf 91       	pop	r28
- 172:	1f 91       	pop	r17
- 174:	08 95       	ret
+ 278:	df 91       	pop	r29
+ 27a:	cf 91       	pop	r28
+ 27c:	1f 91       	pop	r17
+ 27e:	08 95       	ret
 
-00000176 <I2C_init>:
+00000280 <I2C_init>:
 #include <avr/io.h>
 #include "I2C.h"
 
 void I2C_init(void)
 {   // Configuramos la velocidad del bus a 100 kHz que es el estandar de la industria
 	TWSR = 0x00;    // seteo el preescalador a 0
- 176:	10 92 b9 00 	sts	0x00B9, r1	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
+ 280:	10 92 b9 00 	sts	0x00B9, r1	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
 	TWBR = 72;     //  F_SCL = F_CPU / (16 + 2 * TWBR * Prescaler), para que el Fcsl sea 100khz tenemos que poner el TWBR en 72
- 17a:	88 e4       	ldi	r24, 0x48	; 72
- 17c:	80 93 b8 00 	sts	0x00B8, r24	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7f80b8>
+ 284:	88 e4       	ldi	r24, 0x48	; 72
+ 286:	80 93 b8 00 	sts	0x00B8, r24	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7f80b8>
 	TWCR = 0x04;    // Habilitamos el uso de I2C
- 180:	84 e0       	ldi	r24, 0x04	; 4
- 182:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
- 186:	08 95       	ret
+ 28a:	84 e0       	ldi	r24, 0x04	; 4
+ 28c:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
+ 290:	08 95       	ret
 
-00000188 <TIMER1_init>:
+00000292 <TIMER1_init>:
 
 volatile uint16_t tick_100ms=0;
 
 void TIMER1_init(void){
 	//Modo CTC
 	TCCR1A = 0;
- 188:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
+ 292:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
 
 	TCCR1B = (1<<WGM12);
- 18c:	e1 e8       	ldi	r30, 0x81	; 129
- 18e:	f0 e0       	ldi	r31, 0x00	; 0
- 190:	88 e0       	ldi	r24, 0x08	; 8
- 192:	80 83       	st	Z, r24
+ 296:	e1 e8       	ldi	r30, 0x81	; 129
+ 298:	f0 e0       	ldi	r31, 0x00	; 0
+ 29a:	88 e0       	ldi	r24, 0x08	; 8
+ 29c:	80 83       	st	Z, r24
 
 	//Periodo 100 ms
 	OCR1A = 6249;
- 194:	89 e6       	ldi	r24, 0x69	; 105
- 196:	98 e1       	ldi	r25, 0x18	; 24
- 198:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
- 19c:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
+ 29e:	89 e6       	ldi	r24, 0x69	; 105
+ 2a0:	98 e1       	ldi	r25, 0x18	; 24
+ 2a2:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
+ 2a6:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
 
 	//Prescaler 256
 	TCCR1B |= (1<<CS12);
- 1a0:	80 81       	ld	r24, Z
- 1a2:	84 60       	ori	r24, 0x04	; 4
- 1a4:	80 83       	st	Z, r24
+ 2aa:	80 81       	ld	r24, Z
+ 2ac:	84 60       	ori	r24, 0x04	; 4
+ 2ae:	80 83       	st	Z, r24
 
 	//Habilitar interrupción Compare Match A
 	TIMSK1 |= (1<<OCIE1A);
- 1a6:	ef e6       	ldi	r30, 0x6F	; 111
- 1a8:	f0 e0       	ldi	r31, 0x00	; 0
- 1aa:	80 81       	ld	r24, Z
- 1ac:	82 60       	ori	r24, 0x02	; 2
- 1ae:	80 83       	st	Z, r24
- 1b0:	08 95       	ret
+ 2b0:	ef e6       	ldi	r30, 0x6F	; 111
+ 2b2:	f0 e0       	ldi	r31, 0x00	; 0
+ 2b4:	80 81       	ld	r24, Z
+ 2b6:	82 60       	ori	r24, 0x02	; 2
+ 2b8:	80 83       	st	Z, r24
+ 2ba:	08 95       	ret
 
-000001b2 <TIMER_get_ticks>:
+000002bc <TIMER_get_ticks>:
 //como tick_100ms es un registro de 16 bits, tenemos que leerlo y modificarlo de a 2 pasos (registro high y low)
 //para asegurar que la lectura sea consistente y no se realice a la mitad de una modificación, 
 //se deshabilitan las interrupciones temporalmente
 uint16_t TIMER_get_ticks(void){
 	uint16_t ticks;
 	cli();
- 1b2:	f8 94       	cli
+ 2bc:	f8 94       	cli
 	ticks = tick_100ms;
- 1b4:	80 91 1a 01 	lds	r24, 0x011A	; 0x80011a <__data_end>
- 1b8:	90 91 1b 01 	lds	r25, 0x011B	; 0x80011b <__data_end+0x1>
+ 2be:	80 91 53 01 	lds	r24, 0x0153	; 0x800153 <tick_100ms>
+ 2c2:	90 91 54 01 	lds	r25, 0x0154	; 0x800154 <tick_100ms+0x1>
 	sei();
- 1bc:	78 94       	sei
+ 2c6:	78 94       	sei
 	return ticks;
 }
- 1be:	08 95       	ret
+ 2c8:	08 95       	ret
 
-000001c0 <__vector_11>:
+000002ca <__vector_11>:
 
 ISR(TIMER1_COMPA_vect){
- 1c0:	1f 92       	push	r1
- 1c2:	0f 92       	push	r0
- 1c4:	0f b6       	in	r0, 0x3f	; 63
- 1c6:	0f 92       	push	r0
- 1c8:	11 24       	eor	r1, r1
- 1ca:	8f 93       	push	r24
- 1cc:	9f 93       	push	r25
+ 2ca:	1f 92       	push	r1
+ 2cc:	0f 92       	push	r0
+ 2ce:	0f b6       	in	r0, 0x3f	; 63
+ 2d0:	0f 92       	push	r0
+ 2d2:	11 24       	eor	r1, r1
+ 2d4:	8f 93       	push	r24
+ 2d6:	9f 93       	push	r25
 	tick_100ms++;
- 1ce:	80 91 1a 01 	lds	r24, 0x011A	; 0x80011a <__data_end>
- 1d2:	90 91 1b 01 	lds	r25, 0x011B	; 0x80011b <__data_end+0x1>
- 1d6:	01 96       	adiw	r24, 0x01	; 1
- 1d8:	90 93 1b 01 	sts	0x011B, r25	; 0x80011b <__data_end+0x1>
- 1dc:	80 93 1a 01 	sts	0x011A, r24	; 0x80011a <__data_end>
- 1e0:	9f 91       	pop	r25
- 1e2:	8f 91       	pop	r24
- 1e4:	0f 90       	pop	r0
- 1e6:	0f be       	out	0x3f, r0	; 63
- 1e8:	0f 90       	pop	r0
- 1ea:	1f 90       	pop	r1
- 1ec:	18 95       	reti
+ 2d8:	80 91 53 01 	lds	r24, 0x0153	; 0x800153 <tick_100ms>
+ 2dc:	90 91 54 01 	lds	r25, 0x0154	; 0x800154 <tick_100ms+0x1>
+ 2e0:	01 96       	adiw	r24, 0x01	; 1
+ 2e2:	90 93 54 01 	sts	0x0154, r25	; 0x800154 <tick_100ms+0x1>
+ 2e6:	80 93 53 01 	sts	0x0153, r24	; 0x800153 <tick_100ms>
+ 2ea:	9f 91       	pop	r25
+ 2ec:	8f 91       	pop	r24
+ 2ee:	0f 90       	pop	r0
+ 2f0:	0f be       	out	0x3f, r0	; 63
+ 2f2:	0f 90       	pop	r0
+ 2f4:	1f 90       	pop	r1
+ 2f6:	18 95       	reti
 
-000001ee <UART_init>:
-	char dato=0;
-
-	buffer_pop(&rx_buffer,&dato);
-
-	return dato;
+000002f8 <UART_init>:
+	buffer_init(&tx_buffer);
 }
- 1ee:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
- 1f2:	87 e6       	ldi	r24, 0x67	; 103
- 1f4:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
- 1f8:	86 e0       	ldi	r24, 0x06	; 6
- 1fa:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
- 1fe:	88 e9       	ldi	r24, 0x98	; 152
- 200:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
- 204:	80 e2       	ldi	r24, 0x20	; 32
- 206:	91 e0       	ldi	r25, 0x01	; 1
- 208:	0e 94 53 00 	call	0xa6	; 0xa6 <buffer_init>
- 20c:	82 e6       	ldi	r24, 0x62	; 98
- 20e:	91 e0       	ldi	r25, 0x01	; 1
- 210:	0e 94 53 00 	call	0xa6	; 0xa6 <buffer_init>
- 214:	08 95       	ret
 
-00000216 <UART_send_char>:
+uint8_t UART_rx_available(void){
+	return !buffer_is_empty(&rx_buffer); //buffer_is_empty devuelve 0 si hay datos, y 1 si está vacío
+}
+ 2f8:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+ 2fc:	87 e6       	ldi	r24, 0x67	; 103
+ 2fe:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 302:	86 e0       	ldi	r24, 0x06	; 6
+ 304:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+ 308:	88 e9       	ldi	r24, 0x98	; 152
+ 30a:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+ 30e:	85 e5       	ldi	r24, 0x55	; 85
+ 310:	91 e0       	ldi	r25, 0x01	; 1
+ 312:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <buffer_init>
+ 316:	87 e9       	ldi	r24, 0x97	; 151
+ 318:	91 e0       	ldi	r25, 0x01	; 1
+ 31a:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <buffer_init>
+ 31e:	08 95       	ret
+
+00000320 <UART_read_char>:
+
+uint8_t UART_read_char(char *dato){
+	return buffer_pop(&rx_buffer, dato);
+ 320:	bc 01       	movw	r22, r24
+ 322:	85 e5       	ldi	r24, 0x55	; 85
+ 324:	91 e0       	ldi	r25, 0x01	; 1
+ 326:	0e 94 e9 00 	call	0x1d2	; 0x1d2 <buffer_pop>
+}
+ 32a:	08 95       	ret
+
+0000032c <UART_send_char>:
 
 void UART_send_char(char data){
 	if(buffer_push(&tx_buffer,data)){
- 216:	68 2f       	mov	r22, r24
- 218:	82 e6       	ldi	r24, 0x62	; 98
- 21a:	91 e0       	ldi	r25, 0x01	; 1
- 21c:	0e 94 9a 00 	call	0x134	; 0x134 <buffer_push>
- 220:	88 23       	and	r24, r24
- 222:	29 f0       	breq	.+10     	; 0x22e <UART_send_char+0x18>
+ 32c:	68 2f       	mov	r22, r24
+ 32e:	87 e9       	ldi	r24, 0x97	; 151
+ 330:	91 e0       	ldi	r25, 0x01	; 1
+ 332:	0e 94 1f 01 	call	0x23e	; 0x23e <buffer_push>
+ 336:	88 23       	and	r24, r24
+ 338:	29 f0       	breq	.+10     	; 0x344 <UART_send_char+0x18>
 		UCSR0B |= (1<<UDRIE0);	//habilitamos la interrupción para cuando UDR0 quede vacío
- 224:	e1 ec       	ldi	r30, 0xC1	; 193
- 226:	f0 e0       	ldi	r31, 0x00	; 0
- 228:	80 81       	ld	r24, Z
- 22a:	80 62       	ori	r24, 0x20	; 32
- 22c:	80 83       	st	Z, r24
- 22e:	08 95       	ret
+ 33a:	e1 ec       	ldi	r30, 0xC1	; 193
+ 33c:	f0 e0       	ldi	r31, 0x00	; 0
+ 33e:	80 81       	ld	r24, Z
+ 340:	80 62       	ori	r24, 0x20	; 32
+ 342:	80 83       	st	Z, r24
+ 344:	08 95       	ret
 
-00000230 <UART_send_string>:
+00000346 <UART_send_string>:
 	}
 }
 
 void UART_send_string(char *str){
- 230:	cf 93       	push	r28
- 232:	df 93       	push	r29
- 234:	ec 01       	movw	r28, r24
+ 346:	cf 93       	push	r28
+ 348:	df 93       	push	r29
+ 34a:	ec 01       	movw	r28, r24
 	while(*str)	{
- 236:	03 c0       	rjmp	.+6      	; 0x23e <UART_send_string+0xe>
+ 34c:	03 c0       	rjmp	.+6      	; 0x354 <UART_send_string+0xe>
 		UART_send_char(*str);
- 238:	0e 94 0b 01 	call	0x216	; 0x216 <UART_send_char>
+ 34e:	0e 94 96 01 	call	0x32c	; 0x32c <UART_send_char>
 		str++;
- 23c:	21 96       	adiw	r28, 0x01	; 1
+ 352:	21 96       	adiw	r28, 0x01	; 1
 		UCSR0B |= (1<<UDRIE0);	//habilitamos la interrupción para cuando UDR0 quede vacío
 	}
 }
 
 void UART_send_string(char *str){
 	while(*str)	{
- 23e:	88 81       	ld	r24, Y
- 240:	81 11       	cpse	r24, r1
- 242:	fa cf       	rjmp	.-12     	; 0x238 <UART_send_string+0x8>
+ 354:	88 81       	ld	r24, Y
+ 356:	81 11       	cpse	r24, r1
+ 358:	fa cf       	rjmp	.-12     	; 0x34e <UART_send_string+0x8>
 		UART_send_char(*str);
 		str++;
 	}
 }
- 244:	df 91       	pop	r29
- 246:	cf 91       	pop	r28
- 248:	08 95       	ret
+ 35a:	df 91       	pop	r29
+ 35c:	cf 91       	pop	r28
+ 35e:	08 95       	ret
 
-0000024a <__vector_18>:
+00000360 <__vector_18>:
+	buffer_push(&rx_buffer, dato);
 
-ISR(USART_RX_vect)
-{
- 24a:	1f 92       	push	r1
- 24c:	0f 92       	push	r0
- 24e:	0f b6       	in	r0, 0x3f	; 63
- 250:	0f 92       	push	r0
- 252:	11 24       	eor	r1, r1
- 254:	2f 93       	push	r18
- 256:	3f 93       	push	r19
- 258:	4f 93       	push	r20
- 25a:	5f 93       	push	r21
- 25c:	6f 93       	push	r22
- 25e:	7f 93       	push	r23
- 260:	8f 93       	push	r24
- 262:	9f 93       	push	r25
- 264:	af 93       	push	r26
- 266:	bf 93       	push	r27
- 268:	ef 93       	push	r30
- 26a:	ff 93       	push	r31
+	UART_send_char(dato);			
+}*/
+
+ISR(USART_RX_vect){
+ 360:	1f 92       	push	r1
+ 362:	0f 92       	push	r0
+ 364:	0f b6       	in	r0, 0x3f	; 63
+ 366:	0f 92       	push	r0
+ 368:	11 24       	eor	r1, r1
+ 36a:	2f 93       	push	r18
+ 36c:	3f 93       	push	r19
+ 36e:	4f 93       	push	r20
+ 370:	5f 93       	push	r21
+ 372:	6f 93       	push	r22
+ 374:	7f 93       	push	r23
+ 376:	8f 93       	push	r24
+ 378:	9f 93       	push	r25
+ 37a:	af 93       	push	r26
+ 37c:	bf 93       	push	r27
+ 37e:	cf 93       	push	r28
+ 380:	ef 93       	push	r30
+ 382:	ff 93       	push	r31
 	char dato;
 	dato = UDR0;	//leemos UDR0
- 26c:	60 91 c6 00 	lds	r22, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 384:	c0 91 c6 00 	lds	r28, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
 
 	buffer_push(&rx_buffer,	dato);	//lo pusheamos en el buffer circular de la recepción
- 270:	80 e2       	ldi	r24, 0x20	; 32
- 272:	91 e0       	ldi	r25, 0x01	; 1
- 274:	0e 94 9a 00 	call	0x134	; 0x134 <buffer_push>
+ 388:	6c 2f       	mov	r22, r28
+ 38a:	85 e5       	ldi	r24, 0x55	; 85
+ 38c:	91 e0       	ldi	r25, 0x01	; 1
+ 38e:	0e 94 1f 01 	call	0x23e	; 0x23e <buffer_push>
 									//esta función ya tiene en cuenta que el buffer no esté lleno
+	UART_send_char(dato);   // eco, lo dejamos? es necesario? iría dentro de la ISR?
+ 392:	8c 2f       	mov	r24, r28
+ 394:	0e 94 96 01 	call	0x32c	; 0x32c <UART_send_char>
 }
- 278:	ff 91       	pop	r31
- 27a:	ef 91       	pop	r30
- 27c:	bf 91       	pop	r27
- 27e:	af 91       	pop	r26
- 280:	9f 91       	pop	r25
- 282:	8f 91       	pop	r24
- 284:	7f 91       	pop	r23
- 286:	6f 91       	pop	r22
- 288:	5f 91       	pop	r21
- 28a:	4f 91       	pop	r20
- 28c:	3f 91       	pop	r19
- 28e:	2f 91       	pop	r18
- 290:	0f 90       	pop	r0
- 292:	0f be       	out	0x3f, r0	; 63
- 294:	0f 90       	pop	r0
- 296:	1f 90       	pop	r1
- 298:	18 95       	reti
+ 398:	ff 91       	pop	r31
+ 39a:	ef 91       	pop	r30
+ 39c:	cf 91       	pop	r28
+ 39e:	bf 91       	pop	r27
+ 3a0:	af 91       	pop	r26
+ 3a2:	9f 91       	pop	r25
+ 3a4:	8f 91       	pop	r24
+ 3a6:	7f 91       	pop	r23
+ 3a8:	6f 91       	pop	r22
+ 3aa:	5f 91       	pop	r21
+ 3ac:	4f 91       	pop	r20
+ 3ae:	3f 91       	pop	r19
+ 3b0:	2f 91       	pop	r18
+ 3b2:	0f 90       	pop	r0
+ 3b4:	0f be       	out	0x3f, r0	; 63
+ 3b6:	0f 90       	pop	r0
+ 3b8:	1f 90       	pop	r1
+ 3ba:	18 95       	reti
 
-0000029a <__vector_19>:
+000003bc <__vector_19>:
 
 //interrupción para cuando el registro UDR está vacío
-ISR(USART_UDRE_vect)
-{
- 29a:	1f 92       	push	r1
- 29c:	0f 92       	push	r0
- 29e:	0f b6       	in	r0, 0x3f	; 63
- 2a0:	0f 92       	push	r0
- 2a2:	11 24       	eor	r1, r1
- 2a4:	2f 93       	push	r18
- 2a6:	3f 93       	push	r19
- 2a8:	4f 93       	push	r20
- 2aa:	5f 93       	push	r21
- 2ac:	6f 93       	push	r22
- 2ae:	7f 93       	push	r23
- 2b0:	8f 93       	push	r24
- 2b2:	9f 93       	push	r25
- 2b4:	af 93       	push	r26
- 2b6:	bf 93       	push	r27
- 2b8:	ef 93       	push	r30
- 2ba:	ff 93       	push	r31
- 2bc:	cf 93       	push	r28
- 2be:	df 93       	push	r29
- 2c0:	1f 92       	push	r1
- 2c2:	cd b7       	in	r28, 0x3d	; 61
- 2c4:	de b7       	in	r29, 0x3e	; 62
+ISR(USART_UDRE_vect){
+ 3bc:	1f 92       	push	r1
+ 3be:	0f 92       	push	r0
+ 3c0:	0f b6       	in	r0, 0x3f	; 63
+ 3c2:	0f 92       	push	r0
+ 3c4:	11 24       	eor	r1, r1
+ 3c6:	2f 93       	push	r18
+ 3c8:	3f 93       	push	r19
+ 3ca:	4f 93       	push	r20
+ 3cc:	5f 93       	push	r21
+ 3ce:	6f 93       	push	r22
+ 3d0:	7f 93       	push	r23
+ 3d2:	8f 93       	push	r24
+ 3d4:	9f 93       	push	r25
+ 3d6:	af 93       	push	r26
+ 3d8:	bf 93       	push	r27
+ 3da:	ef 93       	push	r30
+ 3dc:	ff 93       	push	r31
+ 3de:	cf 93       	push	r28
+ 3e0:	df 93       	push	r29
+ 3e2:	1f 92       	push	r1
+ 3e4:	cd b7       	in	r28, 0x3d	; 61
+ 3e6:	de b7       	in	r29, 0x3e	; 62
 	char dato;
 	
 	if(buffer_pop(&tx_buffer,&dato)){	//si hay datos en el buffer (esta función ya tiene en cuenta que el buffer no esté vacío)
- 2c6:	be 01       	movw	r22, r28
- 2c8:	6f 5f       	subi	r22, 0xFF	; 255
- 2ca:	7f 4f       	sbci	r23, 0xFF	; 255
- 2cc:	82 e6       	ldi	r24, 0x62	; 98
- 2ce:	91 e0       	ldi	r25, 0x01	; 1
- 2d0:	0e 94 64 00 	call	0xc8	; 0xc8 <buffer_pop>
- 2d4:	88 23       	and	r24, r24
- 2d6:	21 f0       	breq	.+8      	; 0x2e0 <__vector_19+0x46>
+ 3e8:	be 01       	movw	r22, r28
+ 3ea:	6f 5f       	subi	r22, 0xFF	; 255
+ 3ec:	7f 4f       	sbci	r23, 0xFF	; 255
+ 3ee:	87 e9       	ldi	r24, 0x97	; 151
+ 3f0:	91 e0       	ldi	r25, 0x01	; 1
+ 3f2:	0e 94 e9 00 	call	0x1d2	; 0x1d2 <buffer_pop>
+ 3f6:	88 23       	and	r24, r24
+ 3f8:	21 f0       	breq	.+8      	; 0x402 <__EEPROM_REGION_LENGTH__+0x2>
 		UDR0 = dato;					//entonces saco el próximo byte y lo escribo en el registro udr0
- 2d8:	89 81       	ldd	r24, Y+1	; 0x01
- 2da:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 2de:	05 c0       	rjmp	.+10     	; 0x2ea <__vector_19+0x50>
+ 3fa:	89 81       	ldd	r24, Y+1	; 0x01
+ 3fc:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 400:	05 c0       	rjmp	.+10     	; 0x40c <__EEPROM_REGION_LENGTH__+0xc>
 	}
 	else{
 		UCSR0B &= ~(1<<UDRIE0);			//si no hay datos para escribir deshabilito la interrupción
- 2e0:	e1 ec       	ldi	r30, 0xC1	; 193
- 2e2:	f0 e0       	ldi	r31, 0x00	; 0
- 2e4:	80 81       	ld	r24, Z
- 2e6:	8f 7d       	andi	r24, 0xDF	; 223
- 2e8:	80 83       	st	Z, r24
+ 402:	e1 ec       	ldi	r30, 0xC1	; 193
+ 404:	f0 e0       	ldi	r31, 0x00	; 0
+ 406:	80 81       	ld	r24, Z
+ 408:	8f 7d       	andi	r24, 0xDF	; 223
+ 40a:	80 83       	st	Z, r24
 	}
 }
- 2ea:	0f 90       	pop	r0
- 2ec:	df 91       	pop	r29
- 2ee:	cf 91       	pop	r28
- 2f0:	ff 91       	pop	r31
- 2f2:	ef 91       	pop	r30
- 2f4:	bf 91       	pop	r27
- 2f6:	af 91       	pop	r26
- 2f8:	9f 91       	pop	r25
- 2fa:	8f 91       	pop	r24
- 2fc:	7f 91       	pop	r23
- 2fe:	6f 91       	pop	r22
- 300:	5f 91       	pop	r21
- 302:	4f 91       	pop	r20
- 304:	3f 91       	pop	r19
- 306:	2f 91       	pop	r18
- 308:	0f 90       	pop	r0
- 30a:	0f be       	out	0x3f, r0	; 63
- 30c:	0f 90       	pop	r0
- 30e:	1f 90       	pop	r1
- 310:	18 95       	reti
+ 40c:	0f 90       	pop	r0
+ 40e:	df 91       	pop	r29
+ 410:	cf 91       	pop	r28
+ 412:	ff 91       	pop	r31
+ 414:	ef 91       	pop	r30
+ 416:	bf 91       	pop	r27
+ 418:	af 91       	pop	r26
+ 41a:	9f 91       	pop	r25
+ 41c:	8f 91       	pop	r24
+ 41e:	7f 91       	pop	r23
+ 420:	6f 91       	pop	r22
+ 422:	5f 91       	pop	r21
+ 424:	4f 91       	pop	r20
+ 426:	3f 91       	pop	r19
+ 428:	2f 91       	pop	r18
+ 42a:	0f 90       	pop	r0
+ 42c:	0f be       	out	0x3f, r0	; 63
+ 42e:	0f 90       	pop	r0
+ 430:	1f 90       	pop	r1
+ 432:	18 95       	reti
 
-00000312 <invernadero_init>:
-
-void invernadero_init(void){
-	//5 segundos iniciales
-	//5 segundos = 50 ticks de 100ms
-
-	periodo_reporte = 50;
- 312:	82 e3       	ldi	r24, 0x32	; 50
- 314:	90 e0       	ldi	r25, 0x00	; 0
- 316:	90 93 1f 01 	sts	0x011F, r25	; 0x80011f <periodo_reporte+0x1>
- 31a:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <periodo_reporte>
-
-	ultimo_reporte = TIMER_get_ticks();
- 31e:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <TIMER_get_ticks>
- 322:	90 93 1d 01 	sts	0x011D, r25	; 0x80011d <ultimo_reporte+0x1>
- 326:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <ultimo_reporte>
- 32a:	08 95       	ret
-
-0000032c <invernadero_tarea>:
-}
-
-void invernadero_tarea(void){
-	uint16_t ahora;
-
-	ahora = TIMER_get_ticks();
- 32c:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <TIMER_get_ticks>
-
-	if((ahora - ultimo_reporte) >= periodo_reporte){
- 330:	20 91 1c 01 	lds	r18, 0x011C	; 0x80011c <ultimo_reporte>
- 334:	30 91 1d 01 	lds	r19, 0x011D	; 0x80011d <ultimo_reporte+0x1>
- 338:	ac 01       	movw	r20, r24
- 33a:	42 1b       	sub	r20, r18
- 33c:	53 0b       	sbc	r21, r19
- 33e:	20 91 1e 01 	lds	r18, 0x011E	; 0x80011e <periodo_reporte>
- 342:	30 91 1f 01 	lds	r19, 0x011F	; 0x80011f <periodo_reporte+0x1>
- 346:	42 17       	cp	r20, r18
- 348:	53 07       	cpc	r21, r19
- 34a:	40 f0       	brcs	.+16     	; 0x35c <invernadero_tarea+0x30>
-
-		ultimo_reporte = ahora;
- 34c:	90 93 1d 01 	sts	0x011D, r25	; 0x80011d <ultimo_reporte+0x1>
- 350:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <ultimo_reporte>
-		UART_send_string("Reporte de invernadero\r\n");
- 354:	80 e0       	ldi	r24, 0x00	; 0
- 356:	91 e0       	ldi	r25, 0x01	; 1
- 358:	0e 94 18 01 	call	0x230	; 0x230 <UART_send_string>
- 35c:	08 95       	ret
-
-0000035e <main>:
+00000434 <main>:
 
 
 int main(void)
 {
 
 	UART_init();
- 35e:	0e 94 f7 00 	call	0x1ee	; 0x1ee <UART_init>
+ 434:	0e 94 7c 01 	call	0x2f8	; 0x2f8 <UART_init>
 	I2C_init();
- 362:	0e 94 bb 00 	call	0x176	; 0x176 <I2C_init>
+ 438:	0e 94 40 01 	call	0x280	; 0x280 <I2C_init>
 	//RTC_init();
 	//DHT11_init();
 	TIMER1_init();
- 366:	0e 94 c4 00 	call	0x188	; 0x188 <TIMER1_init>
+ 43c:	0e 94 49 01 	call	0x292	; 0x292 <TIMER1_init>
 	invernadero_init();
- 36a:	0e 94 89 01 	call	0x312	; 0x312 <invernadero_init>
+ 440:	0e 94 9c 00 	call	0x138	; 0x138 <invernadero_init>
+	comandos_init();
+ 444:	0e 94 53 00 	call	0xa6	; 0xa6 <comandos_init>
 	sei(); // habilitar interrupciones
- 36e:	78 94       	sei
+ 448:	78 94       	sei
 
 	while(1){
+		comandos_tarea();
+ 44a:	0e 94 6e 00 	call	0xdc	; 0xdc <comandos_tarea>
 		invernadero_tarea();
- 370:	0e 94 96 01 	call	0x32c	; 0x32c <invernadero_tarea>
- 374:	fd cf       	rjmp	.-6      	; 0x370 <main+0x12>
+ 44e:	0e 94 bf 00 	call	0x17e	; 0x17e <invernadero_tarea>
+		sleep_mode();
+ 452:	83 b7       	in	r24, 0x33	; 51
+ 454:	81 60       	ori	r24, 0x01	; 1
+ 456:	83 bf       	out	0x33, r24	; 51
+ 458:	88 95       	sleep
+ 45a:	83 b7       	in	r24, 0x33	; 51
+ 45c:	8e 7f       	andi	r24, 0xFE	; 254
+ 45e:	83 bf       	out	0x33, r24	; 51
+ 460:	f4 cf       	rjmp	.-24     	; 0x44a <main+0x16>
 
-00000376 <_exit>:
- 376:	f8 94       	cli
+00000462 <atoi>:
+ 462:	fc 01       	movw	r30, r24
+ 464:	88 27       	eor	r24, r24
+ 466:	99 27       	eor	r25, r25
+ 468:	e8 94       	clt
+ 46a:	21 91       	ld	r18, Z+
+ 46c:	20 32       	cpi	r18, 0x20	; 32
+ 46e:	e9 f3       	breq	.-6      	; 0x46a <atoi+0x8>
+ 470:	29 30       	cpi	r18, 0x09	; 9
+ 472:	10 f0       	brcs	.+4      	; 0x478 <atoi+0x16>
+ 474:	2e 30       	cpi	r18, 0x0E	; 14
+ 476:	c8 f3       	brcs	.-14     	; 0x46a <atoi+0x8>
+ 478:	2b 32       	cpi	r18, 0x2B	; 43
+ 47a:	41 f0       	breq	.+16     	; 0x48c <atoi+0x2a>
+ 47c:	2d 32       	cpi	r18, 0x2D	; 45
+ 47e:	39 f4       	brne	.+14     	; 0x48e <atoi+0x2c>
+ 480:	68 94       	set
+ 482:	04 c0       	rjmp	.+8      	; 0x48c <atoi+0x2a>
+ 484:	0e 94 5d 02 	call	0x4ba	; 0x4ba <__mulhi_const_10>
+ 488:	82 0f       	add	r24, r18
+ 48a:	91 1d       	adc	r25, r1
+ 48c:	21 91       	ld	r18, Z+
+ 48e:	20 53       	subi	r18, 0x30	; 48
+ 490:	2a 30       	cpi	r18, 0x0A	; 10
+ 492:	c0 f3       	brcs	.-16     	; 0x484 <atoi+0x22>
+ 494:	1e f4       	brtc	.+6      	; 0x49c <atoi+0x3a>
+ 496:	90 95       	com	r25
+ 498:	81 95       	neg	r24
+ 49a:	9f 4f       	sbci	r25, 0xFF	; 255
+ 49c:	08 95       	ret
 
-00000378 <__stop_program>:
- 378:	ff cf       	rjmp	.-2      	; 0x378 <__stop_program>
+0000049e <strncmp>:
+ 49e:	fb 01       	movw	r30, r22
+ 4a0:	dc 01       	movw	r26, r24
+ 4a2:	41 50       	subi	r20, 0x01	; 1
+ 4a4:	50 40       	sbci	r21, 0x00	; 0
+ 4a6:	30 f0       	brcs	.+12     	; 0x4b4 <strncmp+0x16>
+ 4a8:	8d 91       	ld	r24, X+
+ 4aa:	01 90       	ld	r0, Z+
+ 4ac:	80 19       	sub	r24, r0
+ 4ae:	19 f4       	brne	.+6      	; 0x4b6 <strncmp+0x18>
+ 4b0:	00 20       	and	r0, r0
+ 4b2:	b9 f7       	brne	.-18     	; 0x4a2 <strncmp+0x4>
+ 4b4:	88 1b       	sub	r24, r24
+ 4b6:	99 0b       	sbc	r25, r25
+ 4b8:	08 95       	ret
+
+000004ba <__mulhi_const_10>:
+ 4ba:	7a e0       	ldi	r23, 0x0A	; 10
+ 4bc:	97 9f       	mul	r25, r23
+ 4be:	90 2d       	mov	r25, r0
+ 4c0:	87 9f       	mul	r24, r23
+ 4c2:	80 2d       	mov	r24, r0
+ 4c4:	91 0d       	add	r25, r1
+ 4c6:	11 24       	eor	r1, r1
+ 4c8:	08 95       	ret
+
+000004ca <_exit>:
+ 4ca:	f8 94       	cli
+
+000004cc <__stop_program>:
+ 4cc:	ff cf       	rjmp	.-2      	; 0x4cc <__stop_program>

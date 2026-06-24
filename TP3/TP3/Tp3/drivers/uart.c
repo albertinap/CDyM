@@ -29,12 +29,8 @@ uint8_t UART_rx_available(void){
 	return !buffer_is_empty(&rx_buffer); //buffer_is_empty devuelve 0 si hay datos, y 1 si está vacío
 }
 
-char UART_read_char(void){
-	char dato=0;
-
-	buffer_pop(&rx_buffer,&dato);
-
-	return dato;
+uint8_t UART_read_char(char *dato){
+	return buffer_pop(&rx_buffer, dato);
 }
 
 void UART_send_char(char data){
@@ -50,18 +46,27 @@ void UART_send_string(char *str){
 	}
 }
 
-ISR(USART_RX_vect)
-{
+/*ISR(USART_RX_vect){
+	char dato;
+
+	dato = UDR0;
+
+	buffer_push(&rx_buffer, dato);
+
+	UART_send_char(dato);			
+}*/
+
+ISR(USART_RX_vect){
 	char dato;
 	dato = UDR0;	//leemos UDR0
 
 	buffer_push(&rx_buffer,	dato);	//lo pusheamos en el buffer circular de la recepción
 									//esta función ya tiene en cuenta que el buffer no esté lleno
+	UART_send_char(dato);   // eco, lo dejamos? es necesario? iría dentro de la ISR?
 }
 
 //interrupción para cuando el registro UDR está vacío
-ISR(USART_UDRE_vect)
-{
+ISR(USART_UDRE_vect){
 	char dato;
 	
 	if(buffer_pop(&tx_buffer,&dato)){	//si hay datos en el buffer (esta función ya tiene en cuenta que el buffer no esté vacío)
