@@ -26,6 +26,7 @@ int main(void)
 	sei(); // habilitar interrupciones
 
 	while(1){
+		invernadero_tarea_uart();
 		invernadero_tarea();
 		sleep_mode();
 	}

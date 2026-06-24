@@ -14,6 +14,7 @@ typedef struct { //Estructura del tiempo  para devolver todos los valores direct
 	uint8_t seconds;
 } RTC_Time;
 
-
+void comandos_init(void);
+void comandos_tarea(void);
 
 #endif /* COMANDOS_H_ */
