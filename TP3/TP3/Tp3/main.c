@@ -7,21 +7,21 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-
-#include "uart.h"
-#include "timer.h"
+#include "drivers/I2C.h"
+#include "drivers/uart.h"
+#include "drivers/timer.h"
 #include "invernadero.h"
+
 
 int main(void)
 {
 
 	UART_init();
-	//I2C_init();
+	I2C_init();
 	//RTC_init();
 	//DHT11_init();
 	TIMER1_init();
 	invernadero_init();
-
 	sei(); // habilitar interrupciones
 
 	while(1){

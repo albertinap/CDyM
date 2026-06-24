@@ -1,7 +1,6 @@
 #include "invernadero.h"
-
-#include "uart.h"
-#include "timer.h"
+#include "drivers/uart.h"
+#include "drivers/timer.h"
 
 static uint16_t periodo_reporte;
 static uint16_t ultimo_reporte;

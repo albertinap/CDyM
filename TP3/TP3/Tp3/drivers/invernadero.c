@@ -1,6 +1,10 @@
 #include "invernadero.h"
 
+<<<<<<< HEAD
 #include "drivers/UART/uart.h"
+=======
+#include "uart.h"
+>>>>>>> 970d4c74a54512c4adeffc9a8341b5bbe89e99d1
 #include "timer.h"
 
 static uint16_t periodo_reporte;
