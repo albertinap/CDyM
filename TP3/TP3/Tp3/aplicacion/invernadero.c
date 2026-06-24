@@ -1,4 +1,5 @@
 #include "invernadero.h"
+
 #include "drivers/uart.h"
 #include "drivers/timer.h"
 
@@ -23,5 +24,11 @@ void invernadero_tarea(void){
 
 		ultimo_reporte = ahora;
 		UART_send_string("Reporte de invernadero\r\n");
+	}
+}
+
+void invernadero_set_periodo(uint16_t segundos){
+	if(segundos >= 2 && segundos <= 60){
+		periodo_reporte = segundos * 10;	//acá multiplicamos por 10 porque nuestro timer cuenta de a 100ms
 	}
 }

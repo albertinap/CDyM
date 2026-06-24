@@ -3,31 +3,31 @@ Tp3.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000001a  00800100  0000035c  000003f0  2**0
+  0 .data         0000001a  00800100  0000037a  0000040e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000035c  00000000  00000000  00000094  2**1
+  1 .text         0000037a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000008a  0080011a  0080011a  0000040a  2**0
+  2 .bss          0000008a  0080011a  0080011a  00000428  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000040a  2**0
+  3 .comment      00000030  00000000  00000000  00000428  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000043c  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000458  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000148  00000000  00000000  0000047c  2**0
+  5 .debug_aranges 00000148  00000000  00000000  00000498  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000f25  00000000  00000000  000005c4  2**0
+  6 .debug_info   00000f07  00000000  00000000  000005e0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000aaa  00000000  00000000  000014e9  2**0
+  7 .debug_abbrev 00000a87  00000000  00000000  000014e7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000844  00000000  00000000  00001f93  2**0
+  8 .debug_line   00000866  00000000  00000000  00001f6e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002dc  00000000  00000000  000027d8  2**2
+  9 .debug_frame  000002dc  00000000  00000000  000027d4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000052f  00000000  00000000  00002ab4  2**0
+ 10 .debug_str    0000052f  00000000  00000000  00002ab0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000051d  00000000  00000000  00002fe3  2**0
+ 11 .debug_loc    0000051d  00000000  00000000  00002fdf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000e8  00000000  00000000  00003500  2**0
+ 12 .debug_ranges 000000e8  00000000  00000000  000034fc  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	ec e5       	ldi	r30, 0x5C	; 92
+  7a:	ea e7       	ldi	r30, 0x7A	; 122
   7c:	f3 e0       	ldi	r31, 0x03	; 3
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
@@ -94,8 +94,8 @@ Disassembly of section .text:
   94:	a4 3a       	cpi	r26, 0xA4	; 164
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 a2 01 	call	0x344	; 0x344 <main>
-  9e:	0c 94 ac 01 	jmp	0x358	; 0x358 <_exit>
+  9a:	0e 94 af 01 	call	0x35e	; 0x35e <main>
+  9e:	0c 94 bb 01 	jmp	0x376	; 0x376 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -585,60 +585,80 @@ ISR(USART_UDRE_vect)
  30e:	1f 90       	pop	r1
  310:	18 95       	reti
 
-00000312 <invernadero_tarea>:
+00000312 <invernadero_init>:
+
+void invernadero_init(void){
+	//5 segundos iniciales
+	//5 segundos = 50 ticks de 100ms
+
+	periodo_reporte = 50;
+ 312:	82 e3       	ldi	r24, 0x32	; 50
+ 314:	90 e0       	ldi	r25, 0x00	; 0
+ 316:	90 93 1f 01 	sts	0x011F, r25	; 0x80011f <periodo_reporte+0x1>
+ 31a:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <periodo_reporte>
+
+	ultimo_reporte = TIMER_get_ticks();
+ 31e:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <TIMER_get_ticks>
+ 322:	90 93 1d 01 	sts	0x011D, r25	; 0x80011d <ultimo_reporte+0x1>
+ 326:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <ultimo_reporte>
+ 32a:	08 95       	ret
+
+0000032c <invernadero_tarea>:
 }
 
 void invernadero_tarea(void){
 	uint16_t ahora;
 
 	ahora = TIMER_get_ticks();
- 312:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <TIMER_get_ticks>
+ 32c:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <TIMER_get_ticks>
 
 	if((ahora - ultimo_reporte) >= periodo_reporte){
- 316:	20 91 1c 01 	lds	r18, 0x011C	; 0x80011c <ultimo_reporte>
- 31a:	30 91 1d 01 	lds	r19, 0x011D	; 0x80011d <ultimo_reporte+0x1>
- 31e:	ac 01       	movw	r20, r24
- 320:	42 1b       	sub	r20, r18
- 322:	53 0b       	sbc	r21, r19
- 324:	20 91 1e 01 	lds	r18, 0x011E	; 0x80011e <periodo_reporte>
- 328:	30 91 1f 01 	lds	r19, 0x011F	; 0x80011f <periodo_reporte+0x1>
- 32c:	42 17       	cp	r20, r18
- 32e:	53 07       	cpc	r21, r19
- 330:	40 f0       	brcs	.+16     	; 0x342 <invernadero_tarea+0x30>
+ 330:	20 91 1c 01 	lds	r18, 0x011C	; 0x80011c <ultimo_reporte>
+ 334:	30 91 1d 01 	lds	r19, 0x011D	; 0x80011d <ultimo_reporte+0x1>
+ 338:	ac 01       	movw	r20, r24
+ 33a:	42 1b       	sub	r20, r18
+ 33c:	53 0b       	sbc	r21, r19
+ 33e:	20 91 1e 01 	lds	r18, 0x011E	; 0x80011e <periodo_reporte>
+ 342:	30 91 1f 01 	lds	r19, 0x011F	; 0x80011f <periodo_reporte+0x1>
+ 346:	42 17       	cp	r20, r18
+ 348:	53 07       	cpc	r21, r19
+ 34a:	40 f0       	brcs	.+16     	; 0x35c <invernadero_tarea+0x30>
 
 		ultimo_reporte = ahora;
- 332:	90 93 1d 01 	sts	0x011D, r25	; 0x80011d <ultimo_reporte+0x1>
- 336:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <ultimo_reporte>
+ 34c:	90 93 1d 01 	sts	0x011D, r25	; 0x80011d <ultimo_reporte+0x1>
+ 350:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <ultimo_reporte>
 		UART_send_string("Reporte de invernadero\r\n");
- 33a:	80 e0       	ldi	r24, 0x00	; 0
- 33c:	91 e0       	ldi	r25, 0x01	; 1
- 33e:	0e 94 18 01 	call	0x230	; 0x230 <UART_send_string>
- 342:	08 95       	ret
+ 354:	80 e0       	ldi	r24, 0x00	; 0
+ 356:	91 e0       	ldi	r25, 0x01	; 1
+ 358:	0e 94 18 01 	call	0x230	; 0x230 <UART_send_string>
+ 35c:	08 95       	ret
 
-00000344 <main>:
-#include "drivers/rtc.h"
+0000035e <main>:
+
 
 int main(void)
 {
 
 	UART_init();
- 344:	0e 94 f7 00 	call	0x1ee	; 0x1ee <UART_init>
+ 35e:	0e 94 f7 00 	call	0x1ee	; 0x1ee <UART_init>
 	I2C_init();
- 348:	0e 94 bb 00 	call	0x176	; 0x176 <I2C_init>
-	//RTC_init();	
+ 362:	0e 94 bb 00 	call	0x176	; 0x176 <I2C_init>
+	//RTC_init();
+	//DHT11_init();
 	TIMER1_init();
- 34c:	0e 94 c4 00 	call	0x188	; 0x188 <TIMER1_init>
-
+ 366:	0e 94 c4 00 	call	0x188	; 0x188 <TIMER1_init>
+	invernadero_init();
+ 36a:	0e 94 89 01 	call	0x312	; 0x312 <invernadero_init>
 	sei(); // habilitar interrupciones
- 350:	78 94       	sei
+ 36e:	78 94       	sei
 
 	while(1){
 		invernadero_tarea();
- 352:	0e 94 89 01 	call	0x312	; 0x312 <invernadero_tarea>
- 356:	fd cf       	rjmp	.-6      	; 0x352 <main+0xe>
+ 370:	0e 94 96 01 	call	0x32c	; 0x32c <invernadero_tarea>
+ 374:	fd cf       	rjmp	.-6      	; 0x370 <main+0x12>
 
-00000358 <_exit>:
- 358:	f8 94       	cli
+00000376 <_exit>:
+ 376:	f8 94       	cli
 
-0000035a <__stop_program>:
- 35a:	ff cf       	rjmp	.-2      	; 0x35a <__stop_program>
+00000378 <__stop_program>:
+ 378:	ff cf       	rjmp	.-2      	; 0x378 <__stop_program>
