@@ -133,6 +133,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\comandos.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app\comandos.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app\invernadero.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="app\invernadero.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="drivers\buffer_circular.c">
       <SubType>compile</SubType>
     </Compile>
@@ -169,18 +181,13 @@
     <Compile Include="drivers\uart.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="invernadero.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="invernadero.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivers" />
+    <Folder Include="app" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
