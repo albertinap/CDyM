@@ -4,6 +4,7 @@
  * Created: 22/6/2026 18:00:39
  *  Author: Ignacio Mucci Bigliani y Albertina Pezzutti
  */ 
+#define F_CPU 16000000UL
 #include "dht11.h"
 #include <avr/io.h>
 #include <util/delay.h>
@@ -57,4 +58,11 @@ DHT11_Status DHT11_read(DHT11_Data *data){
 		  data->humidity= bytes[0]; // Paso el valor entero de humedad
 		  data->temperature= bytes[2]; // Paso el valor entero de temperatura
 		  return DHT11_OK; //Pasaje de mensaje exitoso
+}
+
+void DHT11_init(){
+	
+	_delay_ms(1000);
+	 DHT11_Data dummy;
+	 DHT11_read(&dummy); // Lectura descartable para despertar el sensor en Proteus
 }
