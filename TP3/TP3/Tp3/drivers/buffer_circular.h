@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-#define BUFFER_SIZE 64
+#define BUFFER_SIZE 128		//128 porque tenemos en cuenta el peor caso; tener que mandar 2 tramas, una de información y la otra de alerta
 
 typedef struct{
 	char data[BUFFER_SIZE];	//memoria donde guardamos los datos

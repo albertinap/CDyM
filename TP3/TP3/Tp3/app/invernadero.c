@@ -82,7 +82,7 @@ void invernadero_tarea(void){
 		Estado estado        = (rango == RANGO_OK) ? ESTADO_NORMAL : ESTADO_ALERTA;
 
 		// Construimos y enviamos string de telemetria
-		char buf[64];
+		char buf[128];
 		build_telemetry_string(buf, &t, DHD.temperature, DHD.humidity, estado);
 		UART_send_string(buf);
 		UART_send_string("\r\n");
