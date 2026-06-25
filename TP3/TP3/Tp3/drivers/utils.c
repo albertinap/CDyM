@@ -8,8 +8,6 @@
 #include "utils.h"
 #include <stdio.h>
 
-
-
 uint8_t dec_to_bcd(uint8_t val) {
 	// val/10 saca la decena (ej: 34/10 = 3), la shiftea 4 bits a la izquierda para ponerla en el nibble alto
 	// val%10 saca la unidad (ej: 34%10 = 4), va en el nibble bajo
@@ -48,7 +46,7 @@ void build_telemetry_string(char *buf, RTC_Time *t, uint8_t temp, uint8_t hum, E
 	// %02u: entero sin signo con minimo 2 digitos, rellena con 0 a la izquierda (ej: 9 -> "09")
 	// %%: imprime un % literal, porque % solo inicia un formato
 	// operador ternario: si estado es NORMAL imprime "NORMAL", sino "ALERTA"
-	snprintf(buf, 70, "[%02u:%02u:%02u] T: %u°C | H: %u%% | Estado: %s",
+	snprintf(buf, 70, "[%02u:%02u:%02u]T:%u°C|H:%u%%|Estado:%s",
 	t->hours, t->minutes, t->seconds,
 	temp, hum,
 	(estado == ESTADO_NORMAL) ? "NORMAL" : "ALERTA");
@@ -63,7 +61,7 @@ void build_alert_string(char *buf, RTC_Time *t, uint8_t valor, RangoStatus rango
 	const char *unidad   = (rango == RANGO_TEMP_FUERA) ? "C" : "%";
 
 	// Construye el string de alerta con todos los valores
-	snprintf(buf, 70, "[ALERTA] [%02u:%02u:%02u] %s fuera de rango %s! Valor: %u%s",
+	snprintf(buf, 70, "[ALERTA][%02u:%02u:%02u]%s fuera de rango %s!Valor:%u%s",
 	t->hours, t->minutes, t->seconds,
 	variable, periodo, valor, unidad);
 }
