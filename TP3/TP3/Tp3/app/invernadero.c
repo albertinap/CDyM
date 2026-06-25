@@ -1,10 +1,10 @@
 /*
  * invernadero.c
- *
- * Created: 23/6/2026 00:58:27
- *  Author: Ignacio Mucci Bigliani y Albertina Pezzutti
- */ 
-
+ * Lógica principal del monitor de invernadero
+ * Tarea de background: cada 'periodo_reporte' ticks lee el RTC y el DHT11,
+ * evalúa rangos y envía la trama de telemetría (y alerta si corresponde) por UART
+ * Author : Ignacio Mucci Bigliani y Albertina Pezzutti
+ */
 #include "invernadero.h"
 #include "../drivers/uart.h"
 #include "../drivers/timer.h"
@@ -15,24 +15,30 @@
 #include <string.h>
 #include <stdlib.h>
 
-static uint16_t periodo_reporte;			//cada cuánto mostramos las tramas de telemetría
-static uint16_t ultimo_reporte;				//
+static uint16_t periodo_reporte;			// intervalo entre reportes, en ticks de 100ms
+static uint16_t ultimo_reporte;				// tick en el que se envió el último reporte
 
 void invernadero_init(void){
 	//el periodo arranca inicializado en 10 segundos
 	//10 segundos = 100 ticks de 100ms
-
 	periodo_reporte = 100;
-
 	ultimo_reporte = TIMER_get_ticks();		//si hubo un reporte antes
 }
 
+// Actualiza el período de reporte. 
+// La validación de rango se hace acá para que el módulo sea autónomo independientemente de quién llame a esta función
 void invernadero_set_periodo(uint16_t segundos){
 	if(segundos >= 2 && segundos <= 60){
 		periodo_reporte = segundos * 10;	//lo multiplicamos por 10 porque nuestro timer cuenta de a 100ms
 	}
 }
 
+// Tarea de background, se llama en cada iteración del super loop
+// Si pasó al menos 'periodo_reporte' ticks desde el último reporte:
+// - Lee hora del RTC y datos del DHT11
+// - Evalúa si temperatura y humedad están en rango según la ventana horaria
+// - Envía trama de telemetría
+// - Si hay alerta, envía trama de emergencia adicional
 void invernadero_tarea(void){
 	uint16_t ahora;
 	ahora = TIMER_get_ticks();
@@ -54,6 +60,14 @@ void invernadero_tarea(void){
 
 		DS= DHT11_read(&DHD);
 		
+		if (DS == DHT11_ERROR_NO_RESPONSE) {
+			UART_send_string("DHT11: sin respuesta\r\n");
+			} else if (DS == DHT11_ERROR_CHECKSUM) {
+			UART_send_string("DHT11: error checksum\r\n");
+			} else {
+			UART_send_string("DHT11: OK\r\n");
+		}
+
 		if (DS == DHT11_ERROR_NO_RESPONSE) {
 			UART_send_string("DHT11: sin respuesta\r\n");
 			} else if (DS == DHT11_ERROR_CHECKSUM) {
