@@ -59,35 +59,9 @@ void invernadero_tarea(void){
 		DHT11_Data DHD;
 
 		DS= DHT11_read(&DHD);
-	
-
-<<<<<<< Updated upstream
-		if (DS == DHT11_ERROR_NO_RESPONSE) {
-			UART_send_string("DHT11: sin respuesta\r\n");
-			} else if (DS == DHT11_ERROR_CHECKSUM) {
-			UART_send_string("DHT11: error checksum\r\n");
-			} else {
-			UART_send_string("DHT11: OK\r\n");
-		}
-
-		// Chequeamos rangos
-		uint8_t diurno       = is_diurno(t.hours);
-		RangoStatus rango    = check_rangos(DHD.temperature, DHD.humidity, diurno);
-		Estado estado        = (rango == RANGO_OK) ? ESTADO_NORMAL : ESTADO_ALERTA;
-
-		// Construimos y enviamos string de telemetria
-		char buf[128];
-		build_telemetry_string(buf, &t, DHD.temperature, DHD.humidity, estado);
-		UART_send_string(buf);
-		UART_send_string("\r\n");
-		// Si hay alerta construimos y enviamos string de emergencia
-		if (rango != RANGO_OK) {
-			uint8_t valor = (rango == RANGO_TEMP_FUERA) ? DHD.temperature : DHD.humidity;
-			build_alert_string(buf, &t, valor, rango, diurno);
-=======
+			
 		if (DS != DHT11_OK) {
-			build_error_dht11_string(buf,&t,DS);
->>>>>>> Stashed changes
+			build_dht11_error_string(buf,&t,DS);
 			UART_send_string(buf);
 			UART_send_string("\r\n");
 			}else {

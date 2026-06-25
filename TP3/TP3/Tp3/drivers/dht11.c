@@ -61,7 +61,6 @@ DHT11_Status DHT11_read(DHT11_Data *data){
 }
 
 void DHT11_init(){
-	
 	_delay_ms(1000);
 	 DHT11_Data dummy;
 	 DHT11_read(&dummy); // Lectura descartable para despertar el sensor en Proteus

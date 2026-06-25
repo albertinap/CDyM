@@ -20,12 +20,12 @@
 
 int main(void){
 
-	DHT11_init();
 	UART_init();		// UART0 a 9600bps 8N1, con interrupciones de RX y TX
 	I2C_init();			// I2C para comunicación con el RTC DS3232
 	TIMER1_init();		// Timer1 en modo CTC, tick cada 100ms
 	invernadero_init();	// estado inicial del monitor (período de reporte inicializado en 10s)
 	comandos_init();	// índice del buffer de comandos arranca en 0
+	DHT11_init();       //Inicializa el periferico dht11
 	sei();				// habilitar interrupciones globales
 
 	// Super loop: las ISRs (foreground) manejan UART y Timer;

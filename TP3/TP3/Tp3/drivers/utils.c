@@ -6,6 +6,7 @@
  */ 
 
 #include "utils.h"
+#include "dht11.h"
 #include <stdio.h>
 
 uint8_t dec_to_bcd(uint8_t val) {
@@ -63,4 +64,9 @@ void build_alert_string(char *buf, RTC_Time *t, uint8_t valor, RangoStatus rango
 	snprintf(buf, 64, "[ALERTA][%02u:%02u:%02u]%s fuera de rango %s!Valor:%u%s",
 	t->hours, t->minutes, t->seconds,
 	variable, periodo, valor, unidad);
+}
+
+void build_dht11_error_string(char *buf, RTC_Time *t, DHT11_Status status) {
+	const char *msg = (status == DHT11_ERROR_NO_RESPONSE) ? "sin respuesta" : "error checksum";
+	snprintf(buf, 70, "[%02u:%02u:%02u] DHT11 %s", t->hours, t->minutes, t->seconds, msg);
 }

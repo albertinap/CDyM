@@ -13,7 +13,7 @@
 
 #include <stdint.h>
 #include "rtc.h"
-
+#include "dht11.h"
 // Estados de alerta
 typedef enum {
 	ESTADO_NORMAL,
@@ -42,5 +42,7 @@ void build_alert_string(char *buf, RTC_Time *t, uint8_t valor, RangoStatus rango
 
 // Checkeo de si la temperatura o la humedad estan en los rangos correctos o si estan fuera de sus rangos a la hora que corresponde
 RangoStatus check_rangos(uint8_t temp, uint8_t hum, uint8_t es_diurno);
+
+void build_dht11_error_string(char *buf, RTC_Time *t, DHT11_Status status);
 
 #endif /* UTILS_H_ */

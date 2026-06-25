@@ -8,11 +8,8 @@
 
 #include <stdint.h>
 
-<<<<<<< Updated upstream
 #define BUFFER_SIZE 128		//128 porque tenemos en cuenta el peor caso; tener que mandar 2 tramas, una de información y la otra de alerta
-=======
-#define BUFFER_SIZE 128        //128 porque tenemos en cuenta el peor caso; tener que mandar 2 tramas, una de información y la otra de alerta
->>>>>>> Stashed changes
+
 
 typedef struct{
 	char data[BUFFER_SIZE];	//memoria donde guardamos los datos
