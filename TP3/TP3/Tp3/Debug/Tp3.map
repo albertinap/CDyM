@@ -743,7 +743,7 @@ END GROUP
  .debug_abbrev  0x00000e24      0x10c drivers/utils.o
  .debug_abbrev  0x00000f30       0x75 main.o
 
-.debug_line     0x00000000     0x1124
+.debug_line     0x00000000     0x1125
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x21e app/comandos.o
@@ -753,9 +753,9 @@ END GROUP
  .debug_line    0x000008ba      0x152 drivers/I2C.o
  .debug_line    0x00000a0c      0x13f drivers/rtc.o
  .debug_line    0x00000b4b      0x102 drivers/timer.o
- .debug_line    0x00000c4d      0x1be drivers/uart.o
- .debug_line    0x00000e0b      0x1e9 drivers/utils.o
- .debug_line    0x00000ff4      0x130 main.o
+ .debug_line    0x00000c4d      0x1bf drivers/uart.o
+ .debug_line    0x00000e0c      0x1e9 drivers/utils.o
+ .debug_line    0x00000ff5      0x130 main.o
 
 .debug_frame    0x00000000      0x4fc
  *(.debug_frame)
