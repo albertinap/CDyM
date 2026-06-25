@@ -15,8 +15,7 @@
 #include "app/comandos.h"
 
 
-int main(void)
-{
+int main(void){
 
 	UART_init();
 	I2C_init();

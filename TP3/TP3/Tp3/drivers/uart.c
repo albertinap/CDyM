@@ -46,23 +46,14 @@ void UART_send_string(char *str){
 	}
 }
 
-/*ISR(USART_RX_vect){
-	char dato;
-
-	dato = UDR0;
-
-	buffer_push(&rx_buffer, dato);
-
-	UART_send_char(dato);			
-}*/
-
 ISR(USART_RX_vect){
 	char dato;
 	dato = UDR0;	//leemos UDR0
-
-	buffer_push(&rx_buffer,	dato);	//lo pusheamos en el buffer circular de la recepción
-									//esta función ya tiene en cuenta que el buffer no esté lleno
-	UART_send_char(dato);   // eco, lo dejamos? es necesario? iría dentro de la ISR?
+	if(dato == '\b' || dato == 0x7F) return;	//si el dato es un del o backspace no lo recibimos, 
+												//para evitar inconsistencias en la terminal
+	buffer_push(&rx_buffer,	dato);				//lo pusheamos en el buffer circular de la recepción
+												//esta función ya tiene en cuenta que el buffer no esté lleno
+	UART_send_char(dato);						 // eco, lo dejamos? es necesario? iría dentro de la ISR?
 }
 
 //interrupción para cuando el registro UDR está vacío

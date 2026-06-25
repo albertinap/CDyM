@@ -81,4 +81,7 @@ void procesar_comando(char *cmd){
 		
 		UART_send_string("Hora modificada.\r\n");
 	}
+	else{
+		UART_send_string("Comando no reconocido.\r\n");
+	}
 }
