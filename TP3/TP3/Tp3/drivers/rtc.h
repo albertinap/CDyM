@@ -19,6 +19,6 @@ typedef struct { //Estructura del tiempo  para devolver todos los valores direct
 } RTC_Time;
 
 void RTC_set_time(RTC_Time *t); //Seteo el tiempo del rtc para que siga desde ahi
-void RTC_get_time(RTC_Time *t); // Obtengo el tiempo del rtc
+void RTC_get_time(RTC_Time *t); //Obtengo el tiempo del rtc
 
 #endif /* RTC_H */

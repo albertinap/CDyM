@@ -18,5 +18,7 @@ drivers\timer.c
 
 drivers\uart.c
 
+drivers\utils.c
+
 main.c
 

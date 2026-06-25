@@ -4,37 +4,21 @@
 #include <string.h>
 #include <stdlib.h>
 
-static uint16_t periodo_reporte;
-static uint16_t ultimo_reporte;
+static uint16_t periodo_reporte;			//cada cuánto mostramos las tramas de telemetría
+static uint16_t ultimo_reporte;				//
 
 void invernadero_init(void){
-	//5 segundos iniciales
-	//5 segundos = 50 ticks de 100ms
+	//el periodo arranca inicializado en 10 segundos
+	//10 segundos = 100 ticks de 100ms
 
-	periodo_reporte = 50;
+	periodo_reporte = 100;
 
-	ultimo_reporte = TIMER_get_ticks();
+	ultimo_reporte = TIMER_get_ticks();		//si hubo un reporte antes
 }
 
 void invernadero_set_periodo(uint16_t segundos){
 	if(segundos >= 2 && segundos <= 60){
 		periodo_reporte = segundos * 10;	//lo multiplicamos por 10 porque nuestro timer cuenta de a 100ms
-	}
-}
-
-void invernadero_procesar_comando(char *cmd){
-	if(strncmp(cmd,"SET_TM=",7)==0){
-		uint16_t segundos;
-
-		segundos = atoi(&cmd[7]);
-
-		if(segundos >= 2 && segundos <= 60){
-			periodo_reporte = segundos * 10;
-			UART_send_string("OK\r\n");
-		}
-		else{
-			UART_send_string("ERROR\r\n");
-		}
 	}
 }
 

@@ -20,8 +20,6 @@ int main(void)
 
 	UART_init();
 	I2C_init();
-	//RTC_init();
-	//DHT11_init();
 	TIMER1_init();
 	invernadero_init();
 	comandos_init();

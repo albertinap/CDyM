@@ -181,6 +181,12 @@
     <Compile Include="drivers\uart.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="drivers\utils.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\utils.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
