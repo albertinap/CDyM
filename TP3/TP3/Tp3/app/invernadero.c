@@ -45,9 +45,9 @@ void invernadero_tarea(void){
 	if((ahora - ultimo_reporte) >= periodo_reporte){
 		ultimo_reporte = ahora;
 		UART_send_string("Reporte de invernadero\r\n");
-
+		char buf[64];
 		// Seteamos una hora de prueba en el RTC
-		RTC_Time t_set = {.hours = 10, .minutes = 30, .seconds = 0};
+		RTC_Time t_set = {.hours = 20, .minutes = 30, .seconds = 0};
 		RTC_set_time(&t_set);
 
 		// Leemos el tiempo del RTC
@@ -59,15 +59,9 @@ void invernadero_tarea(void){
 		DHT11_Data DHD;
 
 		DS= DHT11_read(&DHD);
-		
-		if (DS == DHT11_ERROR_NO_RESPONSE) {
-			UART_send_string("DHT11: sin respuesta\r\n");
-			} else if (DS == DHT11_ERROR_CHECKSUM) {
-			UART_send_string("DHT11: error checksum\r\n");
-			} else {
-			UART_send_string("DHT11: OK\r\n");
-		}
+	
 
+<<<<<<< Updated upstream
 		if (DS == DHT11_ERROR_NO_RESPONSE) {
 			UART_send_string("DHT11: sin respuesta\r\n");
 			} else if (DS == DHT11_ERROR_CHECKSUM) {
@@ -90,8 +84,30 @@ void invernadero_tarea(void){
 		if (rango != RANGO_OK) {
 			uint8_t valor = (rango == RANGO_TEMP_FUERA) ? DHD.temperature : DHD.humidity;
 			build_alert_string(buf, &t, valor, rango, diurno);
+=======
+		if (DS != DHT11_OK) {
+			build_error_dht11_string(buf,&t,DS);
+>>>>>>> Stashed changes
 			UART_send_string(buf);
 			UART_send_string("\r\n");
+			}else {
+				// Chequeamos rangos
+				uint8_t diurno       = is_diurno(t.hours);
+				RangoStatus rango    = check_rangos(DHD.temperature, DHD.humidity, diurno);
+				Estado estado        = (rango == RANGO_OK) ? ESTADO_NORMAL : ESTADO_ALERTA;
+
+				// Construimos y enviamos string de telemetria
+		
+				build_telemetry_string(buf, &t, DHD.temperature, DHD.humidity, estado);
+				UART_send_string(buf);
+				UART_send_string("\r\n");
+				// Si hay alerta construimos y enviamos string de emergencia
+				if (rango != RANGO_OK) {
+					uint8_t valor = (rango == RANGO_TEMP_FUERA) ? DHD.temperature : DHD.humidity;
+					build_alert_string(buf, &t, valor, rango, diurno);
+					UART_send_string(buf);
+					UART_send_string("\r\n");
+				}
+			}
 		}
-	}
 }
