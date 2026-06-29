@@ -29,9 +29,13 @@ void comandos_tarea(void){
 	
 	while(UART_read_char(&c)){
 		if(c == '\n' || c == '\r'){
-			comando[indice] = '\0';		// terminamos el string
-			procesar_comando(comando);	
-			indice = 0;					// reiniciamos para el próximo comando
+			comando[indice] = '\0';
+			if(indice > 0){
+				UART_send_string(comando);  // mostramos lo que el usuario escribió
+				UART_send_string("\r\n");
+				procesar_comando(comando);
+			}
+			indice = 0;
 		}
 		else{
 			if(indice < CMD_SIZE-1){	// guardamos solo si hay espacio

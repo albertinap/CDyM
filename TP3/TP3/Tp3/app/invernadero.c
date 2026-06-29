@@ -18,6 +18,7 @@
 
 static uint16_t periodo_reporte;			// intervalo entre reportes, en ticks de 100ms
 static uint16_t ultimo_reporte;				// tick en el que se envió el último reporte
+static uint8_t enviar_alerta = 0;
 
 void invernadero_init(void){
 	//el periodo arranca inicializado en 10 segundos
@@ -44,9 +45,10 @@ void invernadero_tarea(void){
 	uint16_t ahora = TIMER_get_ticks();
 	
 	if((ahora - ultimo_reporte) >= periodo_reporte){
+		enviar_alerta = !enviar_alerta;
 		ultimo_reporte = ahora;
 		
-		UART_send_string("Reporte de invernadero: \r\n");
+		UART_send_string("\r\nReporte de invernadero: \r\n");
 		char buf[64];		
 
 		// Leemos el tiempo del RTC
@@ -56,8 +58,13 @@ void invernadero_tarea(void){
 		// Valores de prueba del DHT11
 		DHT11_Data DHD;
 		DHT11_Status DS=DHT11_read(&DHD);
-					
-		if (DS != DHT11_OK) {
+
+		if (!rtc_is_connected(&t)) {
+			build_rtc_error_string(buf);
+			UART_send_string(buf);
+			UART_send_string("\r\n");
+			return;
+		}else if (DS != DHT11_OK) {
 			build_dht11_error_string(buf,&t,DS);
 			UART_send_string(buf);
 			UART_send_string("\r\n");
@@ -73,11 +80,12 @@ void invernadero_tarea(void){
 			UART_send_string("\r\n");
 			
 			// Si hay alerta construimos y enviamos string de emergencia
-			if (rango != RANGO_OK) {
+			if (rango != RANGO_OK && enviar_alerta) {
 				uint8_t valor = (rango == RANGO_TEMP_FUERA) ? DHD.temperature : DHD.humidity;
 				build_alert_string(buf, &t, valor, rango, diurno);	
 				UART_send_string(buf);
 				UART_send_string("\r\n");
+			}
 		}		
 	}
 }

@@ -25,7 +25,6 @@ int main(void){
 	TIMER1_init();		// Timer1 en modo CTC, tick cada 100ms
 	invernadero_init();	// estado inicial del monitor (período de reporte inicializado en 10s)
 	comandos_init();	// índice del buffer de comandos arranca en 0
-	DHT11_init();		// Inicializa el periferico dht11
 	sei();				// habilitar interrupciones globales
 
 	// Super loop: las ISRs (foreground) manejan UART y Timer;

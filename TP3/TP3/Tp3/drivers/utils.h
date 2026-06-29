@@ -45,4 +45,7 @@ RangoStatus check_rangos(uint8_t temp, uint8_t hum, uint8_t es_diurno);
 
 void build_dht11_error_string(char *buf, RTC_Time *t, DHT11_Status status);
 
+uint8_t rtc_is_connected(RTC_Time *t);
+void build_rtc_error_string(char *buf);
+
 #endif /* UTILS_H_ */

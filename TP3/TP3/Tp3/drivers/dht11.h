@@ -23,6 +23,5 @@ typedef struct {
 } DHT11_Data;
 
 DHT11_Status DHT11_read(DHT11_Data *data);
-void DHT11_init(void);
 
 #endif /* DHT11_H_ */

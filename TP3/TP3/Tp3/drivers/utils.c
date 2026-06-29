@@ -7,6 +7,7 @@
 
 #include "utils.h"
 #include "dht11.h"
+#include "rtc.h"
 #include <stdio.h>
 
 uint8_t dec_to_bcd(uint8_t val) {
@@ -69,4 +70,14 @@ void build_alert_string(char *buf, RTC_Time *t, uint8_t valor, RangoStatus rango
 void build_dht11_error_string(char *buf, RTC_Time *t, DHT11_Status status) {
 	const char *msg = (status == DHT11_ERROR_NO_RESPONSE) ? "sin respuesta" : "error checksum";
 	snprintf(buf, 70, "[%02u:%02u:%02u] DHT11 %s", t->hours, t->minutes, t->seconds, msg);
+}
+
+uint8_t rtc_is_connected(RTC_Time *t) {
+	// Si el RTC no responde, el I2C devuelve 0xFF (255) en todos los registros
+	// 165 en decimal es 0xA5, valor tipico de error, chequeamos los tres campos
+	return !(t->hours == 165 && t->minutes == 165 && t->seconds == 165);
+}
+
+void build_rtc_error_string(char *buf) {
+	snprintf(buf, 70, "[ERROR] RTC DS3232 sin respuesta");
 }

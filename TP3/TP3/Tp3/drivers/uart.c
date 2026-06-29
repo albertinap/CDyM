@@ -63,10 +63,8 @@ void UART_send_string(char *str){
 // Hace eco del carácter recibido para que el usuario vea lo que está escribendo
 ISR(USART_RX_vect){
 	char dato = UDR0;							//leemos UDR0
-	
 	if(dato == '\b' || dato == 0x7F) return;	//si el dato es un del o backspace no lo recibimos, para evitar inconsistencias en la terminal
 	buffer_push(&rx_buffer,	dato);				// encolar para que background lo procese
-	UART_send_char(dato);						// eco inmediato hacia la terminal (opcional, decisión de diseño)
 }
 
 // ISR de transmisión: se dispara cuando UDR0 queda vacío y UDRIE0 está habilitado
