@@ -6,7 +6,7 @@
  */ 
 
 #include "mef.h"
-#include "adc.h"
+#include "../adc/adc.h"
 
 #define TICK_MS        1 //Ticks de timer
 
