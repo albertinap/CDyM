@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>GccApplication1</AssemblyName>
+    <AssemblyName>TP4</AssemblyName>
     <Name>TP4</Name>
-    <RootNamespace>GccApplication1</RootNamespace>
+    <RootNamespace>TP4</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -120,29 +120,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="drivers\uart\comandos.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="drivers\uart\comandos.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="drivers\uart\uart.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="drivers\uart\uart.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="drivers" />
-    <Folder Include="drivers\adc" />
-    <Folder Include="drivers\rgb" />
-    <Folder Include="drivers\timer" />
-    <Folder Include="drivers\uart" />
-    <Folder Include="drivers\pwm" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
