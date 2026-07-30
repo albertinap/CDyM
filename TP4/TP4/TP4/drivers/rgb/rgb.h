@@ -12,12 +12,10 @@
 
 void RGB_init(void);
 
-void RGB_set_color(uint8_t r, uint8_t g, uint8_t b);
+// Guarda el color elegido por el usuario
+void RGB_set_color(uint8_t red, uint8_t green, uint8_t blue);
 
-void RGB_update(void); //hay que hacerla más adelante
-
-uint8_t RGB_get_red(void);
-uint8_t RGB_get_green(void);
-uint8_t RGB_get_blue(void);
+// Actualiza el brillo del LED según el brillo actual
+void RGB_task(void);
 
 #endif /* RGB_H_ */

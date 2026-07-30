@@ -7,6 +7,7 @@
 
 #include "mef.h"
 #include "../adc/adc.h"
+#include "../timers/timer0.h"
 
 #define TICK_MS        1 //Ticks de timer
 
@@ -16,7 +17,8 @@
 static MEF_State_t estado;
 
 static uint16_t contadorEstado; // Variable que cuenta en cada estado cuanto tiempo se tiene que estar; con esta varaible tambien se va a hacer el cambio de brillo periodico
-static uint16_t periodoTicks;  // Valor entre 300 ms y 600 ms el cual depende del LDR y el valor que devuelve el adc
+static uint16_t periodoTicks;   // Valor entre 300 ms y 600 ms el cual depende del LDR y el valor que devuelve el adc
+static uint32_t ultimo_tick_mef = 0;
 
 static uint8_t brillo;
 
@@ -95,6 +97,18 @@ void MEF_Update(void)
 
 		break;
 	}
+}
+
+void MEF_task(void){
+	uint32_t ahora = TIMER0_get_ticks_100us();
+
+	// 10 ms = 100 ticks de 100 us
+	if((ahora - ultimo_tick_mef) < 100)
+		return;
+
+	ultimo_tick_mef = ahora;
+
+	MEF_Update();
 }
 
 uint8_t MEF_GetBrightness(void) // Funcion para devolver el brillo para los valores de pmw.

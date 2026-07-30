@@ -6,61 +6,40 @@
  */ 
 
 #include "timer0.h"
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-volatile uint32_t timer0_ticks = 0;
+volatile uint32_t ticks_100us = 0;
 
 // Duty cycle del canal Rojo (PWM por software)
-volatile uint8_t pwm_red_duty = 0;
+static volatile uint8_t duty_red = 0;
 
-// Contador del PWM por software
-static volatile uint8_t pwm_counter = 0;
+
 
 void TIMER0_init(void){
-	// Configura PB5 como salida (canal Rojo)
-	DDRB |= (1 << DDB5);
-
-	// Estado inicial: LED apagado
-	PORTB |= (1 << PORTB5);
-
 	// Modo CTC
 	TCCR0A = (1 << WGM01);
 
 	// Prescaler = 64
 	TCCR0B = (1 << CS01) | (1 << CS00);
 
-	// Interrupción cada 64 us
-	// F = 16 MHz
-	// Tick timer = 4 us
-	// OCR0A = 15 -> (15+1)*4 us = 64 us
-	OCR0A = 15;
+	// 16 MHz / 64 = 250 kHz	frecuencia de nuestro clock
+	// Tick del timer = 4 us	periodo
+	// 25 ticks -> 100 us		periodo de interrupción
+	OCR0A = 24;
 
 	// Habilita interrupción por comparación A
 	TIMSK0 |= (1 << OCIE0A);
 }
 
 ISR(TIMER0_COMPA_vect){
-	// Base de tiempo del sistema
-	timer0_ticks++;
-
-	// Incrementa el contador del PWM software
-	pwm_counter++;
-
-	// PWM software sobre PB5
-	if (pwm_counter < pwm_red_duty){
-		// Ánodo común:
-		// Nivel bajo -> LED encendido
-		PORTB &= ~(1 << PORTB5);
-	}
-	else{
-		// Nivel alto -> LED apagado
-		PORTB |= (1 << PORTB5);
-	}
+	ticks_100us++;
 }
 
-uint32_t TIMER0_get_ticks(void){
-	// Devuelve la cantidad de ticks transcurridos
-	return timer0_ticks;
+void TIMER0_set_duty_red(uint8_t duty){
+	duty_red = duty;
+}
+
+uint32_t TIMER0_get_ticks_100us(void){
+	return ticks_100us;
 }

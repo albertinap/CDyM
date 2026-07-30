@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
@@ -40,6 +40,19 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E950F</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -120,16 +133,40 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="drivers\Adc\adc.c">
+    <Compile Include="drivers\adc\adc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\Adc\Adc.h">
+    <Compile Include="drivers\adc\Adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\Mef\MEF.c">
+    <Compile Include="drivers\mef\MEF.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\Mef\MEF.h">
+    <Compile Include="drivers\mef\MEF.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\pwm\pwm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\pwm\pwm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\rgb\rgb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\rgb\rgb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\timers\timer0.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\timers\timer0.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\timers\timer1.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\timers\timer1.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="drivers\uart\buffer_circular.c">
@@ -155,10 +192,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="drivers\" />
-    <Folder Include="drivers\Adc\" />
-    <Folder Include="drivers\Mef\" />
-    <Folder Include="drivers\uart\" />
+    <Folder Include="drivers" />
+    <Folder Include="drivers\adc" />
+    <Folder Include="drivers\mef" />
+    <Folder Include="drivers\pwm" />
+    <Folder Include="drivers\rgb" />
+    <Folder Include="drivers\timers" />
+    <Folder Include="drivers\uart" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

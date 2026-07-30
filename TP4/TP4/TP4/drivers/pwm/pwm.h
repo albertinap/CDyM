@@ -13,6 +13,8 @@
 
 void PWM_init(void);
 
+void PWM_task(void);
+
 void PWM_set_red(uint8_t duty);
 void PWM_set_green(uint8_t duty);
 void PWM_set_blue(uint8_t duty);

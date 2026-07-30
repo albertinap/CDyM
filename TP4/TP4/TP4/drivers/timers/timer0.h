@@ -3,10 +3,12 @@
 
 #include <stdint.h>
 
-void TIMER0_init(void);
+void TIMER0_init(void);	
 
-uint32_t TIMER0_get_ticks(void);		//devuelve la cantidad de ticks actuales
+// Devuelve el contador de 100us del sistema	
+uint32_t TIMER0_get_ticks_100us(void);
 
-extern volatile uint8_t pwm_red_duty;
+// Actualiza el duty del PWM software (canal rojo)
+void TIMER0_set_duty_red(uint8_t duty);
 
 #endif /* TIMER0_H_ */

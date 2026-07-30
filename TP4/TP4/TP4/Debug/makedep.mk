@@ -4,7 +4,15 @@
 
 drivers\adc\adc.c
 
-drivers\Mef\MEF.c
+drivers\mef\MEF.c
+
+drivers\pwm\pwm.c
+
+drivers\rgb\rgb.c
+
+drivers\timers\timer0.c
+
+drivers\timers\timer1.c
 
 drivers\uart\buffer_circular.c
 

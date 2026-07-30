@@ -4,24 +4,38 @@
  * Created: 29/7/2026 18:13:34
  * Author : alber
  */ 
-
 #include <avr/io.h>
+#include <avr/sleep.h>
+#include <avr/interrupt.h>
+#include "drivers/adc/adc.h"
+#include "drivers/Mef/MEF.h"
+#include "drivers/pwm/pwm.h"
+#include "drivers/rgb/rgb.h"
+#include "drivers/uart/uart.h"
+#include "drivers/uart/comandos.h"
 
 
-int main(void)
-{
-    while(1){
-	    if(flag_tick){
-		    flag_tick=0;
+int main(void){
+    MEF_Init();
+    ADC_Init();
+    PWM_init();
+    UART_init();
+    RGB_init();
+    comandos_init();
+	
+	sei();
+    while(1){        
 
-		    RGB_update();
+        comandos_tarea();
 
-		    ADC_task();
+		PWM_task();
 
-		    Fade_task();
-	    }
+		MEF_task();
 
-	    comandos_tarea();
+		RGB_task();
+
+		ADC_task();
+
+		sleep_mode();
     }
 }
-

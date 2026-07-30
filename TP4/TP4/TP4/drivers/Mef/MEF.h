@@ -19,8 +19,9 @@ typedef enum // Estados de la mef, para ver en que momento debo cambiar el brill
 
 }MEF_State_t;
 
-void MEF_Init(void); // Inicializacion de lasvariables de la mef
-void MEF_Update(void); // Cambio de estados de la mef
+void MEF_Init(void);	// Inicializacion de lasvariables de la mef
+void MEF_Update(void);	// Cambio de estados de la mef
+void MEF_task(void);	// Chequea los ticks del timer0, y se fija si hay que actualizar la mef (la actualización se realiza cada 10ms)
 
 uint8_t MEF_GetBrightness(void); // Funcion para obtener el brillo dependiendo del LDR
 

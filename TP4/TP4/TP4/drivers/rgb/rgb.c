@@ -6,45 +6,33 @@
  */ 
 
 #include "rgb.h"
-//#include "pwm.h"
+#include "../mef/MEF.h"
+#include "../pwm/pwm.h"
 
-static uint8_t red = 0;
-static uint8_t green = 0;
-static uint8_t blue = 0;
+// Color seleccionado por el usuario
+static uint8_t red_base = 0;
+static uint8_t green_base = 0;
+static uint8_t blue_base = 0;
 
 void RGB_init(void){
-	//PWM_init();
-
 	RGB_set_color(0, 0, 0);
 }
 
-void RGB_set_color(uint8_t r, uint8_t g, uint8_t b){
-	red   = r;
-	green = g;
-	blue  = b;
-
-	//PWM_set_red(red);
-	//PWM_set_green(green);
-	//PWM_set_blue(blue);
+void RGB_set_color(uint8_t red, uint8_t green, uint8_t blue){
+	// Guarda el color seleccionado por el usuario
+	red_base = red;
+	green_base = green;
+	blue_base = blue;
 }
 
-uint8_t RGB_get_red(void){
-	return red;
+void RGB_task(void){
+	uint8_t brightness;
+
+	// Obtiene el nivel de brillo actual (0 a 255)
+	brightness = MEF_GetBrightness();
+
+	// Escala cada componente manteniendo la proporción del color
+	PWM_set_red((red_base * brightness) / 255);
+	PWM_set_green((green_base * brightness) / 255);
+	PWM_set_blue((blue_base * brightness) / 255);
 }
-
-uint8_t RGB_get_green(void){
-	return green;
-}
-
-uint8_t RGB_get_blue(void){
-	return blue;
-}
-
-void RGB_update(void)
-{
-} /*va a ser la encargada de:
-calcular el brillo según el estado (st_off, st_fadein, st_on, st_fadeout);
-escalar los tres colores;
-actualizar los PWM
-
-Así no tenemos que modificar la interfaz pública del módulo cuando implementemos el efecto de respiración;*/
