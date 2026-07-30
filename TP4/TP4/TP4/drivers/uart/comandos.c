@@ -46,45 +46,27 @@ void comandos_tarea(void){
 
 // Interpreta y ejecuta el comando recibido
 // Comandos soportados actualmente:
-// - SET_COLOR=0,255,255/r/n --> cambia el color rgb del led
-void procesar_comando(char *cmd){
-	if(cmd[0] == '\0') return;				// ignorar líneas vacías (ej: \r\n seguidos)
-	
-	if(strncmp(cmd, "SET_TM=", 7) == 0){
-		uint16_t segundos = atoi(&cmd[7]);
-		
-		if(segundos >= 2 && segundos <= 60){
-			invernadero_set_periodo(segundos);
-			char msg[32];
-			sprintf(msg, "Tasa de muestreo: %d s\r\n", segundos);
-			UART_send_string(msg);
-		} else {
-			UART_send_string("ERROR EN LA TASA DE MUESTREO\r\n");
+// - SET_COLOR=R,G,B/r/n --> cambia el color rgb del led
+void procesar_comando(char *cmd)
+{
+	if(cmd[0] == '\0')
+		return;
+
+	if(strncmp(cmd, "SET_COLOR=", 10) == 0){
+		uint16_t r, g, b;
+
+		if(sscanf(&cmd[10], "%hu,%hu,%hu", &r, &g, &b) == 3){
+			if(r <= 255 && g <= 255 && b <= 255){
+				RGB_set_color((uint8_t)r, (uint8_t)g, (uint8_t)b);
+				UART_send_string("Color actualizado.\r\n");
+			}
+			else{
+				UART_send_string("ERROR: valores entre 0 y 255\r\n");
+			}
 		}
-	}
-	else if(strncmp(cmd, "SET_TIME=", 9) == 0){
-		RTC_Time t;
-		char *p = &cmd[9];
-		 
-		// Validar formato HH:MM:SS (largo fijo de 8 caracteres)
-		if(strlen(p) != 8 || p[2] != ':' || p[5] != ':'){
-			UART_send_string("ERROR EN EL FORMATO DE HORA\r\n");
-			return;
+		else{
+			UART_send_string("ERROR: formato SET_COLOR=R,G,B\r\n");
 		}
-		
-		// atoi se detiene solo al encontrar ':' o '\0'
-		t.hours   = atoi(&p[0]);
-		t.minutes = atoi(&p[3]);
-		t.seconds = atoi(&p[6]);
-		 
-		// Validar rangos de hora
-		if(t.hours > 23 || t.minutes > 59 || t.seconds > 59){
-			UART_send_string("ERROR EN LA HORA\r\n");
-			return;
-		}
-		
-		RTC_set_time(&t);
-		UART_send_string("Hora modificada.\r\n");
 	}
 	else{
 		UART_send_string("Comando no reconocido.\r\n");

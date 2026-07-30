@@ -10,9 +10,18 @@
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
+    while(1){
+	    if(flag_tick){
+		    flag_tick=0;
+
+		    RGB_update();
+
+		    ADC_task();
+
+		    Fade_task();
+	    }
+
+	    comandos_tarea();
     }
 }
 
