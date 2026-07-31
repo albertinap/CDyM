@@ -9,6 +9,7 @@
 #include "../adc/adc.h"
 #include "../timers/timer0.h"
 
+
 #define TICK_MS        100 //Ticks de timer
 
 #define FADE_TICKS     10 //Cantidad de ticks de cambio de brillo dependiento de los ticks del timer
@@ -40,6 +41,10 @@ void MEF_Update(void)
 	contadorEstado++;
 
 	adc = ADC_Read();
+	if(adc <= 110)        // 100 medido + margen de seguridad
+	adc = 0;           // fuerza periodoTicks = 60 -> 3s de OFF, ciclo total 6s
+	else if(adc >= 990)    // margen simétrico del lado brillante (1023-110)
+	adc = 1023;         // fuerza periodoTicks = 30 -> 0 de OFF, ciclo total 3s
 
 	periodoTicks = 60 - ((uint32_t)adc * 30) / 1023; // Calculo el periodo entre 3000 ms y 6000 ms
 
