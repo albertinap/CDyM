@@ -25,15 +25,3 @@ uint16_t ADC_Read(void)
     ADCSRA |= (1 << ADIF);   // Borra el flag
     return ADC;
 }
-
-void ADC_task(void){
-	uint32_t ahora = TIMER0_get_ticks_100us();
-
-	// 100 ms = 1000 ticks de 100 us
-	if((ahora - ultimo_tick_adc) < 1000)
-		return;
-
-	ultimo_tick_adc = ahora;
-
-	ADC_Read();
-}
