@@ -1,0 +1,17 @@
+# Microchip Studio
+Debug/
+Release/
+
+# Visual Studio
+.vs/
+
+# Proteus
+Project Backups/
+
+# Archivos generados
+*.o
+*.elf
+*.hex
+*.lss
+*.map
+*.srec
