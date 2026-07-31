@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "uart.h"
+#include "../rgb/rgb.h"
 
 #define CMD_SIZE 32				// tamaño de comando máximo
 
@@ -55,7 +56,7 @@ void procesar_comando(char *cmd)
 	if(strncmp(cmd, "SET_COLOR=", 10) == 0){
 		uint16_t r, g, b;
 
-		if(sscanf(&cmd[10], "%hu,%hu,%hu", &r, &g, &b) == 3){
+		if(sscanf(&cmd[10], "%u,%u,%u", &r, &g, &b) == 3){
 			if(r <= 255 && g <= 255 && b <= 255){
 				RGB_set_color((uint8_t)r, (uint8_t)g, (uint8_t)b);
 				UART_send_string("Color actualizado.\r\n");

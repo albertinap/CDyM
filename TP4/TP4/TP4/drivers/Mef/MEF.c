@@ -6,12 +6,8 @@
  */ 
 
 #include "mef.h"
-<<<<<<< Updated upstream
 #include "../adc/adc.h"
 #include "../timers/timer0.h"
-=======
-#include "../Adc/adc.h"
->>>>>>> Stashed changes
 
 #define TICK_MS        100 //Ticks de timer
 

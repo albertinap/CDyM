@@ -23,14 +23,17 @@ int main(void)
 	UART_init();
 	RGB_init();
 	comandos_init();
+	sei();
     while(1){
 		comandos_tarea();
+		
+		MEF_task();
+		
+		RGB_task();
+				
 		PWM_task();
 
-//		MEF_task();
-
-//		RGB_task();
-
 		sleep_mode();
+	}
 
 }
