@@ -728,18 +728,16 @@ void TIMER1_init(void){
  44c:	84 b1       	in	r24, 0x04	; 4
  44e:	86 60       	ori	r24, 0x06	; 6
  450:	84 b9       	out	0x04, r24	; 4
-
 	// Modo Fast PWM de 8 bits
-	// OC1A y OC1B en modo no inversor
-	TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10); // PWM no inversor sobre OC1A; PWM no inversor sobre OC1B; WGM10 = 1
- 452:	81 ea       	ldi	r24, 0xA1	; 161
+	// OC1A y OC1B en modo INVERSOR (ánodo común: mayor duty = mayor tiempo en bajo = más encendido)
+	TCCR1A = (1 << COM1A1) | (1 << COM1A0) | (1 << COM1B1) | (1 << COM1B0) | (1 << WGM10);
+ 452:	81 ef       	ldi	r24, 0xF1	; 241
  454:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
-
 	TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);     // WGM12 = 1 -> Fast PWM 8 bits; Prescaler = 64
  458:	8b e0       	ldi	r24, 0x0B	; 11
  45a:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7f8081>
 	
-	// Inicializa ambos canales con duty cycle 0%
+	// Inicializa ambos canales con duty cycle 0% (apagado)
 	OCR1A = 0;
  45e:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
  462:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>

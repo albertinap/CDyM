@@ -1,5 +1,5 @@
-Drivers/Timers/timer1.d Drivers/Timers/timer1.o: \
- ../Drivers/Timers/timer1.c ../Drivers/Timers/timer1.h \
+drivers/timers/timer1.d drivers/timers/timer1.o: \
+ ../drivers/timers/timer1.c ../drivers/timers/timer1.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
@@ -12,7 +12,7 @@ Drivers/Timers/timer1.d Drivers/Timers/timer1.o: \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h
 
-../Drivers/Timers/timer1.h:
+../drivers/timers/timer1.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
 
