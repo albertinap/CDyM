@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-#define BUFFER_SIZE 32		//tamaño elegido para poder recibir el comando con el formato SET_COLOR = 0,255,255/r/n
+#define BUFFER_SIZE 64	
 
 
 typedef struct{

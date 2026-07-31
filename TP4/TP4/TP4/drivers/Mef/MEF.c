@@ -21,7 +21,7 @@
 static MEF_State_t estado;
 
 static uint16_t contadorEstado; // Variable que cuenta en cada estado cuanto tiempo se tiene que estar; con esta varaible tambien se va a hacer el cambio de brillo periodico
-static uint16_t periodoTicks;   // Valor entre 300 ms y 600 ms el cual depende del LDR y el valor que devuelve el adc
+static uint16_t periodoTicks;   // Valor entre 3000 ms y 6000 ms el cual depende del LDR y el valor que devuelve el adc
 static uint32_t ultimo_tick_mef = 0;
 static uint8_t brillo;
 

@@ -16,6 +16,4 @@ void ADC_Init(void);
 //Realiza una conversión ADC por polling. 
 uint16_t ADC_Read(void);
 
-void ADC_task(void);
-
 #endif /* ADC_H_ */

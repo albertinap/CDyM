@@ -26,8 +26,11 @@ int main(void)
     while(1){
 		comandos_tarea();
 		PWM_task();
-		MEF_task();
-		RGB_task();
+
+//		MEF_task();
+
+//		RGB_task();
+
 		sleep_mode();
-    }
+
 }

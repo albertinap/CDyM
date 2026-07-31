@@ -8,8 +8,6 @@
 #include <avr/io.h>
 #include "../timers/timer0.h"
 
-static uint32_t ultimo_tick_adc = 0;
-
 void ADC_Init(void)
 { 
     DDRC &= ~(1 << DDC3);		// Configuro PC3 como entrada para el ADC
