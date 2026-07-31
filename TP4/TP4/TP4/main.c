@@ -15,27 +15,19 @@
 #include "drivers/uart/comandos.h"
 
 
-int main(void){
-    MEF_Init();
-    ADC_Init();
-    PWM_init();
-    UART_init();
-    RGB_init();
-    comandos_init();
-	
-	sei();
-    while(1){        
-
-        comandos_tarea();
-
+int main(void)
+{
+	MEF_Init();
+	ADC_Init();
+	PWM_init();
+	UART_init();
+	RGB_init();
+	comandos_init();
+    while(1){
+		comandos_tarea();
 		PWM_task();
-
 		MEF_task();
-
 		RGB_task();
-
-		ADC_task();
-
 		sleep_mode();
     }
 }

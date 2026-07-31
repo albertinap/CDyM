@@ -6,20 +6,23 @@
  */ 
 
 #include "mef.h"
+<<<<<<< Updated upstream
 #include "../adc/adc.h"
 #include "../timers/timer0.h"
+=======
+#include "../Adc/adc.h"
+>>>>>>> Stashed changes
 
-#define TICK_MS        1 //Ticks de timer
+#define TICK_MS        100 //Ticks de timer
 
-#define FADE_TICKS     1000 //Cantidad de ticks de cambio de brillo dependiento de los ticks del timer
-#define ON_TICKS       1000 //Cantidad de ticks de cambio de brillo dependiento de los ticks del timer
+#define FADE_TICKS     10 //Cantidad de ticks de cambio de brillo dependiento de los ticks del timer
+#define ON_TICKS       10 //Cantidad de ticks de cambio de brillo dependiento de los ticks del timer
 
 static MEF_State_t estado;
 
 static uint16_t contadorEstado; // Variable que cuenta en cada estado cuanto tiempo se tiene que estar; con esta varaible tambien se va a hacer el cambio de brillo periodico
 static uint16_t periodoTicks;   // Valor entre 300 ms y 600 ms el cual depende del LDR y el valor que devuelve el adc
 static uint32_t ultimo_tick_mef = 0;
-
 static uint8_t brillo;
 
 void MEF_Init(void)
@@ -30,7 +33,7 @@ void MEF_Init(void)
 
 	brillo = 0;
 
-	periodoTicks = 6000;
+	periodoTicks = 60;
 }
 
 
@@ -42,7 +45,7 @@ void MEF_Update(void)
 
 	adc = ADC_Read();
 
-	periodoTicks = 6000 - ((uint32_t)adc * 3000) / 1023; // Calculo el periodo entre 300 ms y 600 ms
+	periodoTicks = 60 - ((uint32_t)adc * 30) / 1023; // Calculo el periodo entre 3000 ms y 6000 ms
 
 	switch(estado)
 	{
@@ -51,7 +54,7 @@ void MEF_Update(void)
 
 		brillo = 0;
 
-		if(contadorEstado >= (periodoTicks - 3000)) // Dado a que se tiene un tiempo determinado de fade in, fade out y on, los cuales sumando son 3 seg, el tiempo restante es la cantidad de tiempo que debe estar en off
+		if(contadorEstado >= (periodoTicks - 30)) // Dado a que se tiene un tiempo determinado de fade in, fade out y on, los cuales sumando son 3 seg, el tiempo restante es la cantidad de tiempo que debe estar en off
 		{
 			estado = ST_FADE_IN; // Cambio al estado fade in
 			contadorEstado = 0;
@@ -102,8 +105,8 @@ void MEF_Update(void)
 void MEF_task(void){
 	uint32_t ahora = TIMER0_get_ticks_100us();
 
-	// 10 ms = 100 ticks de 100 us
-	if((ahora - ultimo_tick_mef) < 100)
+	// 100 ms = 1000 ticks de 100 us
+	if((ahora - ultimo_tick_mef) < 1000)
 		return;
 
 	ultimo_tick_mef = ahora;
