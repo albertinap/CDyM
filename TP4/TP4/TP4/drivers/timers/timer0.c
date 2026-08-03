@@ -27,7 +27,15 @@ void TIMER0_init(void){
 	// fTimer = 16 MHz / 64 = 250 kHz
 	// Ttick = 4 us
 	// OCR0A = 24 -> 25 cuentas -> 100 us
+	
+	/*Cálculo del período de interrupción:
+	  fCPU = 16 MHz;  Prescaler = 64; fTimer = 16 MHz / 64 = 250 kHz;  Ttick = 4 us
+	  OCR0A = 24 -> 25 cuentas -> 100 us*/
 	OCR0A = 24;
+	/*El PWM por software utiliza un contador de 8 bits (256 niveles),
+	  por lo que su período es: 256 x 100 us = 25,6 ms
+	  equivalente a una frecuencia de: fPWM ? 39 Hz
+	  Cumple con el requisito del proyecto de generar una señal PWM con frecuencia superior a 30 Hz*/
 
 	// Habilita la interrupción por comparación A
 	TIMSK0 |= (1 << OCIE0A);

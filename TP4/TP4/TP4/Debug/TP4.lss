@@ -897,14 +897,17 @@ void TIMER0_init(void){
 	TCCR0B = (1 << CS01) | (1 << CS00);
      4e6:	83 e0       	ldi	r24, 0x03	; 3
      4e8:	85 bd       	out	0x25, r24	; 37
-	// Cálculo del período de interrupción:
-	// fclk = 16 MHz
-	// fTimer = 16 MHz / 64 = 250 kHz
-	// Ttick = 4 us
 	// OCR0A = 24 -> 25 cuentas -> 100 us
+	
+	/*Cálculo del período de interrupción:
+	  fCPU = 16 MHz;  Prescaler = 64; fTimer = 16 MHz / 64 = 250 kHz;  Ttick = 4 us
+	  OCR0A = 24 -> 25 cuentas -> 100 us*/
 	OCR0A = 24;
      4ea:	88 e1       	ldi	r24, 0x18	; 24
      4ec:	87 bd       	out	0x27, r24	; 39
+	  por lo que su período es: 256 x 100 us = 25,6 ms
+	  equivalente a una frecuencia de: fPWM ? 39 Hz
+	  Cumple con el requisito del proyecto de generar una señal PWM con frecuencia superior a 30 Hz*/
 
 	// Habilita la interrupción por comparación A
 	TIMSK0 |= (1 << OCIE0A);
@@ -973,10 +976,10 @@ void TIMER1_init(void){
      558:	86 60       	ori	r24, 0x06	; 6
      55a:	84 b9       	out	0x04, r24	; 4
 
-	// Configuración del Timer1:
-	// - Fast PWM de 8 bits.
-	// - Salidas OC1A y OC1B en modo inversor
-	//   (LED RGB de ánodo común).
+	/*Completa el modo Fast PWM de 8 bits y selecciona un prescaler de 64 (Salidas OC1A y OC1B en modo inversor)
+	  La frecuencia del PWM resulta:	  fPWM = fCPU / (Prescaler · 256) = 16 MHz / (64 · 256) ? 976 Hz
+	  Esta frecuencia supera ampliamente el mínimo de 30 Hz requerido por el enunciado y evita el parpadeo perceptible */
+	
 	TCCR1A = (1 << COM1A1) | (1 << COM1A0)	| (1 << COM1B1) | (1 << COM1B0)	| (1 << WGM10);
      55c:	81 ef       	ldi	r24, 0xF1	; 241
      55e:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>

@@ -1,3 +1,8 @@
+/* timer1.c
+ * Driver del Timer1.
+ * Genera dos señales PWM por hardware para los canales
+ * verde y azul del LED RGB.
+ */
 #include "timer1.h"
 #include <avr/io.h>
 
@@ -6,10 +11,10 @@ void TIMER1_init(void){
 	// Configura los pines OC1A (PB1) y OC1B (PB2) como salidas
 	DDRB |= (1 << DDB1) | (1 << DDB2);
 
-	// Configuración del Timer1:
-	// - Fast PWM de 8 bits.
-	// - Salidas OC1A y OC1B en modo inversor
-	//   (LED RGB de ánodo común).
+	/*Completa el modo Fast PWM de 8 bits y selecciona un prescaler de 64 (Salidas OC1A y OC1B en modo inversor)
+	  La frecuencia del PWM resulta:	  fPWM = fCPU / (Prescaler · 256) = 16 MHz / (64 · 256) ? 976 Hz
+	  Esta frecuencia supera ampliamente el mínimo de 30 Hz requerido por el enunciado y evita el parpadeo perceptible */
+	
 	TCCR1A = (1 << COM1A1) | (1 << COM1A0)	| (1 << COM1B1) | (1 << COM1B0)	| (1 << WGM10);
 
 	// Completa el modo Fast PWM de 8 bits
