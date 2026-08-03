@@ -8,7 +8,7 @@
 #include "mef.h"
 #include "../adc/adc.h"
 #include "../timers/timer0.h"
-
+#include "../rgb/rgb.h"
 
 #define TICK_MS        100 //Ticks de timer
 
@@ -113,6 +113,7 @@ void MEF_task(void){
 	ultimo_tick_mef = ahora;
 
 	MEF_Update();
+	RGB_task();
 }
 
 uint8_t MEF_GetBrightness(void) // Funcion para devolver el brillo para los valores de pmw.
